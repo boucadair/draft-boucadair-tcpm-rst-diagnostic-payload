@@ -9,8 +9,8 @@ number:
 date:
 consensus: true
 v: 3
-area: "WIT"
-workgroup: "tcpm"
+area: ""
+workgroup: "TCP Maintenance and Minor Extensions"
 keyword:
  - Service diagostc
 
