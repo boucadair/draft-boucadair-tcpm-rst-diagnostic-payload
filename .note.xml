@@ -1,0 +1,7 @@
+<note title="Discussion Venues" removeInRFC="true">
+<t>Discussion of this document takes place on the
+    TCP Maintenance and Minor Extensions  mailing list (tcpm@ietf.org),
+    which is archived at <eref target="https://mailarchive.ietf.org/arch/browse/tcpm/"/>.</t>
+<t>Source for this draft and an issue tracker can be found at
+    <eref target="https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload"/>.</t>
+</note>
