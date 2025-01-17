@@ -67,7 +67,9 @@ informative:
    Address Translator (NAT) function can generate an RST segment to
    notify an endpoint upon the expiry of the lifetime of the
    corresponding mapping entry or because an RST segment was received
-   from a peer ({{Section 2.2 of ?RFC7857}}).  A TCP connection can also be
+   from a peer ({{Section 2.2 of ?RFC7857}}).
+
+   A TCP connection can also be
    closed by a user or an application at any time.  However, the peer
    that receives an RST segment does not have any hint about the reason
    that led to terminating the connection.  Likewise, the application
@@ -180,7 +182,7 @@ reason-description = 3
    specifies otherwise.  How the information is passed to an application
    and how it is stored locally is implementation-specific.
 
-   As per {{Section 3.6 of !RFC9293}}, one or more RST segments can be sent
+   Per {{Section 3.6 of !RFC9293}}, one or more RST segments can be sent
    to reset a connection.  Whether a TCP endpoint elects to send more
    than one RST with only a subset of them that include the diagnostic
    payload is implementation-specific.
@@ -270,14 +272,14 @@ reason-description = 3
 
    IANA is requested to create a new registry titled "RST Diagnostic
    Payload CBOR Key Values" under the "Transmission Control Protocol
-   (TCP) Parameters" registry group [IANA-TCP].
+   (TCP) Parameters" registry group {{IANA-TCP}}.
 
    The key value MUST be an integer in the 1-255 range.
 
    The assignment policy for this registry is "IETF Review" ({{Section 4.8 of !RFC8126}}).
 
    The structure of this subregistry and the initial values are provided
-   below:
+   in {{sub}}.
 
 
 | Parameter Name     | CBOR  Key| CBOR Major Type & Information| Reference    |
@@ -331,12 +333,10 @@ reason-description = 3
  {: #initial title='Initial TCP Failure Causes'}
 
    Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).
-   such as translators.
-
 
 #  Security Considerations
 
-   {{!RFC9293}} discusses TCP-related security considerations.  In
+   {{!RFC9293}} discusses TCP-related security considerations. In
    particular, RST-specific attacks and their mitigations are discussed
    in {{Section 3.10.7.3 of !RFC9293}}.
 
