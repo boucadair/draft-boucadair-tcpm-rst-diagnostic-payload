@@ -1,6 +1,6 @@
 ---
 title: "TCP RST Diagnostic Payload"
-abbrev: "AC Glue for VPN Models"
+abbrev: "RST Diagnostic Payload"
 category: std
 
 docname: draft-boucadair-tcpm-rst-diagnostic-payload-latest
@@ -12,7 +12,7 @@ v: 3
 area: ""
 workgroup: "TCP Maintenance and Minor Extensions"
 keyword:
- - Service diagostc
+ - Service diagnostic
 
 
 author:
