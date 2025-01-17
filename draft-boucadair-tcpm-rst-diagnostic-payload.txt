@@ -2,7 +2,7 @@
 
 
 
-tcpm                                                        M. Boucadair
+TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
 Expires: 21 July 2025                                              Nokia
@@ -20,6 +20,18 @@ Abstract
    RST segments.  Such payloads are used to share with an endpoint the
    reasons for which a TCP connection has been reset.  Sharing this
    information is meant to ease diagnostic and troubleshooting.
+
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Discussion of this document takes place on the TCP Maintenance and
+   Minor Extensions mailing list (tcpm@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/tcpm/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-
+   payload.
 
 Status of This Memo
 
