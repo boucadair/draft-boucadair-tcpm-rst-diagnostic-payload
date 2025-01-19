@@ -1,0 +1,180 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2025-01-19T01:11:51.786314+00:00",
+  "repo": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDONrh2yM6mlIME",
+      "title": "Amplification",
+      "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/issues/1",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "\"In addition to any amplification, the opportunity for the rate and opportunity of unauthenticated reflection seems problematic.  One possible thing to consider would be to stipulate that debugging should only be returned for an already existing connection by default, as opposed to sending it to any more easily-spoofed packet (e.g., initial SYN).  This would at least minimize the risk by forcing an attacker to be able to spoof the connection details.  I think this is what the document implies, but I'm not sure it is clear.\n\nAnother thing that might reduce the risk is to stipulate rate limits like routers do for ICMP messages. See 4.3.2.8 Rate Limiting in IETF RFC 1812 for example.\n\"",
+      "createdAt": "2025-01-17T07:14:32Z",
+      "updatedAt": "2025-01-17T07:14:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDONrh2yM6mlIeN",
+      "title": "duplicate RSTs and implications",
+      "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/issues/2",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "> Hi Neal, \n> \n> I hear the concern. A mitigation we have in the current spec is to send multiple RSTs (with/without data).\n> \n> OK, thanks. Then I guess we need to discuss or think through the considerations of the extra CPU load when under DoS attack.\n",
+      "createdAt": "2025-01-17T07:15:21Z",
+      "updatedAt": "2025-01-17T07:15:21Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDONrh2yM6mlIxG",
+      "title": "CBOR  or not CBOR",
+      "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/issues/3",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "> - Let's not make TCP have a normative dependency on CBOR. The payload \n> structure is simple enough that it can be defined in this doc.\n> \n\n[Med] The use of cbor is for convenience (compact encoding, ease of validation, avoid issues with random strings, etc.), but we are open to what the WG would decide. \n\nThere are other encoding formats as in the various variants out there: such as https://my.f5.com/manage/s/article/K89012646, https://support.citrix.com/s/article/CTX200852-citrix-adc-netscaler-reset-codes-reference?language=en_US, https://isc.sans.edu/diary/The+special+case+of+TCP+RST/26824, etc.\n",
+      "createdAt": "2025-01-17T07:16:09Z",
+      "updatedAt": "2025-01-17T07:16:09Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDONrh2yM6mmfKe",
+      "title": "Reason description",
+      "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/issues/4",
+      "state": "OPEN",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "reason-description: : Includes a brief description of the reset reason encoded as UTF-8 {{!RFC3629}}. This parameter SHOULD NOT be included if a reason code is supplied. This parameter is useful only for reset reasons that are not yet registered or for application- specific reset reasons.\n\nComment> I suggest to replace \"SHOULD NOT\" with \"MUST NOT\".\nComment> In the Security consideration section, modify the text as follows:\n\nThe reason description, when present, MUST NOT be displayed to end users but is intended to be consumed by applications.",
+      "createdAt": "2025-01-17T10:32:23Z",
+      "updatedAt": "2025-01-17T10:58:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "boucadair",
+          "authorAssociation": "OWNER",
+          "body": "Looks good to me.\n\n@tireddy2 , please check (https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/pull/5).",
+          "createdAt": "2025-01-17T10:57:53Z",
+          "updatedAt": "2025-01-17T10:58:04Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 5,
+      "id": "PR_kwDONrh2yM6II77f",
+      "title": "reason code comments from Tiru",
+      "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/pull/5",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-17T10:57:04Z",
+      "updatedAt": "2025-01-17T10:57:05Z",
+      "baseRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
+      "baseRefName": "main",
+      "baseRefOid": "25625c9603be65e98765d765a85ced1168c6ca86",
+      "headRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
+      "headRefName": "reason-code-comments-from-Tiru",
+      "headRefOid": "5fee133463a7547e1e62d1321c5753c3a3524ec2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDONrh2yM6ILJzB",
+      "title": "some minor edits",
+      "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/pull/6",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-17T16:06:57Z",
+      "updatedAt": "2025-01-17T16:06:58Z",
+      "baseRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
+      "baseRefName": "main",
+      "baseRefOid": "25625c9603be65e98765d765a85ced1168c6ca86",
+      "headRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
+      "headRefName": "some-minor-edits",
+      "headRefOid": "b13631baca996d0314779d71d7fe01b88fcd2a40",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
