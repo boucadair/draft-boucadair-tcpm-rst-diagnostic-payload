@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: 21 July 2025                                              Nokia
+Expires: 31 July 2025                                              Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                         17 January 2025
+                                                         27 January 2025
 
 
                        TCP RST Diagnostic Payload
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 July 2025.
+   This Internet-Draft will expire on 31 July 2025.
 
 Copyright Notice
 
@@ -184,7 +184,7 @@ Table of Contents
       (Section 5.2), but from a vendor-specific registry.
 
    reason-description:  Includes a brief description of the reset reason
-      encoded as UTF-8 [RFC3629].  This parameter SHOULD NOT be included
+      encoded as UTF-8 [RFC3629].  This parameter MUST NOT be included
       if a reason code is supplied.  This parameter is useful only for
       reset reasons that are not yet registered or for application-
       specific reset reasons.
@@ -408,7 +408,7 @@ Table of Contents
    Also, it is RECOMMENDED to avoid leaking privacy-related information
    as part of the diagnostic payload (e.g., including a description such
    as "user X resets explicitly the connection" is not recommended).
-   The "reason-description" string, when present, should not include any
+   The "reason-description" string, when present, MUST NOT include any
    private information that an observer would not otherwise have access
    to.
 
@@ -418,9 +418,9 @@ Table of Contents
    thus, encouraged to register new codes within IANA instead of
    maintaining specific registries.
 
-   The reason description, when present, is not intended to be displayed
-   to end users, but to be consumed by applications.  Such a description
-   may carry a malicious message to mislead the end-user.
+   The reason description, when present, MUST NOT be displayed to end
+   users but is intended to be consumed by applications.  Such a
+   description may carry a malicious message to mislead the end-user.
 
 7.  References
 
