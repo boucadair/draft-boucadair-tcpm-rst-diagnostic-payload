@@ -160,7 +160,7 @@ reason-description = 3
 
    reason-description:
    :  Includes a brief description of the reset reason
-      encoded as UTF-8 {{!RFC3629}}.  This parameter SHOULD NOT be included
+      encoded as UTF-8 {{!RFC3629}}.  This parameter MUST NOT be included
       if a reason code is supplied.  This parameter is useful only for
       reset reasons that are not yet registered or for application-
       specific reset reasons.
@@ -348,7 +348,7 @@ reason-description = 3
    Also, it is RECOMMENDED to avoid leaking privacy-related information
    as part of the diagnostic payload (e.g., including a description such
    as "user X resets explicitly the connection" is not recommended).
-   The "reason-description" string, when present, should not include any
+   The "reason-description" string, when present, MUST NOT include any
    private information that an observer would not otherwise have access
    to.
 
@@ -358,10 +358,9 @@ reason-description = 3
    thus, encouraged to register new codes within IANA instead of
    maintaining specific registries.
 
-   The reason description, when present, is not intended to be displayed
-   to end users, but to be consumed by applications.  Such a description
+   The reason description, when present, MUST NOT be displayed
+   to end users but is intended to be consumed by applications. Such a description
    may carry a malicious message to mislead the end-user.
-
 
 --- back
 
