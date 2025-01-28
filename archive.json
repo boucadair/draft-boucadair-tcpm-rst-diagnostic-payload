@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-26T01:09:12.548650+00:00",
+  "timestamp": "2025-01-28T01:06:55.718132+00:00",
   "repo": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
   "labels": [
     {
@@ -103,15 +103,15 @@
       "id": "I_kwDONrh2yM6mmfKe",
       "title": "Reason description",
       "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tireddy2",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "reason-description: : Includes a brief description of the reset reason encoded as UTF-8 {{!RFC3629}}. This parameter SHOULD NOT be included if a reason code is supplied. This parameter is useful only for reset reasons that are not yet registered or for application- specific reset reasons.\n\nComment> I suggest to replace \"SHOULD NOT\" with \"MUST NOT\".\nComment> In the Security consideration section, modify the text as follows:\n\nThe reason description, when present, MUST NOT be displayed to end users but is intended to be consumed by applications.",
       "createdAt": "2025-01-17T10:32:23Z",
-      "updatedAt": "2025-01-17T10:58:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-27T12:33:51Z",
+      "closedAt": "2025-01-27T12:33:51Z",
       "comments": [
         {
           "author": "boucadair",
@@ -129,26 +129,42 @@
       "id": "PR_kwDONrh2yM6II77f",
       "title": "reason code comments from Tiru",
       "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/pull/5",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "boucadair",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-01-17T10:57:04Z",
-      "updatedAt": "2025-01-17T10:57:05Z",
+      "updatedAt": "2025-01-27T12:33:50Z",
       "baseRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
       "baseRefName": "main",
       "baseRefOid": "25625c9603be65e98765d765a85ced1168c6ca86",
       "headRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
       "headRefName": "reason-code-comments-from-Tiru",
       "headRefOid": "5fee133463a7547e1e62d1321c5753c3a3524ec2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-01-27T12:33:50Z",
+      "mergedAt": "2025-01-27T12:33:50Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "9c98a36321176d060d7c582ae900c8ad9496cd28"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDONrh2yM6ZgC2q",
+          "commit": {
+            "abbreviatedOid": "5fee133"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-27T12:32:40Z",
+          "updatedAt": "2025-01-27T12:32:40Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 6,
