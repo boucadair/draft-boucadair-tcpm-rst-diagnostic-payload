@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T01:05:40.899919+00:00",
+  "timestamp": "2025-02-02T01:10:33.928378+00:00",
   "repo": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
   "labels": [
     {
@@ -171,24 +171,26 @@
       "id": "PR_kwDONrh2yM6ILJzB",
       "title": "some minor edits",
       "url": "https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload/pull/6",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "boucadair",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-01-17T16:06:57Z",
-      "updatedAt": "2025-01-17T16:06:58Z",
+      "updatedAt": "2025-01-31T13:06:59Z",
       "baseRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
       "baseRefName": "main",
       "baseRefOid": "25625c9603be65e98765d765a85ced1168c6ca86",
       "headRepository": "boucadair/draft-boucadair-tcpm-rst-diagnostic-payload",
       "headRefName": "some-minor-edits",
       "headRefOid": "b13631baca996d0314779d71d7fe01b88fcd2a40",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-01-31T13:06:59Z",
+      "mergedAt": "2025-01-31T13:06:59Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "05b96d1be3c5f8cd5be5c058d56f3c5d1404f725"
+      },
       "comments": [],
       "reviews": []
     }
