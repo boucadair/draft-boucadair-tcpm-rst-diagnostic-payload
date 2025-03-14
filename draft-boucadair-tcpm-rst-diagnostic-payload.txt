@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: 4 August 2025                                             Nokia
+Expires: 15 September 2025                                         Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                         31 January 2025
+                                                           14 March 2025
 
 
                        TCP RST Diagnostic Payload
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 August 2025.
+   This Internet-Draft will expire on 15 September 2025.
 
 Copyright Notice
 
