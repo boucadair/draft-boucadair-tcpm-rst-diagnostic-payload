@@ -383,100 +383,15 @@ The following implementation is accomplished on top of Linux 6.16:
 **Handling of Reset Types**:
 : The implementation distinguishes between the two primary reset scenarios in `tcp_send_active_reset()` and `tcp_v4_send_reset()` respectively:
 
-    + For an **Active Reset**, initiated proactively by the local system, the payload is placed in the linear area of the socket buffer (`sk_buff`).
-    + For a **Passive Reset**, sent in response to an unexpected or invalid incoming packet, the payload is stored in the non-linear (paged) area of the `sk_buff`.
+   + For an **Active Reset**, initiated proactively by the local system, the payload is placed in the linear area of the socket buffer (`sk_buff`).
+   + For a **Passive Reset**, sent in response to an unexpected or invalid incoming packet, the payload is stored in the non-linear (paged) area of the `sk_buff`.
 
-Complete patch is attached as shown below:
+Complete patch is shown in {{patch}}.
 
 ~~~~
-diff --git a/include/net/tcp.h b/include/net/tcp.h
-index b3815d104340..0b32257774c8 100644
---- a/include/net/tcp.h
-+++ b/include/net/tcp.h
-@@ -62,6 +62,7 @@ void tcp_time_wait(struct sock *sk, int state, int timeo);
- #define MAX_TCP_OPTION_SPACE 40
- #define TCP_MIN_SND_MSS		48
- #define TCP_MIN_GSO_SIZE	(TCP_MIN_SND_MSS - MAX_TCP_OPTION_SPACE)
-+#define PAYLOAD_LEN 1000
-
- /*
-  * Never offer a window over 32767 without using window scaling. Some
-diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-index 84d3d556ed80..49250e6bd6a1 100644
---- a/net/ipv4/tcp_ipv4.c
-+++ b/net/ipv4/tcp_ipv4.c
-@@ -741,6 +741,7 @@ static bool tcp_v4_ao_sign_reset(const struct sock *sk, struct sk_buff *skb,
- static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
- 			      enum sk_rst_reason reason)
- {
-+	u32 len = sizeof(struct tcphdr) + REPLY_OPTIONS_LEN + PAYLOAD_LEN;
- 	const struct tcphdr *th = tcp_hdr(skb);
- 	struct {
- 		struct tcphdr th;
-@@ -757,6 +758,7 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
- #endif
- 	u64 transmit_time = 0;
- 	struct sock *ctl_sk;
-+	char buffer[len];
- 	struct net *net;
- 	u32 txhash = 0;
-
-@@ -786,7 +788,8 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
- 	}
-
- 	memset(&arg, 0, sizeof(arg));
--	arg.iov[0].iov_base = (unsigned char *)&rep;
-+	memset(&buffer, 0, len);
-+	arg.iov[0].iov_base = (unsigned char *)buffer;
- 	arg.iov[0].iov_len  = sizeof(rep.th);
-
- 	net = sk ? sock_net(sk) : skb_dst_dev_net_rcu(skb);
-@@ -911,6 +914,10 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
- 		ctl_sk->sk_mark = 0;
- 		ctl_sk->sk_priority = 0;
- 	}
-+	memcpy(buffer, (char *)&rep, arg.iov[0].iov_len);
-+	/* put rst reason into the first byte in payload */
-+	buffer[arg.iov[0].iov_len] = reason;
-+	arg.iov[0].iov_len += PAYLOAD_LEN;
- 	ip_send_unicast_reply(ctl_sk, sk,
- 			      skb, &TCP_SKB_CB(skb)->header.h4.opt,
- 			      ip_hdr(skb)->saddr, ip_hdr(skb)->daddr,
-diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-index b616776e3354..c07dd009a0de 100644
---- a/net/ipv4/tcp_output.c
-+++ b/net/ipv4/tcp_output.c
-@@ -3628,12 +3628,14 @@ void tcp_send_fin(struct sock *sk)
- void tcp_send_active_reset(struct sock *sk, gfp_t priority,
- 			   enum sk_rst_reason reason)
- {
-+	u32 len = MAX_TCP_HEADER + PAYLOAD_LEN;
-+	char payload[PAYLOAD_LEN];
- 	struct sk_buff *skb;
-
- 	TCP_INC_STATS(sock_net(sk), TCP_MIB_OUTRSTS);
-
- 	/* NOTE: No TCP options attached and we never retransmit this. */
--	skb = alloc_skb(MAX_TCP_HEADER, priority);
-+	skb = alloc_skb(len, priority);
- 	if (!skb) {
- 		NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPABORTFAILED);
- 		return;
-@@ -3641,8 +3643,13 @@ void tcp_send_active_reset(struct sock *sk, gfp_t priority,
-
- 	/* Reserve space for headers and prepare control bits. */
- 	skb_reserve(skb, MAX_TCP_HEADER);
-+	skb_put(skb, PAYLOAD_LEN);
- 	tcp_init_nondata_skb(skb, tcp_acceptable_seq(sk),
- 			     TCPHDR_ACK | TCPHDR_RST);
-+	memset(payload, 0, PAYLOAD_LEN);
-+	payload[0] = reason;
-+	skb_store_bits(skb, 0, payload, PAYLOAD_LEN);
-+	TCP_SKB_CB(skb)->end_seq += PAYLOAD_LEN;
- 	tcp_mstamp_refresh(tcp_sk(sk));
- 	/* Send it off. */
- 	if (tcp_transmit_skb(sk, skb, 0, priority))
+{::include-fold ./implem/patch.txt}
 ~~~~
+{: #patch title='Complete Patch'}
 
 ## Experimental Validation
 
