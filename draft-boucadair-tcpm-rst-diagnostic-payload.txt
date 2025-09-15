@@ -551,7 +551,7 @@ A.1.  Implementation
          invalid incoming packet, the payload is stored in the non-
          linear (paged) area of the sk_buff.
 
-   Complete patch is attached as shown below:
+   Complete patch is shown in Figure 7.
 
 diff --git a/include/net/tcp.h b/include/net/tcp.h
 index b3815d104340..0b32257774c8 100644
@@ -640,6 +640,8 @@ index b616776e3354..c07dd009a0de 100644
         tcp_mstamp_refresh(tcp_sk(sk));
         /* Send it off. */
         if (tcp_transmit_skb(sk, skb, 0, priority))
+
+                       Figure 7: Complete Patch
 
 A.2.  Experimental Validation
 

@@ -1837,8 +1837,10 @@ specific reset reasons.<a href="#section-3-6.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="appendix-A.1-3">Complete patch is attached as shown below:<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.1-4">
+<p id="appendix-A.1-3">Complete patch is shown in <a href="#patch" class="auto internal xref">Figure 7</a>.<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
+<span id="name-complete-patch"></span><div id="patch">
+<figure id="figure-7">
+          <div class="alignLeft art-text artwork" id="appendix-A.1-4.1">
 <pre>
 diff --git a/include/net/tcp.h b/include/net/tcp.h
 index b3815d104340..0b32257774c8 100644
@@ -1927,7 +1929,11 @@ index b616776e3354..c07dd009a0de 100644
         tcp_mstamp_refresh(tcp_sk(sk));
         /* Send it off. */
         if (tcp_transmit_skb(sk, skb, 0, priority))
-</pre><a href="#appendix-A.1-4" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<a href="#name-complete-patch" class="selfRef">Complete Patch</a>
+          </figcaption></figure>
 </div>
 </section>
 </div>
