@@ -660,10 +660,18 @@ A.2.1.  Functional Verification
    Two servers, designated as Client A and Server B.  The test is
    conducted as following:
 
-1.  Start the `iperf3` server on Server B (`iperf3 -s`).
-2.  Initiate a connection from Client A to Server B (`iperf3 -c [IP_of_B]`).
-3.  After the connection is established, one of the `iperf3` processes is terminated using the `kill` command, triggering the kernel to send an RST packet.
-4.  Simultaneously, `tcpdump` is run on either host to capture the reset packet using the filter: `'tcp[tcpflags] & tcp-rst != 0' -X -nn -vv -S`.
+   1.  Start the iperf3 server on Server B (iperf3 -s).
+
+   2.  Initiate a connection from Client A to Server B (iperf3 -c
+       [IP_of_B]).
+
+   3.  After the connection is established, one of the iperf3 processes
+       is terminated using the kill command, triggering the kernel to
+       send an RST packet.
+
+   4.  Simultaneously, tcpdump is run on either host to capture the
+       reset packet using the filter: 'tcp[tcpflags] & tcp-rst != 0' -X
+       -nn -vv -S.
 
 A.2.2.  Compatibility Verification
 
