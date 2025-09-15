@@ -102,9 +102,9 @@ informative:
    However, the authoritative source to retrieve the full list of error
    codes is the IANA-maintained registry ({{causes}}).
 
-   Preliminary investigation based on some major CGN vendors revealed
+   Investigation based on some major CGN vendors revealed
    that RSTs with data are not discarded and are translated according to
-   any matching mapping entry.
+   any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in {{sec-validation}}.
 
 # Conventions and Definitions
 
@@ -364,7 +364,7 @@ reason-description = 3
 
 --- back
 
-#  Implementation and Experimental Validation in Linux
+#  Implementation and Experimental Validation in Linux {#sec-validation}
 
 Questions and concerns have been raised regarding whether RST with payload affects the normal termination of flows across different software platforms, operating systems, middleboxes, etc. Even though {{Section 3.5.3 of !RFC9293}} explicitly allows this behavior, a full implementation is needed to widely verify if unexpected cases can happen in the real world.
 
