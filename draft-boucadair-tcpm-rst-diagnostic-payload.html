@@ -1264,9 +1264,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
    codes.  An initial version of error codes is available in Table 2.
    However, the authoritative source to retrieve the full list of error
    codes is the IANA-maintained registry (<a href="#causes" class="auto internal xref">Section 5.2</a>).<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">Investigation based on some major CGN vendors revealed
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-1-8.1">
+          <p id="section-1-8.1.1">Design note: Other alternate encoding designs may be considered (TLV, Plain text, etc.); each has their own pros and cons, mainly:
+amplification impact, need or not of a kernel library and availability of such library (if needed), impact of conversion on CPU, integration with traffic visualisation tools. The encoding will be updated to reflect the WG consensus.<a href="#section-1-8.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-1-9">Investigation based on some major CGN vendors revealed
    that RSTs with data are not discarded and are translated according to
-   any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in <a href="#sec-validation" class="auto internal xref">Appendix A</a>.<a href="#section-1-8" class="pilcrow">¶</a></p>
+   any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in <a href="#sec-validation" class="auto internal xref">Appendix A</a>.<a href="#section-1-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
