@@ -14,22 +14,22 @@
    reasons for which a TCP connection has been reset.  Sharing this
    information is meant to ease diagnostic and troubleshooting. 
     " name="description">
-<meta content="xml2rfc 3.28.0" name="generator">
+<meta content="xml2rfc 3.30.1" name="generator">
 <meta content="Service diagnostic" name="keyword">
 <meta content="draft-boucadair-tcpm-rst-diagnostic-payload-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.0
-    Python 3.12.9
+  xml2rfc 3.30.1
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
-    lxml 5.3.0
-    platformdirs 4.3.6
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.4.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
+    requests 2.32.5
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-boucadair-tcpm-rst-diagnostic-payload.xml" rel="alternate" type="application/rfc+xml">
@@ -1049,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RST Diagnostic Payload</td>
-<td class="right">March 2025</td>
+<td class="right">September 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Boucadair, et al.</td>
-<td class="center">Expires 15 September 2025</td>
+<td class="center">Expires 19 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-boucadair-tcpm-rst-diagnostic-payload-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-14" class="published">14 March 2025</time>
+<time datetime="2025-09-15" class="published">15 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-15">15 September 2025</time></dd>
+<dd class="expires"><time datetime="2026-03-19">19 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1127,7 +1127,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1194,10 +1194,29 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-implementation-and-experime" class="internal xref">Implementation and Experimental Validation in Linux</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-implementation" class="internal xref">Implementation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-experimental-validation" class="internal xref">Experimental Validation</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.1">
+                    <p id="section-toc.1-1.8.2.2.2.1.1"><a href="#appendix-A.2.1" class="auto internal xref">A.2.1</a>.  <a href="#name-functional-verification" class="internal xref">Functional Verification</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.2">
+                    <p id="section-toc.1-1.8.2.2.2.2.1"><a href="#appendix-A.2.2" class="auto internal xref">A.2.2</a>.  <a href="#name-compatibility-verification" class="internal xref">Compatibility Verification</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1245,9 +1264,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
    codes.  An initial version of error codes is available in Table 2.
    However, the authoritative source to retrieve the full list of error
    codes is the IANA-maintained registry (<a href="#causes" class="auto internal xref">Section 5.2</a>).<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">Preliminary investigation based on some major CGN vendors revealed
+<p id="section-1-8">Investigation based on some major CGN vendors revealed
    that RSTs with data are not discarded and are translated according to
-   any matching mapping entry.<a href="#section-1-8" class="pilcrow">¶</a></p>
+   any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in <a href="#sec-validation" class="auto internal xref">Appendix A</a>.<a href="#section-1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1777,19 +1796,215 @@ specific reset reasons.<a href="#section-3-6.6.1" class="pilcrow">¶</a></p>
 </div>
 </section>
 </div>
-<div id="acknowledgments">
+<div id="sec-validation">
 <section id="appendix-A">
+      <h2 id="name-implementation-and-experime">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-implementation-and-experime" class="section-name selfRef">Implementation and Experimental Validation in Linux</a>
+      </h2>
+<p id="appendix-A-1">Questions and concerns have been raised regarding whether RST with payload affects the normal termination of flows across different software platforms, operating systems, middleboxes, etc. Even though <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.5.3" class="relref">Section 3.5.3</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span> explicitly allows this behavior, a full implementation is needed to widely verify if unexpected cases can happen in the real world.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">The overall design in Linux is to pre-allocate a large enough zeroed buffer, put a reset reason code in the first byte and sent it out to verify whether the RST with payload can be possibly declined by any equipment in between two sides and the other side successfully parses the RST with payload.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<div id="implementation">
+<section id="appendix-A.1">
+        <h3 id="name-implementation">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-implementation" class="section-name selfRef">Implementation</a>
+        </h3>
+<p id="appendix-A.1-1">The following implementation is accomplished on top of Linux 6.16:<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="appendix-A.1-2">
+          <dt id="appendix-A.1-2.1">
+<strong>Payload Attachment</strong>:</dt>
+          <dd style="margin-left: 1.5em" id="appendix-A.1-2.2">
+            <p id="appendix-A.1-2.2.1">Allocate a 1000-byte data payload attached to all generated RST packets.<a href="#appendix-A.1-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="appendix-A.1-2.3">
+<strong>Reason Code Encoding</strong>:</dt>
+          <dd style="margin-left: 1.5em" id="appendix-A.1-2.4">
+            <p id="appendix-A.1-2.4.1">The first byte of the payload is used to store a predefined reset reason code that is listed in include/net/rstreason.h file, while the remainder of the payload is zero-padded. The reason code is generated by the existing mechanism called <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5115a55ffb52">TCP reset reasons</a>.<a href="#appendix-A.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="appendix-A.1-2.5">
+<strong>Handling of Reset Types</strong>:</dt>
+          <dd style="margin-left: 1.5em" id="appendix-A.1-2.6">
+            <p id="appendix-A.1-2.6.1">The implementation distinguishes between the two primary reset scenarios in <code>tcp_send_active_reset()</code> and <code>tcp_v4_send_reset()</code> respectively:<a href="#appendix-A.1-2.6.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.1-2.6.2.1">
+                <p id="appendix-A.1-2.6.2.1.1">For an <strong>Active Reset</strong>, initiated proactively by the local system, the payload is placed in the linear area of the socket buffer (<code>sk_buff</code>).<a href="#appendix-A.1-2.6.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.1-2.6.2.2">
+                <p id="appendix-A.1-2.6.2.2.1">For a <strong>Passive Reset</strong>, sent in response to an unexpected or invalid incoming packet, the payload is stored in the non-linear (paged) area of the <code>sk_buff</code>.<a href="#appendix-A.1-2.6.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="appendix-A.1-3">Complete patch is attached as shown below:<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.1-4">
+<pre>
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index b3815d104340..0b32257774c8 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -62,6 +62,7 @@ void tcp_time_wait(struct sock *sk, int state, int timeo);
+ #define MAX_TCP_OPTION_SPACE 40
+ #define TCP_MIN_SND_MSS                48
+ #define TCP_MIN_GSO_SIZE       (TCP_MIN_SND_MSS - MAX_TCP_OPTION_SPACE)
++#define PAYLOAD_LEN 1000
+
+ /*
+  * Never offer a window over 32767 without using window scaling. Some
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 84d3d556ed80..49250e6bd6a1 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -741,6 +741,7 @@ static bool tcp_v4_ao_sign_reset(const struct sock *sk, struct sk_buff *skb,
+ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+                              enum sk_rst_reason reason)
+ {
++       u32 len = sizeof(struct tcphdr) + REPLY_OPTIONS_LEN + PAYLOAD_LEN;
+        const struct tcphdr *th = tcp_hdr(skb);
+        struct {
+                struct tcphdr th;
+@@ -757,6 +758,7 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+ #endif
+        u64 transmit_time = 0;
+        struct sock *ctl_sk;
++       char buffer[len];
+        struct net *net;
+        u32 txhash = 0;
+
+@@ -786,7 +788,8 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+        }
+
+        memset(&amp;arg, 0, sizeof(arg));
+-       arg.iov[0].iov_base = (unsigned char *)&amp;rep;
++       memset(&amp;buffer, 0, len);
++       arg.iov[0].iov_base = (unsigned char *)buffer;
+        arg.iov[0].iov_len  = sizeof(rep.th);
+
+        net = sk ? sock_net(sk) : skb_dst_dev_net_rcu(skb);
+@@ -911,6 +914,10 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+                ctl_sk-&gt;sk_mark = 0;
+                ctl_sk-&gt;sk_priority = 0;
+        }
++       memcpy(buffer, (char *)&amp;rep, arg.iov[0].iov_len);
++       /* put rst reason into the first byte in payload */
++       buffer[arg.iov[0].iov_len] = reason;
++       arg.iov[0].iov_len += PAYLOAD_LEN;
+        ip_send_unicast_reply(ctl_sk, sk,
+                              skb, &amp;TCP_SKB_CB(skb)-&gt;header.h4.opt,
+                              ip_hdr(skb)-&gt;saddr, ip_hdr(skb)-&gt;daddr,
+diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+index b616776e3354..c07dd009a0de 100644
+--- a/net/ipv4/tcp_output.c
++++ b/net/ipv4/tcp_output.c
+@@ -3628,12 +3628,14 @@ void tcp_send_fin(struct sock *sk)
+ void tcp_send_active_reset(struct sock *sk, gfp_t priority,
+                           enum sk_rst_reason reason)
+ {
++       u32 len = MAX_TCP_HEADER + PAYLOAD_LEN;
++       char payload[PAYLOAD_LEN];
+        struct sk_buff *skb;
+
+        TCP_INC_STATS(sock_net(sk), TCP_MIB_OUTRSTS);
+
+        /* NOTE: No TCP options attached and we never retransmit this. */
+-       skb = alloc_skb(MAX_TCP_HEADER, priority);
++       skb = alloc_skb(len, priority);
+        if (!skb) {
+                NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPABORTFAILED);
+                return;
+@@ -3641,8 +3643,13 @@ void tcp_send_active_reset(struct sock *sk, gfp_t priority,
+
+        /* Reserve space for headers and prepare control bits. */
+        skb_reserve(skb, MAX_TCP_HEADER);
++       skb_put(skb, PAYLOAD_LEN);
+        tcp_init_nondata_skb(skb, tcp_acceptable_seq(sk),
+                             TCPHDR_ACK | TCPHDR_RST);
++       memset(payload, 0, PAYLOAD_LEN);
++       payload[0] = reason;
++       skb_store_bits(skb, 0, payload, PAYLOAD_LEN);
++       TCP_SKB_CB(skb)-&gt;end_seq += PAYLOAD_LEN;
+        tcp_mstamp_refresh(tcp_sk(sk));
+        /* Send it off. */
+        if (tcp_transmit_skb(sk, skb, 0, priority))
+</pre><a href="#appendix-A.1-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="experimental-validation">
+<section id="appendix-A.2">
+        <h3 id="name-experimental-validation">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-experimental-validation" class="section-name selfRef">Experimental Validation</a>
+        </h3>
+<p id="appendix-A.2-1">To ensure a thorough evaluation, a multi-layered experimental methodology was designed, progressing from basic functional checks to complex, real-world compatibility and stability tests. The whole implementation has been deployed in Tencent's production environment for almost six months.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<div id="functional-verification">
+<section id="appendix-A.2.1">
+          <h4 id="name-functional-verification">
+<a href="#appendix-A.2.1" class="section-number selfRef">A.2.1. </a><a href="#name-functional-verification" class="section-name selfRef">Functional Verification</a>
+          </h4>
+<p id="appendix-A.2.1-1">The basic functionality test is using iperf or iperf3 to construct a normal termination senario. The <code>tcpdump</code> tool with <code>-X</code> option effectively helps to show the <code>[RST+]</code> flag and the 1000-byte payload, confirming that the kernel correctly generated and transmitted the augmented RST packets.<a href="#appendix-A.2.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-2">Two servers, designated as Client A and Server B. The test is conducted as following:<a href="#appendix-A.2.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.1-3">
+<pre>
+1.  Start the `iperf3` server on Server B (`iperf3 -s`).
+2.  Initiate a connection from Client A to Server B (`iperf3 -c [IP_of_B]`).
+3.  After the connection is established, one of the `iperf3` processes is terminated using the `kill` command, triggering the kernel to send an RST packet.
+4.  Simultaneously, `tcpdump` is run on either host to capture the reset packet using the filter: `'tcp[tcpflags] &amp; tcp-rst != 0' -X -nn -vv -S`.
+</pre><a href="#appendix-A.2.1-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="compatibility-verification">
+<section id="appendix-A.2.2">
+          <h4 id="name-compatibility-verification">
+<a href="#appendix-A.2.2" class="section-number selfRef">A.2.2. </a><a href="#name-compatibility-verification" class="section-name selfRef">Compatibility Verification</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="appendix-A.2.2-1">
+            <dt id="appendix-A.2.2-1.1">
+<strong>Hardwares and Kernels</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.2">
+              <p id="appendix-A.2.2-1.2.1">Tests were conducted on various Linux distributions (e.g., Ubuntu, CentOS) with different kernel versions. The physical hosts were equipped with a range of network interface cards (NICs), including Intel <code>i40e</code>, <code>ixgbe</code>, and Mellanox <code>mlx5</code>.<a href="#appendix-A.2.2-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="appendix-A.2.2-1.3">
+<strong>Virtualization</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.4">
+              <p id="appendix-A.2.2-1.4.1">The mechanism was tested in a virtualized environment where the VM used a <code>virtio_net</code> driver and the host employed DPDK to redirect packets in the host.<a href="#appendix-A.2.2-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="appendix-A.2.2-1.5">
+<strong>Middleboxes</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.6">
+              <p id="appendix-A.2.2-1.6.1">Tests were performed with Layer 4 (L4) and Layer 7 (L7) gateways placed between the client and server to verify correct packet parsing and forwarding.<a href="#appendix-A.2.2-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="appendix-A.2.2-1.7">
+<strong>Wide Area Network (WAN)</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.8">
+              <p id="appendix-A.2.2-1.8.1">The setup was tested over long-haul international links to simulate complex conditions, including China-to-Singapore (RTT &gt; 30ms) and China-to-Germany (RTT &gt; 200ms).<a href="#appendix-A.2.2-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="appendix-A.2.2-2">In conclusion, across all complex environment tests, the RST packets with payloads were successfully received by the peer. No instances of packets being dropped or mishandled by intermediate middleboxes, gateways, or diverse hardware and software configurations were observed.<a href="#appendix-A.2.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-B">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-A-1">The "diagnostic payload" name is inspired by <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.5.2" class="relref">Section 5.5.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
-  that was cited by Carsten Bormann in the tcpm mailing list.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<p id="appendix-A-2">Thanks to Jon Shallow for the comments.  Thanks also to Li Jinghui
-   for the discussion.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">The "diagnostic payload" name is inspired by <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.5.2" class="relref">Section 5.5.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
+  that was cited by Carsten Bormann in the tcpm mailing list.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">Thanks to Jon Shallow for the comments.  Thanks also to Li Jinghui
+   for the discussion.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-B">
+<section id="appendix-C">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
