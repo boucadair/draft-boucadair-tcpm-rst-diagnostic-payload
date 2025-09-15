@@ -102,6 +102,9 @@ informative:
    However, the authoritative source to retrieve the full list of error
    codes is the IANA-maintained registry ({{causes}}).
 
+   > Design note: Other alternate encoding designs may be considered (TLV, Plain text, etc.); each has their own pros and cons, mainly:
+amplification impact, need or not of a kernel library and availability of such library (if needed), impact of conversion on CPU, integration with traffic visualisation tools. The encoding will be updated to reflect the WG consensus.
+
    Investigation based on some major CGN vendors revealed
    that RSTs with data are not discarded and are translated according to
    any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in {{sec-validation}}.
