@@ -281,7 +281,7 @@ reason-description = 3
 
    The assignment policy for this registry is "IETF Review" ({{Section 4.8 of !RFC8126}}).
 
-   The structure of this subregistry and the initial values are provided
+   The structure of this registry and the initial values are provided
    in {{sub}}.
 
 
