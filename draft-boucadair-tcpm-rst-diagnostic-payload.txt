@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: 19 March 2026                                             Nokia
+Expires: 4 May 2026                                                Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                       15 September 2025
+                                                         31 October 2025
 
 
                        TCP RST Diagnostic Payload
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 March 2026.
+   This Internet-Draft will expire on 4 May 2026.
 
 Copyright Notice
 
@@ -315,8 +315,8 @@ Table of Contents
    The assignment policy for this registry is "IETF Review" (Section 4.8
    of [RFC8126]).
 
-   The structure of this subregistry and the initial values are provided
-   in Table 1.
+   The structure of this registry and the initial values are provided in
+   Table 1.
 
    +====================+==========+=================+================+
    |   Parameter Name   | CBOR Key | CBOR Major Type |   Reference    |
