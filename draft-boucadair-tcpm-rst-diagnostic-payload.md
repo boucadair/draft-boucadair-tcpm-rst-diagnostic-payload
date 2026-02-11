@@ -240,24 +240,6 @@ informative:
    {{fig-3}} uses the Enterprise Number 32473 defined for documentation
    use {{?RFC5612}}.
 
-#  Operational Considerations {#ops-cons}
-
-## Multiple RSTs
-
-   Per {{Section 3.6 of !RFC9293}}, one or more RST segments can be sent
-   to reset a connection.  Whether a TCP endpoint elects to send more
-   than one RST with only a subset of them that include the diagnostic
-   payload is implementation-specific.
-
-## Manageability
-
-  TCP server implementations should support the following parameters:
-
-  * A parameter to control the activation of the RST diagnostic.
-  * A parameter to set a maximum length of acceptable reason-description.
-  * Counters to track sent/received RSTs with diagnostic payload.
-  * Counters to track received invalid RSTs with diagnostic payload.
-
 # IANA Considerations
 
 ##  New Registry for TCP Failure Causes {#causes}
@@ -306,6 +288,31 @@ informative:
 
    Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).
 
+#  Operational Considerations {#ops-cons}
+
+## Multiple RSTs
+
+   Per {{Section 3.6 of !RFC9293}}, one or more RST segments can be sent
+   to reset a connection.
+
+   Sending more RST segments to reset a connection can be used
+   to mitigate deployment contexts where some on-path devices may
+   discard RST with payload data.
+
+   Whether a TCP endpoint elects to send more
+   than one RST with only a subset of them that include the diagnostic
+   payload is implementation-specific.
+
+## Manageability
+
+  TCP server implementations should support the following parameters:
+
+  * A parameter to control the activation of the RST diagnostic.
+  * A parameter to set a maximum length of acceptable reason-description.
+  * A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.
+  * Counters to track sent/received RSTs with diagnostic payload.
+  * Counters to track received invalid RSTs with diagnostic payload.
+
 #  Security Considerations
 
    {{!RFC9293}} discusses TCP-related security considerations. In
@@ -314,7 +321,7 @@ informative:
 
    In addition to these considerations, it is RECOMMENDED to control the
    size of acceptable diagnostic payload and keep it as brief as
-   possible.  The RECOMMENDED acceptable maximum size of the RST
+   possible. The RECOMMENDED acceptable maximum size of the RST
    diagnostic payload is 255 octets.
 
    Also, it is RECOMMENDED to avoid leaking privacy-related information
