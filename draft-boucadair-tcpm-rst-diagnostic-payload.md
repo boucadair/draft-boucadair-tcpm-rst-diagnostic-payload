@@ -102,9 +102,6 @@ informative:
    However, the authoritative source to retrieve the full list of error
    codes is the IANA-maintained registry ({{causes}}).
 
-   > Design note: Other alternate encoding designs may be considered (TLV, Plain text, etc.); each has their own pros and cons, mainly:
-amplification impact, need or not of a kernel library and availability of such library (if needed), impact of conversion on CPU, integration with traffic visualisation tools. The encoding will be updated to reflect the WG consensus.
-
    Investigation based on some major CGN vendors revealed
    that RSTs with data are not discarded and are translated according to
    any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in {{sec-validation}}.
@@ -117,29 +114,25 @@ amplification impact, need or not of a kernel library and availability of such l
 
 #  RST Diagnostic Payload {#payload}
 
-   The RST diagnostic payload MUST be encoded using Concise Binary
-   Object Representation (CBOR) Sequence {{!RFC8742}}.  The Concise Data
-   Definition Language (CDDL) {{!RFC8610}} for the diagnostic payload is
-   shown in {{cddl}}.
+   The format of the RST diagnostic payload is shown in {{format}}.
 
-~~~~ CDDL
-; This defines an array, the elements of which are to be used
-; in a CBOR Sequence. There is exactly one occurrence.
-diagnostic-payload = [magic-cookie, reason]
-; Magic cookie to identify a payload that follows this specification
-magic-cookie = 12345
-; Reset reason details:
-reason= {
-  ? reason-code: uint,
-  ? pen:uint,
-  ? reason-description: tstr,
-}
-; Map Keys
-reason-code = 1
-pen = 2
-reason-description = 3
 ~~~~
-{: #cddl title='Structure of the RST Diagnostic Payload'}
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          magic-cookie         |           Length              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |        Reason Length          |          reason-code          |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                              pen                              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               :
+   :                     reason-description                        :
+   :                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+~~~~
+{: #format title='Structure of the RST Diagnostic Payload'}
 
    The RST diagnostic payload comprises a magic cookie that is used to
    unambiguously identify an RST payload that follows this
@@ -149,26 +142,32 @@ reason-description = 3
    > Note to the RFC Editor: Please replace "12345" with the RFC number
    > assigned to this document.
 
-   All parameters in the reason component of an RST diagnostic payload
-   are mapped to their CBOR key values as specified in {{cbor}}.  The
-   description of these parameters is as follows:
+   The description of other fields is as follows:
+
+   Length:
+   : Indicates the total length, in octets, of the diagnostic payload that follows.
+
+   Reason Length:
+   : Indicates the length, in octets, of the reason-description field.
+   : If set to a non-null zero, this means tha the reason code is not present.
 
    reason-code:
-   :  This parameter takes a value from an available registry
-      such as the "TCP Failure Causes" registry ({{causes}}).
+   :  This field, if present, takes a value from an available registry
+      such as the "TCP Failure Causes" registry ({{causes}}). Value 0 is
+      reserved and MUST NOT be used.
 
    pen:
    :  Includes a Private Enterprise Number
       [Private-Enterprise-Numbers].  This parameter MAY be included when
       the reason code is not taken from the IANA-maintained registry
-      ({{causes}}), but from a vendor-specific registry.
+      ({{causes}}), but from a vendor-specific registry. The presence of
+      this field can be inferred from the values of Length and Reason Length fields.
 
    reason-description:
    :  Includes a brief description of the reset reason
-      encoded as UTF-8 {{!RFC3629}}.  This parameter MUST NOT be included
-      if a reason code is supplied.  This parameter is useful only for
-      reset reasons that are not yet registered or for application-
-      specific reset reasons.
+      encoded as UTF-8 {{!RFC3629}}. This parameter MUST NOT be included
+      if a reason code is supplied; Reason Length MUST be set to 0 for such as case. This parameter is useful only for
+      reset reasons that are not yet registered or for application-specific reset reasons.
 
    At least one of "reason-code" and "reason-description" parameters
    MUST be included in an RST diagnostic payload.  The "pen" parameter
@@ -192,105 +191,59 @@ reason-description = 3
 
 #  Some Examples {#examples}
 
-   To ease readability, the CBOR diagnostic notation ({{Section 8 of !RFC8949}})
-   with the parameter names rather than their CBOR key values
-   in {{cbor}} is used in Figures 3, 4, 5, and 6.
-
-   {{fig-2}} depicts an example of an RST diagnostic payload that is
+   {{fig-1}} depicts an example of an RST diagnostic payload that is
    generated to inform the peer that the TCP connection is reset because
    an ACK was received from that peer while the connection is still in
    the LISTEN state ({{Section 3.10.7.2 of ?RFC9293}}).
 
-~~~~ CDDL
-   19 3039 # unsigned(12345)
-   A1    # map(1)
-      01 # unsigned(1)
-      02 # unsigned(2)
 ~~~~
-{: #fig-2 title='Example of an RST Diagnostic Payload with Reason Code (CBOR Encoding)'}
-
-   {{fig-3}} depicts the same RST diagnostic payload as the one shown in
-   {{fig-2}} but following the CBOR diagnostic notation.
-
-~~~~ CBOR
-   [
-     12345,
-     {
-       1: 2
-     }
-   ]
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          magic-cookie         |              0x04             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |              0x00             |              0x02             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
-{: #fig-3 title='Example of an RST Diagnostic Payload with Reason Code (Diagnostic Notation)'}
-
-   {{fig-4}} shows an example of an RST diagnostic payload that includes
-   a free description to report a case that is not covered by an
-   appropriate code from the IANA-maintained registry ({{causes}}).
-
-~~~~ CBOR
-   [
-     12345,
-     {
-       3: "brief human-readable description"
-     }
-   ]
-~~~~
-{: #fig-4 title='Example of an RST Diagnostic Payload with Reason Description (Diagnostic Notation)'}
+{: #fig-1 title='Example of an RST Diagnostic Payload with Reason Code'}
 
    An RST diagnostic payload may also be sent by an on-path service
    function.  For example, the following diagnostic payload is returned
    by a NAT function upon expiry of the mapping entry to which the TCP
-   connection is bound ({{fig-5}}).
+   connection is bound ({{fig-2}}).
 
-~~~~ CBOR
-   [
-     12345,
-     {
-       1: 8
-     }
-   ]
 ~~~~
-{: #fig-5 title='Example of an RST Diagnostic Payload to Report Connection Timeout (Diagnostic Notation)'}
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          magic-cookie         |              0x04             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |              0x00             |              0x08             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+~~~~
+{: #fig-2 title='Example of an RST Diagnostic Payload to Report Connection Timeout'}
 
-   {{fig-6}} illustrates an RST diagnostic payload that is returned by a
+   {{fig-3}} illustrates an RST diagnostic payload that is returned by a
    peer that resets a TCP connection for a reason code 1234 defined by a
    vendor with the private enterprise number 32473.
 
-~~~~ CBOR
-   [
-     12345,
-     {
-       1: 1234,
-       2: 32473
-     }
-   ]
 ~~~~
-{: #fig-6 title='Example of an RST Diagnostic Payload to Report Vendor-Specific Reason Code (Diagnostic Notation)'}
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          magic-cookie         |              0x08             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |              0x00             |              0x4DE            |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                             0x7D9                             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+~~~~
+{: #fig-3 title='Example of an RST Diagnostic Payload to Report Vendor-Specific Reason Code'}
 
-   {{fig-6}} uses the Enterprise Number 32473 defined for documentation
+   {{fig-3}} uses the Enterprise Number 32473 defined for documentation
    use {{?RFC5612}}.
 
 # IANA Considerations
-
-##  RST Diagnostic Payload CBOR Key Values {#cbor}
-
-   IANA is requested to create a new registry titled "RST Diagnostic
-   Payload CBOR Key Values" under the "Transmission Control Protocol
-   (TCP) Parameters" registry group {{IANA-TCP}}.
-
-   The key value MUST be an integer in the 1-255 range.
-
-   The assignment policy for this registry is "IETF Review" ({{Section 4.8 of !RFC8126}}).
-
-   The structure of this registry and the initial values are provided
-   in {{sub}}.
-
-
-| Parameter Name     | CBOR  Key| CBOR Major Type & Information| Reference    |
-|:------------------:|:--------:|:----------------------------:|:------------:|
-| reason-code        |   1      | 0 unsigned                   |[ThisDocument]|
-| pen                |   2      | 0 unsigned                   |[ThisDocument]|
-| reason-description |   3      | 3 text string                |[ThisDocument]|
-{: #sub title='Initial CBOR Keys'}
 
 ##  New Registry for TCP Failure Causes {#causes}
 
@@ -316,6 +269,7 @@ reason-description = 3
 
  | Value | Description                                                    | Specification (if available)               |
  |:-----:|:---------------------------------------------------------------|:-------------------------------------------|
+ | 0     | Reserved                                                       | [ThisDocument]                             |
  | 1     | Illegal Option                                                 | {{Section 3.1 of !RFC9293}}                |
  | 2     | Desynchronized state                                           | {{Section 3.5.1 of !RFC9293}}              |
  | 3     | New data is received after CLOSE is called                     | Sections 3.6.1 and  3.10.7.1 of {{!RFC9293}}  |
