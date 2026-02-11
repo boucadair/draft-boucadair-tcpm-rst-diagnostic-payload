@@ -49,11 +49,13 @@ informative:
     target: https://www.iana.org/assignments/enterprise-numbers
 
 --- abstract
-
    This document specifies a diagnostic payload format returned in TCP
    RST segments.  Such payloads are used to share with an endpoint the
    reasons for which a TCP connection has been reset.  Sharing this
    information is meant to ease diagnostic and troubleshooting.
+
+   This specification builds on provisions that are already present in RFC 9293 "Transmission Control Protocol (TCP)".
+   As such, this document does not require any change to RFC 9293.
 
 --- middle
 
@@ -142,14 +144,14 @@ informative:
    > Note to the RFC Editor: Please replace "12345" with the RFC number
    > assigned to this document.
 
-   The description of other fields is as follows:
+   The descriptions of other fields shown in {{format}} are as follows:
 
    Length:
    : Indicates the total length, in octets, of the diagnostic payload that follows.
 
    Reason Length:
    : Indicates the length, in octets, of the reason-description field.
-   : If set to a non-null zero, this means tha the reason code is not present.
+   : If set to a non-null zero, this means that the reason code is not present.
 
    reason-code:
    :  This field, if present, takes a value from an available registry
@@ -166,7 +168,7 @@ informative:
    reason-description:
    :  Includes a brief description of the reset reason
       encoded as UTF-8 {{!RFC3629}}. This parameter MUST NOT be included
-      if a reason code is supplied; Reason Length MUST be set to 0 for such as case. This parameter is useful only for
+      if a reason code is supplied; Reason Length MUST be set to 0 for such a case. This parameter is useful only for
       reset reasons that are not yet registered or for application-specific reset reasons.
 
    At least one of "reason-code" and "reason-description" parameters
@@ -183,11 +185,6 @@ informative:
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the information is passed to an application
    and how it is stored locally is implementation-specific.
-
-   Per {{Section 3.6 of !RFC9293}}, one or more RST segments can be sent
-   to reset a connection.  Whether a TCP endpoint elects to send more
-   than one RST with only a subset of them that include the diagnostic
-   payload is implementation-specific.
 
 #  Some Examples {#examples}
 
@@ -242,6 +239,24 @@ informative:
 
    {{fig-3}} uses the Enterprise Number 32473 defined for documentation
    use {{?RFC5612}}.
+
+#  Operational Considerations {#ops-cons}
+
+## Multiple RSTs
+
+   Per {{Section 3.6 of !RFC9293}}, one or more RST segments can be sent
+   to reset a connection.  Whether a TCP endpoint elects to send more
+   than one RST with only a subset of them that include the diagnostic
+   payload is implementation-specific.
+
+## Manageability
+
+  TCP server implementations should support the following parameters:
+
+  * A parameter to control the activation of the RST diagnostic.
+  * A parameter to set a maximum length of acceptable reason-description.
+  * Counters to track sent/received RSTs with diagnostic payload.
+  * Counters to track received invalid RSTs with diagnostic payload.
 
 # IANA Considerations
 
