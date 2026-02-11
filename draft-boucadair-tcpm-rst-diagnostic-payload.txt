@@ -21,6 +21,10 @@ Abstract
    reasons for which a TCP connection has been reset.  Sharing this
    information is meant to ease diagnostic and troubleshooting.
 
+   This specification builds on provisions that are already present in
+   RFC 9293 "Transmission Control Protocol (TCP)".  As such, this
+   document does not require any change to RFC 9293.
+
 Discussion Venues
 
    This note is to be removed before publishing as an RFC.
@@ -70,12 +74,15 @@ Table of Contents
    2.  Conventions and Definitions
    3.  RST Diagnostic Payload
    4.  Some Examples
-   5.  IANA Considerations
-     5.1.  New Registry for TCP Failure Causes
-   6.  Security Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   5.  Operational Considerations
+     5.1.  Multiple RSTs
+     5.2.  Manageability
+   6.  IANA Considerations
+     6.1.  New Registry for TCP Failure Causes
+   7.  Security Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Appendix A.  Implementation and Experimental Validation in Linux
      A.1.  Implementation
      A.2.  Experimental Validation
@@ -126,7 +133,7 @@ Table of Contents
    needed in the future and accommodating any existing vendor-specific
    codes.  An initial version of error codes is available in Table 2.
    However, the authoritative source to retrieve the full list of error
-   codes is the IANA-maintained registry (Section 5.1).
+   codes is the IANA-maintained registry (Section 6.1).
 
    Investigation based on some major CGN vendors revealed that RSTs with
    data are not discarded and are translated according to any matching
@@ -172,7 +179,7 @@ Table of Contents
       Note to the RFC Editor: Please replace "12345" with the RFC number
       assigned to this document.
 
-   The description of other fields is as follows:
+   The descriptions of other fields shown in Figure 1 are as follows:
 
    Length:  Indicates the total length, in octets, of the diagnostic
       payload that follows.
@@ -180,31 +187,30 @@ Table of Contents
    Reason Length:  Indicates the length, in octets, of the reason-
       description field.
 
-      If set to a non-null zero, this means tha the reason code is not
+      If set to a non-null zero, this means that the reason code is not
       present.
 
    reason-code:  This field, if present, takes a value from an available
-      registry such as the "TCP Failure Causes" registry (Section 5.1).
+      registry such as the "TCP Failure Causes" registry (Section 6.1).
       Value 0 is reserved and MUST NOT be used.
 
    pen:  Includes a Private Enterprise Number
       [Private-Enterprise-Numbers].  This parameter MAY be included when
       the reason code is not taken from the IANA-maintained registry
-      (Section 5.1), but from a vendor-specific registry.  The presence
+      (Section 6.1), but from a vendor-specific registry.  The presence
       of this field can be inferred from the values of Length and Reason
       Length fields.
 
    reason-description:  Includes a brief description of the reset reason
       encoded as UTF-8 [RFC3629].  This parameter MUST NOT be included
       if a reason code is supplied; Reason Length MUST be set to 0 for
-      such as case.  This parameter is useful only for reset reasons
-      that are not yet registered or for application-specific reset
-      reasons.
+      such a case.  This parameter is useful only for reset reasons that
+      are not yet registered or for application-specific reset reasons.
 
    At least one of "reason-code" and "reason-description" parameters
    MUST be included in an RST diagnostic payload.  The "pen" parameter
    MUST be omitted if a reason code from the IANA-maintained registry
-   (Section 5.1) fits the reset case.
+   (Section 6.1) fits the reset case.
 
    Malformed RST diagnostic payload messages that include the magic
    cookie MUST be silently ignored by the receiver.
@@ -215,11 +221,6 @@ Table of Contents
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the information is passed to an application
    and how it is stored locally is implementation-specific.
-
-   Per Section 3.6 of [RFC9293], one or more RST segments can be sent to
-   reset a connection.  Whether a TCP endpoint elects to send more than
-   one RST with only a subset of them that include the diagnostic
-   payload is implementation-specific.
 
 4.  Some Examples
 
@@ -274,9 +275,31 @@ Table of Contents
    Figure 4 uses the Enterprise Number 32473 defined for documentation
    use [RFC5612].
 
-5.  IANA Considerations
+5.  Operational Considerations
 
-5.1.  New Registry for TCP Failure Causes
+5.1.  Multiple RSTs
+
+   Per Section 3.6 of [RFC9293], one or more RST segments can be sent to
+   reset a connection.  Whether a TCP endpoint elects to send more than
+   one RST with only a subset of them that include the diagnostic
+   payload is implementation-specific.
+
+5.2.  Manageability
+
+   TCP server implementations should support the following parameters:
+
+   *  A parameter to control the activation of the RST diagnostic.
+
+   *  A parameter to set a maximum length of acceptable reason-
+      description.
+
+   *  Counters to track sent/received RSTs with diagnostic payload.
+
+   *  Counters to track received invalid RSTs with diagnostic payload.
+
+6.  IANA Considerations
+
+6.1.  New Registry for TCP Failure Causes
 
    This document requests IANA to create a new registry entitled "TCP
    Failure Causes" under the "Transmission Control Protocol (TCP)
@@ -354,7 +377,7 @@ Table of Contents
    Note that codes in the 8-14 range can be used by service functions
    (Carrier Grade NAT (CGN), firewall, proxy, etc.).
 
-6.  Security Considerations
+7.  Security Considerations
 
    [RFC9293] discusses TCP-related security considerations.  In
    particular, RST-specific attacks and their mitigations are discussed
@@ -382,9 +405,9 @@ Table of Contents
    users but is intended to be consumed by applications.  Such a
    description may carry a malicious message to mislead the end-user.
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -413,7 +436,7 @@ Table of Contents
               STD 7, RFC 9293, DOI 10.17487/RFC9293, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9293>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [IANA-TCP] "Transmission Control Protocol (TCP) Parameters",
               <https://www.iana.org/assignments/tcp-parameters/tcp-
