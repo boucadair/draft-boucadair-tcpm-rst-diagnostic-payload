@@ -1173,21 +1173,21 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-some-examples" class="internal xref">Some Examples</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-operational-considerations" class="internal xref">Operational Considerations</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-multiple-rsts" class="internal xref">Multiple RSTs</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-manageability" class="internal xref">Manageability</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-new-registry-for-tcp-failur" class="internal xref">New Registry for TCP Failure Causes</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-operational-considerations" class="internal xref">Operational Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-new-registry-for-tcp-failur" class="internal xref">New Registry for TCP Failure Causes</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-multiple-rsts" class="internal xref">Multiple RSTs</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-manageability" class="internal xref">Manageability</a></p>
 </li>
             </ul>
 </li>
@@ -1275,7 +1275,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
    needed in the future and accommodating any existing vendor-specific
    codes.  An initial version of error codes is available in Table 2.
    However, the authoritative source to retrieve the full list of error
-   codes is the IANA-maintained registry (<a href="#causes" class="auto internal xref">Section 6.1</a>).<a href="#section-1-7" class="pilcrow">¶</a></p>
+   codes is the IANA-maintained registry (<a href="#causes" class="auto internal xref">Section 5.1</a>).<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">Investigation based on some major CGN vendors revealed
    that RSTs with data are not discarded and are translated according to
    any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in <a href="#sec-validation" class="auto internal xref">Appendix A</a>.<a href="#section-1-8" class="pilcrow">¶</a></p>
@@ -1353,7 +1353,7 @@ assigned to this document.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
 <dt id="section-3-6.7">reason-code:</dt>
         <dd style="margin-left: 1.5em" id="section-3-6.8">
           <p id="section-3-6.8.1">This field, if present, takes a value from an available registry
-such as the "TCP Failure Causes" registry (<a href="#causes" class="auto internal xref">Section 6.1</a>). Value 0 is
+such as the "TCP Failure Causes" registry (<a href="#causes" class="auto internal xref">Section 5.1</a>). Value 0 is
 reserved and <span class="bcp14">MUST NOT</span> be used.<a href="#section-3-6.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
@@ -1362,7 +1362,7 @@ reserved and <span class="bcp14">MUST NOT</span> be used.<a href="#section-3-6.8
           <p id="section-3-6.10.1">Includes a Private Enterprise Number
 <span>[<a href="#Private-Enterprise-Numbers" class="cite xref">Private-Enterprise-Numbers</a>]</span>.  This parameter <span class="bcp14">MAY</span> be included when
 the reason code is not taken from the IANA-maintained registry
-(<a href="#causes" class="auto internal xref">Section 6.1</a>), but from a vendor-specific registry. The presence of
+(<a href="#causes" class="auto internal xref">Section 5.1</a>), but from a vendor-specific registry. The presence of
 this field can be inferred from the values of Length and Reason Length fields.<a href="#section-3-6.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
@@ -1378,7 +1378,7 @@ reset reasons that are not yet registered or for application-specific reset reas
 <p id="section-3-7">At least one of "reason-code" and "reason-description" parameters
    <span class="bcp14">MUST</span> be included in an RST diagnostic payload.  The "pen" parameter
    <span class="bcp14">MUST</span> be omitted if a reason code from the IANA-maintained registry
-   (<a href="#causes" class="auto internal xref">Section 6.1</a>) fits the reset case.<a href="#section-3-7" class="pilcrow">¶</a></p>
+   (<a href="#causes" class="auto internal xref">Section 5.1</a>) fits the reset case.<a href="#section-3-7" class="pilcrow">¶</a></p>
 <p id="section-3-8">Malformed RST diagnostic payload messages that include the magic
    cookie <span class="bcp14">MUST</span> be silently ignored by the receiver.<a href="#section-3-8" class="pilcrow">¶</a></p>
 <p id="section-3-9">A peer that receives a valid diagnostic payload may pass the reset
@@ -1462,71 +1462,31 @@ reset reasons that are not yet registered or for application-specific reset reas
    use <span>[<a href="#RFC5612" class="cite xref">RFC5612</a>]</span>.<a href="#section-4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="ops-cons">
-<section id="section-5">
-      <h2 id="name-operational-considerations">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
-      </h2>
-<div id="multiple-rsts">
-<section id="section-5.1">
-        <h3 id="name-multiple-rsts">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-multiple-rsts" class="section-name selfRef">Multiple RSTs</a>
-        </h3>
-<p id="section-5.1-1">Per <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>, one or more RST segments can be sent
-   to reset a connection.  Whether a TCP endpoint elects to send more
-   than one RST with only a subset of them that include the diagnostic
-   payload is implementation-specific.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="manageability">
-<section id="section-5.2">
-        <h3 id="name-manageability">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-manageability" class="section-name selfRef">Manageability</a>
-        </h3>
-<p id="section-5.2-1">TCP server implementations should support the following parameters:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.2-2.1">
-            <p id="section-5.2-2.1.1">A parameter to control the activation of the RST diagnostic.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">A parameter to set a maximum length of acceptable reason-description.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-2.3">
-            <p id="section-5.2-2.3.1">Counters to track sent/received RSTs with diagnostic payload.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-2.4">
-            <p id="section-5.2-2.4.1">Counters to track received invalid RSTs with diagnostic payload.<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-</section>
-</div>
 <div id="iana-considerations">
-<section id="section-6">
+<section id="section-5">
       <h2 id="name-iana-considerations">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <div id="causes">
-<section id="section-6.1">
+<section id="section-5.1">
         <h3 id="name-new-registry-for-tcp-failur">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-new-registry-for-tcp-failur" class="section-name selfRef">New Registry for TCP Failure Causes</a>
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-new-registry-for-tcp-failur" class="section-name selfRef">New Registry for TCP Failure Causes</a>
         </h3>
-<p id="section-6.1-1">This document requests IANA to create a new registry entitled "TCP
+<p id="section-5.1-1">This document requests IANA to create a new registry entitled "TCP
    Failure Causes" under the "Transmission Control Protocol (TCP)
-   Parameters" registry group <span>[<a href="#IANA-TCP" class="cite xref">IANA-TCP</a>]</span>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">Values are taken from the 1-65535 range.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.1-3">The assignment policy for this registry is "Expert Review"
-   (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.5" class="relref">Section 4.5</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">The designated experts may approve registration once they checked
+   Parameters" registry group <span>[<a href="#IANA-TCP" class="cite xref">IANA-TCP</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">Values are taken from the 1-65535 range.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">The assignment policy for this registry is "Expert Review"
+   (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.5" class="relref">Section 4.5</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>).<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">The designated experts may approve registration once they checked
    that the new requested code is not covered by an existing code and if
    the provided reasoning to register the new code is acceptable.  A
    registration request may supply a pointer to a specification where
    that code is defined.  However, a registration may be accepted even
    if no permanent and readily available public specification is
-   available.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
-<p id="section-6.1-5">The registry is initially populated with the values listed in
-   <a href="#initial" class="auto internal xref">Table 1</a>.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+   available.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">The registry is initially populated with the values listed in
+   <a href="#initial" class="auto internal xref">Table 1</a>.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
 <span id="name-initial-tcp-failure-causes"></span><div id="initial">
 <table class="center" id="table-1">
           <caption>
@@ -1653,7 +1613,54 @@ reset reasons that are not yet registered or for application-specific reset reas
           </tbody>
         </table>
 </div>
-<p id="section-6.1-7">Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).<a href="#section-6.1-7" class="pilcrow">¶</a></p>
+<p id="section-5.1-7">Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).<a href="#section-5.1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="ops-cons">
+<section id="section-6">
+      <h2 id="name-operational-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
+      </h2>
+<div id="multiple-rsts">
+<section id="section-6.1">
+        <h3 id="name-multiple-rsts">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-multiple-rsts" class="section-name selfRef">Multiple RSTs</a>
+        </h3>
+<p id="section-6.1-1">Per <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>, one or more RST segments can be sent
+   to reset a connection.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">Sending more RST segments to reset a connection can be used
+   to mitigate deployment contexts where some on-path devices may
+   discard RST with payload data.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Whether a TCP endpoint elects to send more
+   than one RST with only a subset of them that include the diagnostic
+   payload is implementation-specific.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="manageability">
+<section id="section-6.2">
+        <h3 id="name-manageability">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-manageability" class="section-name selfRef">Manageability</a>
+        </h3>
+<p id="section-6.2-1">TCP server implementations should support the following parameters:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-2.1">
+            <p id="section-6.2-2.1.1">A parameter to control the activation of the RST diagnostic.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.2">
+            <p id="section-6.2-2.2.1">A parameter to set a maximum length of acceptable reason-description.<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.3">
+            <p id="section-6.2-2.3.1">A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.<a href="#section-6.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.4">
+            <p id="section-6.2-2.4.1">Counters to track sent/received RSTs with diagnostic payload.<a href="#section-6.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.5">
+            <p id="section-6.2-2.5.1">Counters to track received invalid RSTs with diagnostic payload.<a href="#section-6.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -1668,7 +1675,7 @@ reset reasons that are not yet registered or for application-specific reset reas
    in <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.10.7.3" class="relref">Section 3.10.7.3</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">In addition to these considerations, it is <span class="bcp14">RECOMMENDED</span> to control the
    size of acceptable diagnostic payload and keep it as brief as
-   possible.  The <span class="bcp14">RECOMMENDED</span> acceptable maximum size of the RST
+   possible. The <span class="bcp14">RECOMMENDED</span> acceptable maximum size of the RST
    diagnostic payload is 255 octets.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">Also, it is <span class="bcp14">RECOMMENDED</span> to avoid leaking privacy-related information
    as part of the diagnostic payload (e.g., including a description such
