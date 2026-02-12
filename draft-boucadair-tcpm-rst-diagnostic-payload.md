@@ -126,13 +126,12 @@ informative:
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |        Reason Length          |          reason-code          |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                              pen                              |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                                                               :
    :                     reason-description                        :
    :                                                               |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
+   |                              pen                              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #format title='Structure of the RST Diagnostic Payload'}
 
@@ -158,21 +157,21 @@ informative:
       such as the "TCP Failure Causes" registry ({{causes}}). Value 0 is
       reserved and MUST NOT be used.
 
-   pen:
-   :  Includes a Private Enterprise Number
-      [Private-Enterprise-Numbers].  This parameter MAY be included when
-      the reason code is not taken from the IANA-maintained registry
-      ({{causes}}), but from a vendor-specific registry. The presence of
-      this field can be inferred from the values of Length and Reason Length fields.
-
    reason-description:
    :  Includes a brief description of the reset reason
       encoded as UTF-8 {{!RFC3629}}. This parameter MUST NOT be included
       if a reason code is supplied; Reason Length MUST be set to 0 for such a case. This parameter is useful only for
       reset reasons that are not yet registered or for application-specific reset reasons.
 
+   pen:
+   :  Includes a Private Enterprise Number (PEN)
+      [Private-Enterprise-Numbers].  This parameter MAY be included when
+      the reason code is not taken from the IANA-maintained registry
+      ({{causes}}), but from a vendor-specific registry.
+   :  The presence of this field can be inferred from the values of Length and Reason Length fields.
+
    At least one of "reason-code" and "reason-description" parameters
-   MUST be included in an RST diagnostic payload.  The "pen" parameter
+   MUST be included in an RST diagnostic payload. The "pen" parameter
    MUST be omitted if a reason code from the IANA-maintained registry
    ({{causes}}) fits the reset case.
 
