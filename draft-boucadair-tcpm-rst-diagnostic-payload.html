@@ -172,7 +172,7 @@
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -180,7 +180,8 @@
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 }
 
 @font-face {
@@ -1055,7 +1056,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Boucadair, et al.</td>
-<td class="center">Expires 15 August 2026</td>
+<td class="center">Expires 16 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1069,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-boucadair-tcpm-rst-diagnostic-payload-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-11" class="published">11 February 2026</time>
+<time datetime="2026-02-12" class="published">12 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-15">15 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-16">16 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1132,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1310,13 +1311,12 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |        Reason Length          |          reason-code          |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                              pen                              |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                                                               :
    :                     reason-description                        :
    :                                                               |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
+   |                              pen                              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
@@ -1357,26 +1357,30 @@ such as the "TCP Failure Causes" registry (<a href="#causes" class="auto interna
 reserved and <span class="bcp14">MUST NOT</span> be used.<a href="#section-3-6.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-6.9">pen:</dt>
+<dt id="section-3-6.9">reason-description:</dt>
         <dd style="margin-left: 1.5em" id="section-3-6.10">
-          <p id="section-3-6.10.1">Includes a Private Enterprise Number
-<span>[<a href="#Private-Enterprise-Numbers" class="cite xref">Private-Enterprise-Numbers</a>]</span>.  This parameter <span class="bcp14">MAY</span> be included when
-the reason code is not taken from the IANA-maintained registry
-(<a href="#causes" class="auto internal xref">Section 5.1</a>), but from a vendor-specific registry. The presence of
-this field can be inferred from the values of Length and Reason Length fields.<a href="#section-3-6.10.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-3-6.11">reason-description:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-6.12">
-          <p id="section-3-6.12.1">Includes a brief description of the reset reason
+          <p id="section-3-6.10.1">Includes a brief description of the reset reason
 encoded as UTF-8 <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span>. This parameter <span class="bcp14">MUST NOT</span> be included
 if a reason code is supplied; Reason Length <span class="bcp14">MUST</span> be set to 0 for such a case. This parameter is useful only for
-reset reasons that are not yet registered or for application-specific reset reasons.<a href="#section-3-6.12.1" class="pilcrow">¶</a></p>
+reset reasons that are not yet registered or for application-specific reset reasons.<a href="#section-3-6.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-6.11">pen:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-6.12">
+          <p id="section-3-6.12.1">Includes a Private Enterprise Number (PEN)
+<span>[<a href="#Private-Enterprise-Numbers" class="cite xref">Private-Enterprise-Numbers</a>]</span>.  This parameter <span class="bcp14">MAY</span> be included when
+the reason code is not taken from the IANA-maintained registry
+(<a href="#causes" class="auto internal xref">Section 5.1</a>), but from a vendor-specific registry.<a href="#section-3-6.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-6.13"></dt>
+        <dd style="margin-left: 1.5em" id="section-3-6.14">
+          <p id="section-3-6.14.1">The presence of this field can be inferred from the values of Length and Reason Length fields.<a href="#section-3-6.14.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
 <p id="section-3-7">At least one of "reason-code" and "reason-description" parameters
-   <span class="bcp14">MUST</span> be included in an RST diagnostic payload.  The "pen" parameter
+   <span class="bcp14">MUST</span> be included in an RST diagnostic payload. The "pen" parameter
    <span class="bcp14">MUST</span> be omitted if a reason code from the IANA-maintained registry
    (<a href="#causes" class="auto internal xref">Section 5.1</a>) fits the reset case.<a href="#section-3-7" class="pilcrow">¶</a></p>
 <p id="section-3-8">Malformed RST diagnostic payload messages that include the magic
