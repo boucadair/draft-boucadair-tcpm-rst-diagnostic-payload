@@ -174,7 +174,7 @@ informative:
    ({{causes}}) fits the reset case.
    :  The presence of this field is inferred from the values of Length and Reason Length fields.
       Specifically, 'Length' MUST be set to "'Reason Length' + 4" if no reason-code is supplied
-      or "6" if a reason code is present.
+      or "8" if a reason code is present.
 
    At least one of "reason-code" and "reason-description" parameters
    MUST be included in an RST diagnostic payload.
