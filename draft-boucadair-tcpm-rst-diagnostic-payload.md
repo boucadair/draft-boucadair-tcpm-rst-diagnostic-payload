@@ -122,7 +122,7 @@ informative:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |          magic-cookie         |           Length              |
+   |             0x33AA            |           Length              |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |        Reason Length          |          reason-code          |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -137,11 +137,7 @@ informative:
 
    The RST diagnostic payload comprises a magic cookie that is used to
    unambiguously identify an RST payload that follows this
-   specification.  It MUST be set to the RFC number to be assigned to
-   this document.
-
-   > Note to the RFC Editor: Please replace "12345" with the RFC number
-   > assigned to this document.
+   specification.  It MUST be set to 0x33AA.
 
    The descriptions of other fields shown in {{format}} are as follows:
 
@@ -200,7 +196,7 @@ informative:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |          magic-cookie         |              0x04             |
+   |             0x33AA            |              0x04             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |              0x00             |              0x02             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -216,7 +212,7 @@ informative:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |          magic-cookie         |              0x04             |
+   |             0x33AA            |              0x04             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |              0x00             |              0x08             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -231,7 +227,7 @@ informative:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |          magic-cookie         |              0x08             |
+   |             0x33AA            |              0x08             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |              0x00             |              0x4DE            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -395,7 +391,7 @@ Two servers, designated as Client A and Server B. The test is conducted as follo
 ### Compatibility Verification
 
 **Hardwares and Kernels**:
-: Tests were conducted on various Linux distributions (e.g., Ubuntu, CentOS) with different kernel versions. The physical hosts were equipped with a range of network interface cards (NICs), including Intel `i40e`, `ixgbe`, and Mellanox `mlx5`.
+: Tests were conducted on various Linux distributions (e.g., Ubuntu or CentOS) with different kernel versions. The physical hosts were equipped with a range of network interface cards (NICs), including Intel `i40e`, `ixgbe`, and Mellanox `mlx5`.
 
 **Virtualization**:
 : The mechanism was tested in a virtualized environment where the VM used a `virtio_net` driver and the host employed DPDK to redirect packets in the host.
