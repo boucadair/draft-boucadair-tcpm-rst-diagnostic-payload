@@ -281,7 +281,7 @@ informative:
  | 9     | Not Authorized                                                 | [ThisDocument]                             |
  | 10    | Resource Exceeded                                              | [ThisDocument]                             |
  | 11    | Network Failure                                                | [ThisDocument]                             |
- | 12    | Reset received from he peer                                    | [ThisDocument]                             |
+ | 12    | Reset received from the peer                                    | [ThisDocument]                             |
  | 13    | Destination Unreachable                                        | [ThisDocument]                             |
  | 14    | Connection Timeout                                             | [ThisDocument]                             |
  | 15    | Too much outstanding data                                      | {{Section 3.6 of !RFC8684}}                |
@@ -300,7 +300,7 @@ informative:
 
    Sending more RST segments to reset a connection can be used
    to mitigate deployment contexts where some on-path devices may
-   discard RST with payload data.
+   discard RSTs with payload data.
 
    Whether a TCP endpoint elects to send more
    than one RST with only a subset of them that include the diagnostic
@@ -311,8 +311,10 @@ informative:
   TCP server implementations should support the following parameters:
 
   * A parameter to control the activation of the RST diagnostic.
-  * A parameter to set a maximum length of acceptable reason-description.
+  * A parameter to accept/discard RSTs with diagnostic payload other than reason cause (i.e., accept or deny RSTs with reason-description).
+  * A parameter to set a maximum length of acceptable reason-description, when enabled.
   * A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.
+  * A rate-limit of RST with diagnostic payload.
   * Counters to track sent/received RSTs with diagnostic payload.
   * Counters to track received invalid RSTs with diagnostic payload.
 
