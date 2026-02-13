@@ -1600,7 +1600,7 @@ or "8" if a reason code is present.<a href="#section-3-6.22.1" class="pilcrow">�
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">12</td>
-              <td class="text-left" rowspan="1" colspan="1">Reset received from he peer</td>
+              <td class="text-left" rowspan="1" colspan="1">Reset received from the peer</td>
               <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
             </tr>
             <tr>
@@ -1656,7 +1656,7 @@ or "8" if a reason code is present.<a href="#section-3-6.22.1" class="pilcrow">�
    to reset a connection.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">Sending more RST segments to reset a connection can be used
    to mitigate deployment contexts where some on-path devices may
-   discard RST with payload data.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+   discard RSTs with payload data.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.1-3">Whether a TCP endpoint elects to send more
    than one RST with only a subset of them that include the diagnostic
    payload is implementation-specific.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
@@ -1673,16 +1673,22 @@ or "8" if a reason code is present.<a href="#section-3-6.22.1" class="pilcrow">�
             <p id="section-6.2-2.1.1">A parameter to control the activation of the RST diagnostic.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-2.2">
-            <p id="section-6.2-2.2.1">A parameter to set a maximum length of acceptable reason-description.<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-2.2.1">A parameter to accept/discard RSTs with diagnostic payload other than reason cause (i.e., accept or deny RSTs with reason-description).<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-2.3">
-            <p id="section-6.2-2.3.1">A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.<a href="#section-6.2-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-2.3.1">A parameter to set a maximum length of acceptable reason-description, when enabled.<a href="#section-6.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-2.4">
-            <p id="section-6.2-2.4.1">Counters to track sent/received RSTs with diagnostic payload.<a href="#section-6.2-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-2.4.1">A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.<a href="#section-6.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-2.5">
-            <p id="section-6.2-2.5.1">Counters to track received invalid RSTs with diagnostic payload.<a href="#section-6.2-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-2.5.1">A rate-limit of RST with diagnostic payload.<a href="#section-6.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.6">
+            <p id="section-6.2-2.6.1">Counters to track sent/received RSTs with diagnostic payload.<a href="#section-6.2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.7">
+            <p id="section-6.2-2.7.1">Counters to track received invalid RSTs with diagnostic payload.<a href="#section-6.2-2.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

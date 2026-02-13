@@ -343,7 +343,7 @@ Table of Contents
     +-------+---------------------------------+-----------------------+
     |   11  | Network Failure                 | [ThisDocument]        |
     +-------+---------------------------------+-----------------------+
-    |   12  | Reset received from he peer     | [ThisDocument]        |
+    |   12  | Reset received from the peer    | [ThisDocument]        |
     +-------+---------------------------------+-----------------------+
     |   13  | Destination Unreachable         | [ThisDocument]        |
     +-------+---------------------------------+-----------------------+
@@ -373,7 +373,7 @@ Table of Contents
 
    Sending more RST segments to reset a connection can be used to
    mitigate deployment contexts where some on-path devices may discard
-   RST with payload data.
+   RSTs with payload data.
 
    Whether a TCP endpoint elects to send more than one RST with only a
    subset of them that include the diagnostic payload is implementation-
@@ -385,11 +385,17 @@ Table of Contents
 
    *  A parameter to control the activation of the RST diagnostic.
 
+   *  A parameter to accept/discard RSTs with diagnostic payload other
+      than reason cause (i.e., accept or deny RSTs with reason-
+      description).
+
    *  A parameter to set a maximum length of acceptable reason-
-      description.
+      description, when enabled.
 
    *  A parameter to control whether "empty" RSTs are also sent together
       with RST with diagnostic payload.
+
+   *  A rate-limit of RST with diagnostic payload.
 
    *  Counters to track sent/received RSTs with diagnostic payload.
 
