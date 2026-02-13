@@ -159,21 +159,25 @@ informative:
 
    reason-description:
    :  Includes a brief description of the reset reason
-      encoded as UTF-8 {{!RFC3629}}. This parameter MUST NOT be included
-      if a reason code is supplied; Reason Length MUST be set to 0 for such a case. This parameter is useful only for
+      encoded as UTF-8 {{!RFC3629}}.
+   : This parameter MUST NOT be included
+      if a reason code is supplied; Reason Length MUST be set to 0 for such a case.
+   : This parameter is useful only for
       reset reasons that are not yet registered or for application-specific reset reasons.
 
    pen:
-   :  Includes a Private Enterprise Number (PEN)
-      [Private-Enterprise-Numbers].  This parameter MAY be included when
+   :  Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
+   :  This parameter MAY be included when
       the reason code is not taken from the IANA-maintained registry
       ({{causes}}), but from a vendor-specific registry.
-   :  The presence of this field can be inferred from the values of Length and Reason Length fields.
+   :   The "pen" parameter MUST be omitted if a reason code from the IANA-maintained registry
+   ({{causes}}) fits the reset case.
+   :  The presence of this field is inferred from the values of Length and Reason Length fields.
+      Specifically, 'Length' MUST be set to "'Reason Length' + 4" if no reason-code is supplied
+      or "6" if a reason code is present.
 
    At least one of "reason-code" and "reason-description" parameters
-   MUST be included in an RST diagnostic payload. The "pen" parameter
-   MUST be omitted if a reason code from the IANA-maintained registry
-   ({{causes}}) fits the reset case.
+   MUST be included in an RST diagnostic payload.
 
    Malformed RST diagnostic payload messages that include the magic
    cookie MUST be silently ignored by the receiver.
