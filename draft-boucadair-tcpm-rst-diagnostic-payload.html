@@ -1056,7 +1056,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Boucadair, et al.</td>
-<td class="center">Expires 16 August 2026</td>
+<td class="center">Expires 17 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1069,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-boucadair-tcpm-rst-diagnostic-payload-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-12" class="published">12 February 2026</time>
+<time datetime="2026-02-13" class="published">13 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-16">16 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-17">17 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1132,7 +1132,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1360,29 +1360,49 @@ reserved and <span class="bcp14">MUST NOT</span> be used.<a href="#section-3-6.8
 <dt id="section-3-6.9">reason-description:</dt>
         <dd style="margin-left: 1.5em" id="section-3-6.10">
           <p id="section-3-6.10.1">Includes a brief description of the reset reason
-encoded as UTF-8 <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span>. This parameter <span class="bcp14">MUST NOT</span> be included
-if a reason code is supplied; Reason Length <span class="bcp14">MUST</span> be set to 0 for such a case. This parameter is useful only for
-reset reasons that are not yet registered or for application-specific reset reasons.<a href="#section-3-6.10.1" class="pilcrow">¶</a></p>
+encoded as UTF-8 <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span>.<a href="#section-3-6.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-6.11">pen:</dt>
+<dt id="section-3-6.11"></dt>
         <dd style="margin-left: 1.5em" id="section-3-6.12">
-          <p id="section-3-6.12.1">Includes a Private Enterprise Number (PEN)
-<span>[<a href="#Private-Enterprise-Numbers" class="cite xref">Private-Enterprise-Numbers</a>]</span>.  This parameter <span class="bcp14">MAY</span> be included when
-the reason code is not taken from the IANA-maintained registry
-(<a href="#causes" class="auto internal xref">Section 5.1</a>), but from a vendor-specific registry.<a href="#section-3-6.12.1" class="pilcrow">¶</a></p>
+          <p id="section-3-6.12.1">This parameter <span class="bcp14">MUST NOT</span> be included
+ if a reason code is supplied; Reason Length <span class="bcp14">MUST</span> be set to 0 for such a case.<a href="#section-3-6.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-6.13"></dt>
         <dd style="margin-left: 1.5em" id="section-3-6.14">
-          <p id="section-3-6.14.1">The presence of this field can be inferred from the values of Length and Reason Length fields.<a href="#section-3-6.14.1" class="pilcrow">¶</a></p>
+          <p id="section-3-6.14.1">This parameter is useful only for
+ reset reasons that are not yet registered or for application-specific reset reasons.<a href="#section-3-6.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-6.15">pen:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-6.16">
+          <p id="section-3-6.16.1">Includes a Private Enterprise Number (PEN) <span>[<a href="#Private-Enterprise-Numbers" class="cite xref">Private-Enterprise-Numbers</a>]</span>.<a href="#section-3-6.16.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-6.17"></dt>
+        <dd style="margin-left: 1.5em" id="section-3-6.18">
+          <p id="section-3-6.18.1">This parameter <span class="bcp14">MAY</span> be included when
+the reason code is not taken from the IANA-maintained registry
+(<a href="#causes" class="auto internal xref">Section 5.1</a>), but from a vendor-specific registry.<a href="#section-3-6.18.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-6.19"></dt>
+        <dd style="margin-left: 1.5em" id="section-3-6.20">
+          <p id="section-3-6.20.1">The "pen" parameter <span class="bcp14">MUST</span> be omitted if a reason code from the IANA-maintained registry
+   (<a href="#causes" class="auto internal xref">Section 5.1</a>) fits the reset case.<a href="#section-3-6.20.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-6.21"></dt>
+        <dd style="margin-left: 1.5em" id="section-3-6.22">
+          <p id="section-3-6.22.1">The presence of this field is inferred from the values of Length and Reason Length fields.
+Specifically, 'Length' <span class="bcp14">MUST</span> be set to "'Reason Length' + 4" if no reason-code is supplied
+or "6" if a reason code is present.<a href="#section-3-6.22.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
 <p id="section-3-7">At least one of "reason-code" and "reason-description" parameters
-   <span class="bcp14">MUST</span> be included in an RST diagnostic payload. The "pen" parameter
-   <span class="bcp14">MUST</span> be omitted if a reason code from the IANA-maintained registry
-   (<a href="#causes" class="auto internal xref">Section 5.1</a>) fits the reset case.<a href="#section-3-7" class="pilcrow">¶</a></p>
+   <span class="bcp14">MUST</span> be included in an RST diagnostic payload.<a href="#section-3-7" class="pilcrow">¶</a></p>
 <p id="section-3-8">Malformed RST diagnostic payload messages that include the magic
    cookie <span class="bcp14">MUST</span> be silently ignored by the receiver.<a href="#section-3-8" class="pilcrow">¶</a></p>
 <p id="section-3-9">A peer that receives a valid diagnostic payload may pass the reset
