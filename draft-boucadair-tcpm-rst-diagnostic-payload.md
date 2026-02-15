@@ -114,6 +114,8 @@ informative:
 
    This document makes use of the terms defined in {{Section 4 of !RFC9293}}.
 
+   SEG.LEN is defined in {{Section 3.3.1 of !RFC9293}}.
+
 #  RST Diagnostic Payload {#payload}
 
    The format of the RST diagnostic payload is shown in {{format}}.
@@ -165,15 +167,19 @@ informative:
    :  Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
    :  This parameter MAY be included when
       the reason code is not taken from the IANA-maintained registry
-      ({{causes}}), but from a vendor-specific registry.
-   :   The "pen" parameter MUST be omitted if a reason code from the IANA-maintained registry
-   ({{causes}}) fits the reset case.
+      ({{causes}}), but from a vendor-specific registry. That is, if the "pen" parameter is present, then the reason code refers to the
+  registry of the entity specified by the "pen" parameter.
+   : The "pen" parameter MUST be omitted if a reason code refers to the IANA-maintained registry ({{causes}}).
    :  The presence of this field is inferred from the values of Length and Reason Length fields.
       Specifically, 'Length' MUST be set to "'Reason Length' + 4" if no reason-code is supplied
       or "8" if a reason code is present.
 
    At least one of "reason-code" and "reason-description" parameters
    MUST be included in an RST diagnostic payload.
+
+   If SEG.LEN > Length + 4, the receiver processes the diagnostic payload
+   but ignores the rest of the data in the segment payload. If SEG.LEN < Length + 4,
+   the segment is consided as malformed RST.
 
    Malformed RST diagnostic payload messages that include the magic
    cookie MUST be silently ignored by the receiver.
@@ -410,5 +416,5 @@ In conclusion, across all complex environment tests, the RST packets with payloa
    The "diagnostic payload" name is inspired by {{Section 5.5.2 of  ?RFC7252}}
   that was cited by Carsten Bormann in the tcpm mailing list.
 
-   Thanks to Jon Shallow for the comments.  Thanks also to Li Jinghui
+   Thanks to Jon Shallow and Gleb Smirnoff for the comments. Thanks also to Li Jinghui
    for the discussion.
