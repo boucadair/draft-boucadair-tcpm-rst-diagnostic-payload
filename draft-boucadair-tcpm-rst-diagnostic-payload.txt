@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: 17 August 2026                                            Nokia
+Expires: 19 August 2026                                            Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                        13 February 2026
+                                                        15 February 2026
 
 
                        TCP RST Diagnostic Payload
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 August 2026.
+   This Internet-Draft will expire on 19 August 2026.
 
 Copyright Notice
 
@@ -151,6 +151,8 @@ Table of Contents
    This document makes use of the terms defined in Section 4 of
    [RFC9293].
 
+   SEG.LEN is defined in Section 3.3.1 of [RFC9293].
+
 3.  RST Diagnostic Payload
 
    The format of the RST diagnostic payload is shown in Figure 1.
@@ -204,10 +206,12 @@ Table of Contents
 
       This parameter MAY be included when the reason code is not taken
       from the IANA-maintained registry (Section 5.1), but from a
-      vendor-specific registry.
+      vendor-specific registry.  That is, if the "pen" parameter is
+      present, then the reason code refers to the registry of the entity
+      specified by the "pen" parameter.
 
-      The "pen" parameter MUST be omitted if a reason code from the
-      IANA-maintained registry (Section 5.1) fits the reset case.
+      The "pen" parameter MUST be omitted if a reason code refers to the
+      IANA-maintained registry (Section 5.1).
 
       The presence of this field is inferred from the values of Length
       and Reason Length fields.  Specifically, 'Length' MUST be set to
@@ -216,6 +220,10 @@ Table of Contents
 
    At least one of "reason-code" and "reason-description" parameters
    MUST be included in an RST diagnostic payload.
+
+   If SEG.LEN > Length + 4, the receiver processes the diagnostic
+   payload but ignores the rest of the data in the segment payload.  If
+   SEG.LEN < Length + 4, the segment is consided as malformed RST.
 
    Malformed RST diagnostic payload messages that include the magic
    cookie MUST be silently ignored by the receiver.
@@ -689,8 +697,8 @@ Acknowledgments
    The "diagnostic payload" name is inspired by Section 5.5.2 of
    [RFC7252] that was cited by Carsten Bormann in the tcpm mailing list.
 
-   Thanks to Jon Shallow for the comments.  Thanks also to Li Jinghui
-   for the discussion.
+   Thanks to Jon Shallow and Gleb Smirnoff for the comments.  Thanks
+   also to Li Jinghui for the discussion.
 
 Authors' Addresses
 
