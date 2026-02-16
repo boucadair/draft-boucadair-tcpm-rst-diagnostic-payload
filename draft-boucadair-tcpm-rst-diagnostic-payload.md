@@ -165,7 +165,7 @@ This section defines two message formats to convey diagnostic payload:
 
 ## Free-description Format {#free}
 
-   The format of the RST diagnostic payload with a reason description is shown in {{format-2}}. This format is useful only for
+   The format of the RST diagnostic payload with a reason description is shown in {{format-2}}. This format is useful
    to convey reset reasons that are not yet registered or for application-specific reset reasons.
 
 ~~~~
@@ -197,6 +197,7 @@ This section defines two message formats to convey diagnostic payload:
 
    Malformed RST diagnostic payloads that include the magic
    cookies (0x33AA or 0xF317) MUST be silently ignored by the receiver.
+   RSTs that carry such malformed diagnostic payloads are handled like an RST without payload.
 
    A peer that receives a valid diagnostic payload may pass the reset
    reason information to the local application in addition to the
