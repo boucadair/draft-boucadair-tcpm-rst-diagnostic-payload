@@ -145,7 +145,7 @@ This section defines two message formats to convey diagnostic payload:
 ~~~~
 {: #format-1 title='Structure of the Compact RST Diagnostic Payload'}
 
-   The RST diagnostic payload comprises a magic cookie that is used to
+   The RST diagnostic payload comprises a magic number that is used to
    unambiguously identify an RST payload that follows this
    specification.  It MUST be set to 0x33AA for the compact encoding shown in {{format-1}}.
 
@@ -180,7 +180,7 @@ This section defines two message formats to convey diagnostic payload:
 ~~~~
 {: #format-2 title='Structure of the RST Diagnostic Payload with Reason Description'}
 
-   The RST diagnostic payload comprises a magic cookie that is used to
+   The RST diagnostic payload comprises a magic number that is used to
    unambiguously identify an RST payload that follows this
    specification. It MUST be set to 0xF317 when the free-description format is used.
 
@@ -196,7 +196,7 @@ This section defines two message formats to convey diagnostic payload:
    Senders are RECOMMENDED to use the compact format. It is RECOMMENDED that both formats are supported at the receiver side.
 
    Malformed RST diagnostic payloads that include the magic
-   cookies (0x33AA or 0xF317) MUST be silently ignored by the receiver.
+   numbers (0x33AA or 0xF317) MUST be silently ignored by the receiver.
    RSTs that carry such malformed diagnostic payloads are handled like an RST without payload.
 
    A peer that receives a valid diagnostic payload may pass the reset
