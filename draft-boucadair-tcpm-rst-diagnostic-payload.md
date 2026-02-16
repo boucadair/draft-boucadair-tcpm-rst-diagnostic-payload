@@ -329,7 +329,7 @@ This section defines two message formats to convey diagnostic payload:
   * A parameter to set a maximum length of acceptable reason-description, when enabled.
   * A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.
   * A rate-limit of RST with diagnostic payload.
-  * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{>compact}} and {{>free}}.
+  * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{<compact}} and {{<free}}.
   * Counters to track received invalid RSTs with diagnostic payload.
 
 #  Security Considerations
