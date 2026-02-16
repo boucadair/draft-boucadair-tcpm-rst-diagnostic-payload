@@ -49,7 +49,7 @@ informative:
     target: https://www.iana.org/assignments/enterprise-numbers
 
 --- abstract
-   This document specifies a diagnostic payload format returned in TCP
+   This document specifies two diagnostic payload formats returned in TCP
    RST segments.  Such payloads are used to share with an endpoint the
    reasons for which a TCP connection has been reset.  Sharing this
    information is meant to ease diagnostic and troubleshooting.
@@ -76,12 +76,12 @@ informative:
    that receives an RST segment does not have any hint about the reason
    that led to terminating the connection.  Likewise, the application
    that relies upon such a TCP connection may not easily identify the
-   reason for the connection closure.  Troubleshooting such events at
+   reason for the connection reset. Troubleshooting such events at
    the remote side of the connection that receives the RST segment may
    not be trivial.
 
-   This document fills this void by specifying a format of the
-   diagnostic payload that is returned in an RST segment.  Returning
+   This document fills this void by specifying two formats of the
+   diagnostic payload returned in an RST segment.  Returning
    such data is consistent with the provision in {{Section 3.5.3 of  !RFC9293}} for RST segments, especially:
 
    {: quote}
@@ -92,21 +92,20 @@ informative:
    segment is generated ({{Section 3.5.2 of !RFC9293}}).
 
    The generic procedure for processing an RST segment is specified in
-   {{Section 3.5.3 of !RFC9293}}.  Only the deviations from that procedure
+   {{Section 3.5.3 of !RFC9293}}. Only the deviations from that procedure
    to insert and validate a diagnostic payload is provided in {{payload}}.
-   {{examples}} provides a set of examples to illustrate the use of TCP RST
-   diagnostic payloads.
 
-   This document specifies the format and the overall approach to ease
+   This document specifies the formats and the overall approach to ease
    maintaining the list of codes while allowing for adding new codes as
    needed in the future and accommodating any existing vendor-specific
-   codes.  An initial version of error codes is available in Table 2.
+   codes.  An initial version of error codes is available in {{initial}}.
    However, the authoritative source to retrieve the full list of error
    codes is the IANA-maintained registry ({{causes}}).
 
-   Investigation based on some major CGN vendors revealed
-   that RSTs with data are not discarded and are translated according to
-   any matching mapping entry. Moreover, implementation and experimental validation in Linux are detailed in {{sec-validation}}.
+   {{examples}} provides a set of examples to illustrate the use of TCP RST
+   diagnostic payloads.
+
+   Implementation and experimental validation in Linux are detailed in {{sec-validation}}.
 
 # Conventions and Definitions
 
@@ -116,73 +115,88 @@ informative:
 
    SEG.LEN is defined in {{Section 3.3.1 of !RFC9293}}.
 
+   This document uses the followng terms:
+
+   RST diagnostic payload:
+   : The payload of an RST message that conveys diagnostic data.
+
+   RST with diagnostic payload:
+   : An RST segment that includes diagnostic payload.
+
 #  RST Diagnostic Payload {#payload}
 
-   The format of the RST diagnostic payload is shown in {{format}}.
+This section defines two message formats to convey diagnostic payload:
+
+* Compact format ({{compact}}): This format is designed to minimize the length of the payload.
+* Free-description format ({{free}}): This format is designed to accommodate, in particular, applications that don't maintain a reset cause registry but need sharing reason codes not covered in IANA-maintained registry ({{causes}}).
+
+## Compact Format {#compact}
+
+   The format of the compact RST diagnostic payload is shown in {{format-1}}.
 
 ~~~~
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |           Length              |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |        Reason Length          |          reason-code          |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                                                               :
-   :                     reason-description                        :
-   :                                                               |
+   |             0x33AA            |          reason-code          |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                              pen                              |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
-{: #format title='Structure of the RST Diagnostic Payload'}
+{: #format-1 title='Structure of the Compact RST Diagnostic Payload'}
 
    The RST diagnostic payload comprises a magic cookie that is used to
    unambiguously identify an RST payload that follows this
-   specification.  It MUST be set to 0x33AA.
+   specification.  It MUST be set to 0x33AA for the compact encoding shown in {{format-1}}.
 
-   The descriptions of other fields shown in {{format}} are as follows:
-
-   Length:
-   : Indicates the total length, in octets, of the diagnostic payload that follows.
-
-   Reason Length:
-   : Indicates the length, in octets, of the reason-description field.
-   : If set to a non-null zero, this means that the reason code is not present.
+   The descriptions of other fields shown in {{format-1}} are as follows:
 
    reason-code:
-   :  This field, if present, takes a value from an available registry
-      such as the "TCP Failure Causes" registry ({{causes}}). Value 0 is
-      reserved and MUST NOT be used.
-
-   reason-description:
-   :  Includes a brief description of the reset reason
-      encoded as UTF-8 {{!RFC3629}}.
-   : This parameter MUST NOT be included
-      if a reason code is supplied; Reason Length MUST be set to 0 for such a case.
-   : This parameter is useful only for
-      reset reasons that are not yet registered or for application-specific reset reasons.
+   : This field takes a value from an available registry (IANA or vendor-specific).
+   : Value 0 is reserved and MUST NOT be used.
+   : The reason code is taken from the "TCP Failure Causes" registry ({{causes}}) if "pen" is set to 0.
+   : If the "pen" is not set to 0, then the reason code refers to the registry of the entity specified by the "pen" parameter.
 
    pen:
-   :  Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
-   :  This parameter MAY be included when
-      the reason code is not taken from the IANA-maintained registry
-      ({{causes}}), but from a vendor-specific registry. That is, if the "pen" parameter is present, then the reason code refers to the
-  registry of the entity specified by the "pen" parameter.
-   : The "pen" parameter MUST be omitted if a reason code refers to the IANA-maintained registry ({{causes}}).
-   :  The presence of this field is inferred from the values of Length and Reason Length fields.
-      Specifically, 'Length' MUST be set to "'Reason Length' + 4" if no reason-code is supplied
-      or "8" if a reason code is present.
+   : Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
+   : The reserved PEN value "0" is used to indicate that the reason code refers to the IANA-maintained registry ({{causes}}).
 
-   At least one of "reason-code" and "reason-description" parameters
-   MUST be included in an RST diagnostic payload.
+   SEG.LEN MUST be 8 for an RST with compact diagnostic payload.
 
-   If SEG.LEN > Length + 4, the receiver processes the diagnostic payload
-   but ignores the rest of the data in the segment payload. If SEG.LEN < Length + 4,
-   the segment is consided as malformed RST.
+## Free-description Format {#free}
+
+   The format of the RST diagnostic payload with a reason description is shown in {{format-2}}. This format is useful only for
+   to convey reset reasons that are not yet registered or for application-specific reset reasons.
+
+~~~~
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |             0xF317            |                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               :
+   :                     reason-description                        :
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+~~~~
+{: #format-2 title='Structure of the RST Diagnostic Payload with Reason Description'}
+
+   The RST diagnostic payload comprises a magic cookie that is used to
+   unambiguously identify an RST payload that follows this
+   specification. It MUST be set to 0xF317 when the free-description format is used.
+
+   The description of the other field shown in {{format-2}} is as follows:
+
+   reason-description:
+   :  Includes a brief description of the reset reason encoded as UTF-8 {{!RFC3629}}.
+
+   The length of the reason-description is "SEG.LEN - 2".
+
+## Behavior
+
+   Senders are RECOMMENDED to use the compact format. It is RECOMMENDED that both formats are supported at the receiver side.
 
    Malformed RST diagnostic payloads that include the magic
-   cookie MUST be silently ignored by the receiver.
+   cookies (0x33AA or 0xF317) MUST be silently ignored by the receiver.
 
    A peer that receives a valid diagnostic payload may pass the reset
    reason information to the local application in addition to the
@@ -202,9 +216,9 @@ informative:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x04             |
+   |             0x33AA            |               0x02            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |              0x00             |              0x02             |
+   |                              0x00                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #fig-1 title='Example of an RST Diagnostic Payload with Reason Code'}
@@ -218,24 +232,22 @@ informative:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x04             |
+   |             0x33AA            |              0x0E             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |              0x00             |              0x08             |
+   |                              0x00                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #fig-2 title='Example of an RST Diagnostic Payload to Report Connection Timeout'}
 
    {{fig-3}} illustrates an RST diagnostic payload that is returned by a
    peer that resets a TCP connection for a reason code 1234 defined by a
-   vendor with the private enterprise number 32473.
+   vendor with the private enterprise number 32473 (0x7D9).
 
 ~~~~
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x08             |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |              0x00             |              0x4DE            |
+   |             0x33AA            |              0x4DE            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                             0x7D9                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -251,7 +263,7 @@ informative:
 
    This document requests IANA to create a new registry entitled "TCP
    Failure Causes" under the "Transmission Control Protocol (TCP)
-   Parameters" registry group [IANA-TCP].
+   Parameters" registry group {{IANA-TCP}}.
 
    Values are taken from the 1-65535 range.
 
@@ -317,7 +329,7 @@ informative:
   * A parameter to set a maximum length of acceptable reason-description, when enabled.
   * A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.
   * A rate-limit of RST with diagnostic payload.
-  * Counters to track sent/received RSTs with diagnostic payload.
+  * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{<compact}} and {{<free}}.
   * Counters to track received invalid RSTs with diagnostic payload.
 
 #  Security Considerations
@@ -326,7 +338,19 @@ informative:
    particular, RST-specific attacks and their mitigations are discussed
    in {{Section 3.10.7.3 of !RFC9293}}.
 
-   In addition to these considerations, it is RECOMMENDED to control the
+   The following subsection discuss considerations specific to each encoding format.
+
+## Comapct Format
+
+   The presence of vendor-specific reason codes may be used
+   to fingerprint hosts.  Such a concern does not apply if the reason
+   codes are taken from the IANA-maintained registry.  Implementers are,
+   thus, encouraged to register new codes within IANA instead of
+   maintaining specific registries.
+
+## Free-description Format
+
+   It is RECOMMENDED to control the
    size of acceptable diagnostic payload and keep it as brief as
    possible. The RECOMMENDED acceptable maximum size of the RST
    diagnostic payload is 255 octets.
@@ -337,12 +361,6 @@ informative:
    The "reason-description" string, when present, MUST NOT include any
    private information that an observer would not otherwise have access
    to.
-
-   The presence of vendor-specific reason codes (Section 3) may be used
-   to fingerprint hosts.  Such a concern does not apply if the reason
-   codes are taken from the IANA-maintained registry.  Implementers are,
-   thus, encouraged to register new codes within IANA instead of
-   maintaining specific registries.
 
    The reason description, when present, MUST NOT be displayed
    to end users but is intended to be consumed by applications. Such a description
