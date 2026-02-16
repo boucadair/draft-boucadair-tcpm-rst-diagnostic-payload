@@ -1406,7 +1406,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-free-description-format">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-free-description-format" class="section-name selfRef">Free-description Format</a>
         </h3>
-<p id="section-3.2-1">The format of the RST diagnostic payload with a reason description is shown in <a href="#format-2" class="auto internal xref">Figure 2</a>. This format is useful only for
+<p id="section-3.2-1">The format of the RST diagnostic payload with a reason description is shown in <a href="#format-2" class="auto internal xref">Figure 2</a>. This format is useful
    to convey reset reasons that are not yet registered or for application-specific reset reasons.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <span id="name-structure-of-the-rst-diagno"></span><div id="format-2">
 <figure id="figure-2">
@@ -1447,7 +1447,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         </h3>
 <p id="section-3.3-1">Senders are <span class="bcp14">RECOMMENDED</span> to use the compact format. It is <span class="bcp14">RECOMMENDED</span> that both formats are supported at the receiver side.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <p id="section-3.3-2">Malformed RST diagnostic payloads that include the magic
-   cookies (0x33AA or 0xF317) <span class="bcp14">MUST</span> be silently ignored by the receiver.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+   cookies (0x33AA or 0xF317) <span class="bcp14">MUST</span> be silently ignored by the receiver.
+   RSTs that carry such malformed diagnostic payloads are handled like an RST without payload.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 <p id="section-3.3-3">A peer that receives a valid diagnostic payload may pass the reset
    reason information to the local application in addition to the
    information (<span class="bcp14">MUST</span>-12) described in <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>.  That
