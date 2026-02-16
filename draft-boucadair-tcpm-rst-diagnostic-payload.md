@@ -181,7 +181,7 @@ informative:
    but ignores the rest of the data in the segment payload. If SEG.LEN < Length + 4,
    the segment is consided as malformed RST.
 
-   Malformed RST diagnostic payload messages that include the magic
+   Malformed RST diagnostic payloads that include the magic
    cookie MUST be silently ignored by the receiver.
 
    A peer that receives a valid diagnostic payload may pass the reset
@@ -416,5 +416,4 @@ In conclusion, across all complex environment tests, the RST packets with payloa
    The "diagnostic payload" name is inspired by {{Section 5.5.2 of  ?RFC7252}}
   that was cited by Carsten Bormann in the tcpm mailing list.
 
-   Thanks to Jon Shallow and Gleb Smirnoff for the comments. Thanks also to Li Jinghui
-   for the discussion.
+   Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael Tuexen for the reveiw and comments.
