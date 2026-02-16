@@ -115,7 +115,7 @@ informative:
 
    SEG.LEN is defined in {{Section 3.3.1 of !RFC9293}}.
 
-   This document uses the followng terms:
+   This document uses the following terms:
 
    RST diagnostic payload:
    : The payload of an RST message that conveys diagnostic data.
@@ -269,15 +269,7 @@ This section defines two message formats to convey diagnostic payload:
    Values are taken from the 1-65535 range.
 
    The assignment policy for this registry is "Expert Review"
-   ({{Section 4.5 of !RFC8126}}).
-
-   The designated experts may approve registration once they checked
-   that the new requested code is not covered by an existing code and if
-   the provided reasoning to register the new code is acceptable.  A
-   registration request may supply a pointer to a specification where
-   that code is defined.  However, a registration may be accepted even
-   if no permanent and readily available public specification is
-   available.
+   ({{Section 4.5 of !RFC8126}}). See more guidance at {{de}}.
 
    The registry is initially populated with the values listed in
    {{initial}}.
@@ -305,6 +297,16 @@ This section defines two message formats to convey diagnostic payload:
  {: #initial title='Initial TCP Failure Causes'}
 
    Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).
+
+## Designated Experts Guidelines {#de}
+
+   The designated experts may approve registration once they checked
+   that the new requested code is not covered by an existing code and if
+   the provided reasoning to register the new code is acceptable.  A
+   registration request may supply a pointer to a specification where
+   that code is defined.  However, a registration may be accepted even
+   if no permanent and readily available public specification is
+   available.
 
 #  Operational Considerations {#ops-cons}
 
