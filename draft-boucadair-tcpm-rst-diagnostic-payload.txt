@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: 19 August 2026                                            Nokia
+Expires: 20 August 2026                                            Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                        15 February 2026
+                                                        16 February 2026
 
 
                        TCP RST Diagnostic Payload
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 August 2026.
+   This Internet-Draft will expire on 20 August 2026.
 
 Copyright Notice
 
@@ -225,8 +225,8 @@ Table of Contents
    payload but ignores the rest of the data in the segment payload.  If
    SEG.LEN < Length + 4, the segment is consided as malformed RST.
 
-   Malformed RST diagnostic payload messages that include the magic
-   cookie MUST be silently ignored by the receiver.
+   Malformed RST diagnostic payloads that include the magic cookie MUST
+   be silently ignored by the receiver.
 
    A peer that receives a valid diagnostic payload may pass the reset
    reason information to the local application in addition to the
@@ -697,8 +697,9 @@ Acknowledgments
    The "diagnostic payload" name is inspired by Section 5.5.2 of
    [RFC7252] that was cited by Carsten Bormann in the tcpm mailing list.
 
-   Thanks to Jon Shallow and Gleb Smirnoff for the comments.  Thanks
-   also to Li Jinghui for the discussion.
+   Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick
+   Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael
+   Tuexen for the reveiw and comments.
 
 Authors' Addresses
 
