@@ -298,7 +298,15 @@ This section defines two message formats to convey diagnostic payload:
 
    Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).
 
-## Designated Experts Guidelines {#de}
+## Guidelines for the Designated Experts {#de}
+
+   It is suggested that multiple designated experts be appointed for
+   registry change requests.
+
+   Criteria that should be applied by the designated experts include
+   determining whether the proposed registration duplicates existing
+   entries and whether the registration description is clear and fits
+   the purpose of this registry.
 
    The designated experts may approve registration once they checked
    that the new requested code is not covered by an existing code and if
@@ -307,6 +315,14 @@ This section defines two message formats to convey diagnostic payload:
    that code is defined.  However, a registration may be accepted even
    if no permanent and readily available public specification is
    available.
+
+   Registration requests are to be sent to <rst-diag-review@ietf.org>
+   and are evaluated within a three-week review period on the advice of
+   one or more designated experts.  Within the review period, the
+   designated experts will either approve or deny the registration
+   request, communicating this decision to the review list and IANA.
+   Denials should include an explanation and, if applicable, suggestions
+   as to how to make the request successful.
 
 #  Operational Considerations {#ops-cons}
 
