@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>TCP RST Diagnostic Payload</title>
+<meta content="Mohamed Boucadair" name="author">
+<meta content="Tirumaleswar Reddy" name="author">
+<meta content="Jason Xing" name="author">
+<meta content='
+       This document specifies two diagnostic payload formats returned in TCP
+   RST segments.  Such payloads are used to share with an endpoint the
+   reasons for which a TCP connection has been reset.  Sharing this
+   information is meant to ease diagnostic and troubleshooting. 
+       This specification builds on provisions that are already present in RFC 9293 "Transmission Control Protocol (TCP)".
+   As such, this document does not require any change to RFC 9293. 
+    ' name="description">
+<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="Service diagnostic" name="keyword">
+<meta content="draft-boucadair-tcpm-rst-diagnostic-payload-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.31.0
+    Python 3.12.12
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.0.2
+    platformdirs 4.5.1
+    pycountry 24.6.1
+    PyYAML 6.0.3
+    requests 2.32.5
+    wcwidth 0.3.0
+-->
+<link href="draft-boucadair-tcpm-rst-diagnostic-payload.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+dl:not(.dlNewline) > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+}
+@media not print {
+  :hover > a.pilcrow, a.pilcrow:focus {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* Comments */
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:is(:link, :focus, :hover),
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin: 2px 0.5em 0;
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">RST Diagnostic Payload</td>
+<td class="right">February 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Boucadair, et al.</td>
+<td class="center">Expires 26 August 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">TCP Maintenance and Minor Extensions</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-boucadair-tcpm-rst-diagnostic-payload-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-02-22" class="published">22 February 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2026-08-26">26 August 2026</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">M. Boucadair</div>
+<div class="org">Orange</div>
+</div>
+<div class="author">
+      <div class="author-name">T. Reddy</div>
+<div class="org">Nokia</div>
+</div>
+<div class="author">
+      <div class="author-name">J. Xing</div>
+<div class="org">Tencent</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">TCP RST Diagnostic Payload</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document specifies two diagnostic payload formats returned in TCP
+   RST segments.  Such payloads are used to share with an endpoint the
+   reasons for which a TCP connection has been reset.  Sharing this
+   information is meant to ease diagnostic and troubleshooting.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This specification builds on provisions that are already present in RFC 9293 "Transmission Control Protocol (TCP)".
+   As such, this document does not require any change to RFC 9293.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-discussion-venues">
+<a href="#name-discussion-venues" class="section-name selfRef">Discussion Venues</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">Discussion of this document takes place on the
+    TCP Maintenance and Minor Extensions  mailing list (tcpm@ietf.org),
+    which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/tcpm/">https://mailarchive.ietf.org/arch/browse/tcpm/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+    <span><a href="https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload">https://github.com/boucadair/draft-boucadair-tcpm-rst-diagnostic-payload</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 26 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-rst-diagnostic-payload" class="internal xref">RST Diagnostic Payload</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-compact-format" class="internal xref">Compact Format</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-free-description-format" class="internal xref">Free-description Format</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-behavior" class="internal xref">Behavior</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-some-examples" class="internal xref">Some Examples</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-new-registry-for-tcp-failur" class="internal xref">New Registry for TCP Failure Causes</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-guidelines-for-the-designat" class="internal xref">Guidelines for the Designated Experts</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-operational-considerations" class="internal xref">Operational Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-multiple-rsts" class="internal xref">Multiple RSTs</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-manageability" class="internal xref">Manageability</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-comapct-format" class="internal xref">Comapct Format</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-free-description-format-2" class="internal xref">Free-description Format</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-implementation-and-experime" class="internal xref">Implementation and Experimental Validation in Linux</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-implementation" class="internal xref">Implementation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-experimental-validation" class="internal xref">Experimental Validation</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.1">
+                    <p id="section-toc.1-1.9.2.2.2.1.1"><a href="#appendix-A.2.1" class="auto internal xref">A.2.1</a>.  <a href="#name-functional-verification" class="internal xref">Functional Verification</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.2">
+                    <p id="section-toc.1-1.9.2.2.2.2.1"><a href="#appendix-A.2.2" class="auto internal xref">A.2.2</a>.  <a href="#name-compatibility-verification" class="internal xref">Compatibility Verification</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">A TCP connection <span>[<a href="#RFC9293" class="cite xref">RFC9293</a>]</span> can be reset by a peer for various
+   reasons, e.g., received data does not correspond to an active
+   connection.  Also, a TCP connection can be reset by an on-path
+   service function (e.g., Carrier Grade NAT (CGN) <span>[<a href="#RFC6888" class="cite xref">RFC6888</a>]</span>, NAT64
+   <span>[<a href="#RFC6146" class="cite xref">RFC6146</a>]</span>, or firewall) for several reasons.  Typically, a Network
+   Address Translator (NAT) function can generate an RST segment to
+   notify an endpoint upon the expiry of the lifetime of the
+   corresponding mapping entry or because an RST segment was received
+   from a peer (<span><a href="https://rfc-editor.org/rfc/rfc7857#section-2.2" class="relref">Section 2.2</a> of [<a href="#RFC7857" class="cite xref">RFC7857</a>]</span>).<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">A TCP connection can also be
+   closed by a user or an application at any time.  However, the peer
+   that receives an RST segment does not have any hint about the reason
+   that led to terminating the connection.  Likewise, the application
+   that relies upon such a TCP connection may not easily identify the
+   reason for the connection reset. Troubleshooting such events at
+   the remote side of the connection that receives the RST segment may
+   not be trivial.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document fills this void by specifying two formats of the
+   diagnostic payload returned in an RST segment.  Returning
+   such data is consistent with the provision in <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.5.3" class="relref">Section 3.5.3</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span> for RST segments, especially:<a href="#section-1-3" class="pilcrow">¶</a></p>
+<blockquote id="section-1-4">
+        <p id="section-1-4.1">"TCP implementations <span class="bcp14">SHOULD</span> allow a received RST segment to
+ include data (SHLD-2)."<a href="#section-1-4.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-1-5">This document does not change the conditions under which an RST
+   segment is generated (<span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.5.2" class="relref">Section 3.5.2</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>).<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">The generic procedure for processing an RST segment is specified in
+   <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.5.3" class="relref">Section 3.5.3</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>. Only the deviations from that procedure
+   to insert and validate a diagnostic payload is provided in <a href="#payload" class="auto internal xref">Section 3</a>.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">This document specifies the formats and the overall approach to ease
+   maintaining the list of codes while allowing for adding new codes as
+   needed in the future and accommodating any existing vendor-specific
+   codes.  An initial version of error codes is available in <a href="#initial" class="auto internal xref">Table 1</a>.
+   However, the authoritative source to retrieve the full list of error
+   codes is the IANA-maintained registry (<a href="#causes" class="auto internal xref">Section 5.1</a>).<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8"><a href="#examples" class="auto internal xref">Section 4</a> provides a set of examples to illustrate the use of TCP RST
+   diagnostic payloads.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9">Implementation and experimental validation in Linux are detailed in <a href="#sec-validation" class="auto internal xref">Appendix A</a>.<a href="#section-1-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">This document makes use of the terms defined in <span><a href="https://rfc-editor.org/rfc/rfc9293#section-4" class="relref">Section 4</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">SEG.LEN is defined in <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.3.1" class="relref">Section 3.3.1</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">This document uses the following terms:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-5">
+        <dt id="section-2-5.1">RST diagnostic payload:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.2">
+          <p id="section-2-5.2.1">The payload of an RST message that conveys diagnostic data.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-5.3">RST with diagnostic payload:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.4">
+          <p id="section-2-5.4.1">An RST segment that includes diagnostic payload.<a href="#section-2-5.4.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="payload">
+<section id="section-3">
+      <h2 id="name-rst-diagnostic-payload">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-rst-diagnostic-payload" class="section-name selfRef">RST Diagnostic Payload</a>
+      </h2>
+<p id="section-3-1">This section defines two message formats to convey diagnostic payload:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-2.1">
+          <p id="section-3-2.1.1">Compact format (<a href="#compact" class="auto internal xref">Section 3.1</a>): This format is designed to minimize the length of the payload.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-2.2">
+          <p id="section-3-2.2.1">Free-description format (<a href="#free" class="auto internal xref">Section 3.2</a>): This format is designed to accommodate, in particular, applications that don't maintain a reset cause registry but need sharing reason codes not covered in IANA-maintained registry (<a href="#causes" class="auto internal xref">Section 5.1</a>).<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<div id="compact">
+<section id="section-3.1">
+        <h3 id="name-compact-format">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-compact-format" class="section-name selfRef">Compact Format</a>
+        </h3>
+<p id="section-3.1-1">The format of the compact RST diagnostic payload is shown in <a href="#format-1" class="auto internal xref">Figure 1</a>.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<span id="name-structure-of-the-compact-rs"></span><div id="format-1">
+<figure id="figure-1">
+          <div class="alignLeft art-text artwork" id="section-3.1-2.1">
+<pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |             0x33AA            |          reason-code          |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                              pen                              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-structure-of-the-compact-rs" class="selfRef">Structure of the Compact RST Diagnostic Payload</a>
+          </figcaption></figure>
+</div>
+<p id="section-3.1-3">The RST diagnostic payload comprises a magic number that is used to
+   unambiguously identify an RST payload that follows this
+   specification.  It <span class="bcp14">MUST</span> be set to 0x33AA for the compact encoding shown in <a href="#format-1" class="auto internal xref">Figure 1</a>.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-4">The descriptions of other fields shown in <a href="#format-1" class="auto internal xref">Figure 1</a> are as follows:<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.1-5">
+          <dt id="section-3.1-5.1">reason-code:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-5.2">
+            <p id="section-3.1-5.2.1">This field takes a value from an available registry (IANA or vendor-specific).<a href="#section-3.1-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-5.3"></dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-5.4">
+            <p id="section-3.1-5.4.1">Value 0 is reserved and <span class="bcp14">MUST NOT</span> be used.<a href="#section-3.1-5.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-5.5"></dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-5.6">
+            <p id="section-3.1-5.6.1">The reason code is taken from the "TCP Failure Causes" registry (<a href="#causes" class="auto internal xref">Section 5.1</a>) if "pen" is set to 0.<a href="#section-3.1-5.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-5.7"></dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-5.8">
+            <p id="section-3.1-5.8.1">If the "pen" is not set to 0, then the reason code refers to the registry of the entity specified by the "pen" parameter.<a href="#section-3.1-5.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-5.9">pen:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-5.10">
+            <p id="section-3.1-5.10.1">Includes a Private Enterprise Number (PEN) <span>[<a href="#Private-Enterprise-Numbers" class="cite xref">Private-Enterprise-Numbers</a>]</span>.<a href="#section-3.1-5.10.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-5.11"></dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-5.12">
+            <p id="section-3.1-5.12.1">The reserved PEN value "0" is used to indicate that the reason code refers to the IANA-maintained registry (<a href="#causes" class="auto internal xref">Section 5.1</a>).<a href="#section-3.1-5.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-3.1-6">SEG.LEN <span class="bcp14">MUST</span> be 8 for an RST with compact diagnostic payload.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="free">
+<section id="section-3.2">
+        <h3 id="name-free-description-format">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-free-description-format" class="section-name selfRef">Free-description Format</a>
+        </h3>
+<p id="section-3.2-1">The format of the RST diagnostic payload with a reason description is shown in <a href="#format-2" class="auto internal xref">Figure 2</a>. This format is useful
+   to convey reset reasons that are not yet registered or for application-specific reset reasons.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<span id="name-structure-of-the-rst-diagno"></span><div id="format-2">
+<figure id="figure-2">
+          <div class="alignLeft art-text artwork" id="section-3.2-2.1">
+<pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |             0xF317            |                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               :
+   :                     reason-description                        :
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-structure-of-the-rst-diagno" class="selfRef">Structure of the RST Diagnostic Payload with Reason Description</a>
+          </figcaption></figure>
+</div>
+<p id="section-3.2-3">The RST diagnostic payload comprises a magic number that is used to
+   unambiguously identify an RST payload that follows this
+   specification. It <span class="bcp14">MUST</span> be set to 0xF317 when the free-description format is used.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.2-4">The description of the other field shown in <a href="#format-2" class="auto internal xref">Figure 2</a> is as follows:<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.2-5">
+          <dt id="section-3.2-5.1">reason-description:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.2-5.2">
+            <p id="section-3.2-5.2.1">Includes a brief description of the reset reason encoded as UTF-8 <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span>.<a href="#section-3.2-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-3.2-6">The length of the reason-description is "SEG.LEN - 2".<a href="#section-3.2-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="behavior">
+<section id="section-3.3">
+        <h3 id="name-behavior">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-behavior" class="section-name selfRef">Behavior</a>
+        </h3>
+<p id="section-3.3-1">Senders are <span class="bcp14">RECOMMENDED</span> to use the compact format. It is <span class="bcp14">RECOMMENDED</span> that both formats are supported at the receiver side.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">Malformed RST diagnostic payloads that include the magic
+   numbers (0x33AA or 0xF317) <span class="bcp14">MUST</span> be silently ignored by the receiver.
+   RSTs that carry such malformed diagnostic payloads are handled like an RST without payload.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">A peer that receives a valid diagnostic payload may pass the reset
+   reason information to the local application in addition to the
+   information (<span class="bcp14">MUST</span>-12) described in <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>.  That
+   information may also be logged locally, unless a local policy
+   specifies otherwise.  How the information is passed to an application
+   and how it is stored locally is implementation-specific.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="examples">
+<section id="section-4">
+      <h2 id="name-some-examples">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-some-examples" class="section-name selfRef">Some Examples</a>
+      </h2>
+<p id="section-4-1"><a href="#fig-1" class="auto internal xref">Figure 3</a> depicts an example of an RST diagnostic payload that is
+   generated to inform the peer that the TCP connection is reset because
+   an ACK was received from that peer while the connection is still in
+   the LISTEN state (<span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.10.7.2" class="relref">Section 3.10.7.2</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>).<a href="#section-4-1" class="pilcrow">¶</a></p>
+<span id="name-example-of-an-rst-diagnosti"></span><div id="fig-1">
+<figure id="figure-3">
+        <div class="alignLeft art-text artwork" id="section-4-2.1">
+<pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |             0x33AA            |               0x02            |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                              0x00                             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-example-of-an-rst-diagnosti" class="selfRef">Example of an RST Diagnostic Payload with Reason Code</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-3">An RST diagnostic payload may also be sent by an on-path service
+   function.  For example, the following diagnostic payload is returned
+   by a NAT function upon expiry of the mapping entry to which the TCP
+   connection is bound (<a href="#fig-2" class="auto internal xref">Figure 4</a>).<a href="#section-4-3" class="pilcrow">¶</a></p>
+<span id="name-example-of-an-rst-diagnostic"></span><div id="fig-2">
+<figure id="figure-4">
+        <div class="alignLeft art-text artwork" id="section-4-4.1">
+<pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |             0x33AA            |              0x0E             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                              0x00                             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+</div>
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<a href="#name-example-of-an-rst-diagnostic" class="selfRef">Example of an RST Diagnostic Payload to Report Connection Timeout</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-5"><a href="#fig-3" class="auto internal xref">Figure 5</a> illustrates an RST diagnostic payload that is returned by a
+   peer that resets a TCP connection for a reason code 1234 defined by a
+   vendor with the private enterprise number 32473 (0x7D9).<a href="#section-4-5" class="pilcrow">¶</a></p>
+<span id="name-example-of-an-rst-diagnostic-"></span><div id="fig-3">
+<figure id="figure-5">
+        <div class="alignLeft art-text artwork" id="section-4-6.1">
+<pre>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |             0x33AA            |              0x4DE            |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                             0x7D9                             |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+</div>
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<a href="#name-example-of-an-rst-diagnostic-" class="selfRef">Example of an RST Diagnostic Payload to Report Vendor-Specific Reason Code</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-7"><a href="#fig-3" class="auto internal xref">Figure 5</a> uses the Enterprise Number 32473 defined for documentation
+   use <span>[<a href="#RFC5612" class="cite xref">RFC5612</a>]</span>.<a href="#section-4-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-5">
+      <h2 id="name-iana-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="causes">
+<section id="section-5.1">
+        <h3 id="name-new-registry-for-tcp-failur">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-new-registry-for-tcp-failur" class="section-name selfRef">New Registry for TCP Failure Causes</a>
+        </h3>
+<p id="section-5.1-1">This document requests IANA to create a new registry entitled "TCP
+   Failure Causes" under the "Transmission Control Protocol (TCP)
+   Parameters" registry group <span>[<a href="#IANA-TCP" class="cite xref">IANA-TCP</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">Values are taken from the 1-65535 range.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">The assignment policy for this registry is "Expert Review"
+   (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.5" class="relref">Section 4.5</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>). See more guidance at <a href="#de" class="auto internal xref">Section 5.2</a>.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">The registry is initially populated with the values listed in
+   <a href="#initial" class="auto internal xref">Table 1</a>.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<span id="name-initial-tcp-failure-causes"></span><div id="initial">
+<table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-initial-tcp-failure-causes" class="selfRef">Initial TCP Failure Causes</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-center" rowspan="1" colspan="1">Value</th>
+              <th class="text-left" rowspan="1" colspan="1">Description</th>
+              <th class="text-left" rowspan="1" colspan="1">Specification (if available)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">0</td>
+              <td class="text-left" rowspan="1" colspan="1">Reserved</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">Illegal Option</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">2</td>
+              <td class="text-left" rowspan="1" colspan="1">Desynchronized state</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.5.1" class="relref">Section 3.5.1</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">New data is received after CLOSE is called</td>
+              <td class="text-left" rowspan="1" colspan="1">Sections 3.6.1 and  3.10.7.1 of <span>[<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">4</td>
+              <td class="text-left" rowspan="1" colspan="1">ABORT Process</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.10.5" class="relref">Section 3.10.5</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">5</td>
+              <td class="text-left" rowspan="1" colspan="1">Unexpected ACK received by non-synchronized state connection</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.10.7" class="relref">Section 3.10.7</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">6</td>
+              <td class="text-left" rowspan="1" colspan="1">Unexpected SYN in the window</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.10.7" class="relref">Section 3.10.7</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">7</td>
+              <td class="text-left" rowspan="1" colspan="1">Unexpected security compartment</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc9293#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">8</td>
+              <td class="text-left" rowspan="1" colspan="1">Malformed Message</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">9</td>
+              <td class="text-left" rowspan="1" colspan="1">Not Authorized</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">10</td>
+              <td class="text-left" rowspan="1" colspan="1">Resource Exceeded</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">11</td>
+              <td class="text-left" rowspan="1" colspan="1">Network Failure</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">12</td>
+              <td class="text-left" rowspan="1" colspan="1">Reset received from the peer</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">13</td>
+              <td class="text-left" rowspan="1" colspan="1">Destination Unreachable</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">14</td>
+              <td class="text-left" rowspan="1" colspan="1">Connection Timeout</td>
+              <td class="text-left" rowspan="1" colspan="1">[ThisDocument]</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">15</td>
+              <td class="text-left" rowspan="1" colspan="1">Too much outstanding data</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc8684#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC8684" class="cite xref">RFC8684</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">16</td>
+              <td class="text-left" rowspan="1" colspan="1">Unacceptable performance</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc8684#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC8684" class="cite xref">RFC8684</a>]</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-center" rowspan="1" colspan="1">17</td>
+              <td class="text-left" rowspan="1" colspan="1">Middlebox interference</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://rfc-editor.org/rfc/rfc8684#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC8684" class="cite xref">RFC8684</a>]</span>
+</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-5.1-6">Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="de">
+<section id="section-5.2">
+        <h3 id="name-guidelines-for-the-designat">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-guidelines-for-the-designat" class="section-name selfRef">Guidelines for the Designated Experts</a>
+        </h3>
+<p id="section-5.2-1">It is suggested that multiple designated experts be appointed for
+   registry change requests.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">Criteria that should be applied by the designated experts include
+   determining whether the proposed registration duplicates existing
+   entries and whether the registration description is clear and fits
+   the purpose of this registry.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">The designated experts may approve registration once they checked
+   that the new requested code is not covered by an existing code and if
+   the provided reasoning to register the new code is acceptable.  A
+   registration request may supply a pointer to a specification where
+   that code is defined.  However, a registration may be accepted even
+   if no permanent and readily available public specification is
+   available.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">Registration requests are to be sent to <a href="mailto:rst-diag-review@ietf.org">rst-diag-review@ietf.org</a>
+   and are evaluated within a three-week review period on the advice of
+   one or more designated experts.  Within the review period, the
+   designated experts will either approve or deny the registration
+   request, communicating this decision to the review list and IANA.
+   Denials should include an explanation and, if applicable, suggestions
+   as to how to make the request successful.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="ops-cons">
+<section id="section-6">
+      <h2 id="name-operational-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
+      </h2>
+<div id="multiple-rsts">
+<section id="section-6.1">
+        <h3 id="name-multiple-rsts">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-multiple-rsts" class="section-name selfRef">Multiple RSTs</a>
+        </h3>
+<p id="section-6.1-1">Per <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.6" class="relref">Section 3.6</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>, one or more RST segments can be sent
+   to reset a connection.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">Sending more RST segments to reset a connection can be used
+   to mitigate deployment contexts where some on-path devices may
+   discard RSTs with payload data.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Whether a TCP endpoint elects to send more
+   than one RST with only a subset of them that include the diagnostic
+   payload is implementation-specific.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="manageability">
+<section id="section-6.2">
+        <h3 id="name-manageability">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-manageability" class="section-name selfRef">Manageability</a>
+        </h3>
+<p id="section-6.2-1">TCP server implementations should support the following parameters:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-2.1">
+            <p id="section-6.2-2.1.1">A parameter to control the activation of the RST diagnostic.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.2">
+            <p id="section-6.2-2.2.1">A parameter to accept/discard RSTs with diagnostic payload other than reason cause (i.e., accept or deny RSTs with reason-description).<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.3">
+            <p id="section-6.2-2.3.1">A parameter to set a maximum length of acceptable reason-description, when enabled.<a href="#section-6.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.4">
+            <p id="section-6.2-2.4.1">A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.<a href="#section-6.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.5">
+            <p id="section-6.2-2.5.1">A rate-limit of RST with diagnostic payload.<a href="#section-6.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.6">
+            <p id="section-6.2-2.6.1">Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections <a href="#compact" class="auto internal xref">3.1</a> and <a href="#free" class="auto internal xref">3.2</a>.<a href="#section-6.2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-2.7">
+            <p id="section-6.2-2.7.1">Counters to track received invalid RSTs with diagnostic payload.<a href="#section-6.2-2.7.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-7">
+      <h2 id="name-security-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-7-1"><span>[<a href="#RFC9293" class="cite xref">RFC9293</a>]</span> discusses TCP-related security considerations. In
+   particular, RST-specific attacks and their mitigations are discussed
+   in <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.10.7.3" class="relref">Section 3.10.7.3</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">The following subsection discuss considerations specific to each encoding format.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<div id="comapct-format">
+<section id="section-7.1">
+        <h3 id="name-comapct-format">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-comapct-format" class="section-name selfRef">Comapct Format</a>
+        </h3>
+<p id="section-7.1-1">The presence of vendor-specific reason codes may be used
+   to fingerprint hosts.  Such a concern does not apply if the reason
+   codes are taken from the IANA-maintained registry.  Implementers are,
+   thus, encouraged to register new codes within IANA instead of
+   maintaining specific registries.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="free-description-format">
+<section id="section-7.2">
+        <h3 id="name-free-description-format-2">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-free-description-format-2" class="section-name selfRef">Free-description Format</a>
+        </h3>
+<p id="section-7.2-1">It is <span class="bcp14">RECOMMENDED</span> to control the
+   size of acceptable diagnostic payload and keep it as brief as
+   possible. The <span class="bcp14">RECOMMENDED</span> acceptable maximum size of the RST
+   diagnostic payload is 255 octets.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">Also, it is <span class="bcp14">RECOMMENDED</span> to avoid leaking privacy-related information
+   as part of the diagnostic payload (e.g., including a description such
+   as "user X resets explicitly the connection" is not recommended).
+   The "reason-description" string, when present, <span class="bcp14">MUST NOT</span> include any
+   private information that an observer would not otherwise have access
+   to.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+<p id="section-7.2-3">The reason description, when present, <span class="bcp14">MUST NOT</span> be displayed
+   to end users but is intended to be consumed by applications. Such a description
+   may carry a malicious message to mislead the end-user.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-8">
+      <h2 id="name-references">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-8.1">
+        <h3 id="name-normative-references">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3629">[RFC3629]</dt>
+        <dd>
+<span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <span class="seriesInfo">DOI 10.17487/RFC3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3629">https://www.rfc-editor.org/rfc/rfc3629</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8684">[RFC8684]</dt>
+        <dd>
+<span class="refAuthor">Ford, A.</span>, <span class="refAuthor">Raiciu, C.</span>, <span class="refAuthor">Handley, M.</span>, <span class="refAuthor">Bonaventure, O.</span>, and <span class="refAuthor">C. Paasch</span>, <span class="refTitle">"TCP Extensions for Multipath Operation with Multiple Addresses"</span>, <span class="seriesInfo">RFC 8684</span>, <span class="seriesInfo">DOI 10.17487/RFC8684</span>, <time datetime="2020-03" class="refDate">March 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8684">https://www.rfc-editor.org/rfc/rfc8684</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9293">[RFC9293]</dt>
+      <dd>
+<span class="refAuthor">Eddy, W., Ed.</span>, <span class="refTitle">"Transmission Control Protocol (TCP)"</span>, <span class="seriesInfo">STD 7</span>, <span class="seriesInfo">RFC 9293</span>, <span class="seriesInfo">DOI 10.17487/RFC9293</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9293">https://www.rfc-editor.org/rfc/rfc9293</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-8.2">
+        <h3 id="name-informative-references">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="IANA-TCP">[IANA-TCP]</dt>
+        <dd>
+<span class="refTitle">"Transmission Control Protocol (TCP) Parameters"</span>, <span>&lt;<a href="https://www.iana.org/assignments/tcp-parameters/tcp-parameters.xhtml#">https://www.iana.org/assignments/tcp-parameters/tcp-parameters.xhtml#</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="Private-Enterprise-Numbers">[Private-Enterprise-Numbers]</dt>
+        <dd>
+<span class="refTitle">"Private Enterprise Numbers"</span>, <time datetime="2020-05" class="refDate">May 2020</time>, <span>&lt;<a href="https://www.iana.org/assignments/enterprise-numbers">https://www.iana.org/assignments/enterprise-numbers</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5612">[RFC5612]</dt>
+        <dd>
+<span class="refAuthor">Eronen, P.</span> and <span class="refAuthor">D. Harrington</span>, <span class="refTitle">"Enterprise Number for Documentation Use"</span>, <span class="seriesInfo">RFC 5612</span>, <span class="seriesInfo">DOI 10.17487/RFC5612</span>, <time datetime="2009-08" class="refDate">August 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5612">https://www.rfc-editor.org/rfc/rfc5612</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6146">[RFC6146]</dt>
+        <dd>
+<span class="refAuthor">Bagnulo, M.</span>, <span class="refAuthor">Matthews, P.</span>, and <span class="refAuthor">I. van Beijnum</span>, <span class="refTitle">"Stateful NAT64: Network Address and Protocol Translation from IPv6 Clients to IPv4 Servers"</span>, <span class="seriesInfo">RFC 6146</span>, <span class="seriesInfo">DOI 10.17487/RFC6146</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6146">https://www.rfc-editor.org/rfc/rfc6146</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6888">[RFC6888]</dt>
+        <dd>
+<span class="refAuthor">Perreault, S., Ed.</span>, <span class="refAuthor">Yamagata, I.</span>, <span class="refAuthor">Miyakawa, S.</span>, <span class="refAuthor">Nakagawa, A.</span>, and <span class="refAuthor">H. Ashida</span>, <span class="refTitle">"Common Requirements for Carrier-Grade NATs (CGNs)"</span>, <span class="seriesInfo">BCP 127</span>, <span class="seriesInfo">RFC 6888</span>, <span class="seriesInfo">DOI 10.17487/RFC6888</span>, <time datetime="2013-04" class="refDate">April 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6888">https://www.rfc-editor.org/rfc/rfc6888</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7252">[RFC7252]</dt>
+        <dd>
+<span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Hartke, K.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"The Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7252</span>, <span class="seriesInfo">DOI 10.17487/RFC7252</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7252">https://www.rfc-editor.org/rfc/rfc7252</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7857">[RFC7857]</dt>
+      <dd>
+<span class="refAuthor">Penno, R.</span>, <span class="refAuthor">Perreault, S.</span>, <span class="refAuthor">Boucadair, M., Ed.</span>, <span class="refAuthor">Sivakumar, S.</span>, and <span class="refAuthor">K. Naito</span>, <span class="refTitle">"Updates to Network Address Translation (NAT) Behavioral Requirements"</span>, <span class="seriesInfo">BCP 127</span>, <span class="seriesInfo">RFC 7857</span>, <span class="seriesInfo">DOI 10.17487/RFC7857</span>, <time datetime="2016-04" class="refDate">April 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7857">https://www.rfc-editor.org/rfc/rfc7857</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-validation">
+<section id="appendix-A">
+      <h2 id="name-implementation-and-experime">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-implementation-and-experime" class="section-name selfRef">Implementation and Experimental Validation in Linux</a>
+      </h2>
+<p id="appendix-A-1">Questions and concerns have been raised regarding whether RST with payload affects the normal termination of flows across different software platforms, operating systems, middleboxes, etc. Even though <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.5.3" class="relref">Section 3.5.3</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span> explicitly allows this behavior, a full implementation is needed to widely verify if unexpected cases can happen in the real world.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">The overall design in Linux is to pre-allocate a large enough zeroed buffer, put a reset reason code in the first byte and sent it out to verify whether the RST with payload can be possibly declined by any equipment in between two sides and the other side successfully parses the RST with payload.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<div id="implementation">
+<section id="appendix-A.1">
+        <h3 id="name-implementation">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-implementation" class="section-name selfRef">Implementation</a>
+        </h3>
+<p id="appendix-A.1-1">The following implementation is accomplished on top of Linux 6.16:<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="appendix-A.1-2">
+          <dt id="appendix-A.1-2.1">
+<strong>Payload Attachment</strong>:</dt>
+          <dd style="margin-left: 1.5em" id="appendix-A.1-2.2">
+            <p id="appendix-A.1-2.2.1">Allocate a 1000-byte data payload attached to all generated RST packets.<a href="#appendix-A.1-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="appendix-A.1-2.3">
+<strong>Reason Code Encoding</strong>:</dt>
+          <dd style="margin-left: 1.5em" id="appendix-A.1-2.4">
+            <p id="appendix-A.1-2.4.1">The first byte of the payload is used to store a predefined reset reason code that is listed in include/net/rstreason.h file, while the remainder of the payload is zero-padded. The reason code is generated by the existing mechanism called <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5115a55ffb52">TCP reset reasons</a>.<a href="#appendix-A.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="appendix-A.1-2.5">
+<strong>Handling of Reset Types</strong>:</dt>
+          <dd style="margin-left: 1.5em" id="appendix-A.1-2.6">
+            <p id="appendix-A.1-2.6.1">The implementation distinguishes between the two primary reset scenarios in <code>tcp_send_active_reset()</code> and <code>tcp_v4_send_reset()</code> respectively:<a href="#appendix-A.1-2.6.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.1-2.6.2.1">
+                <p id="appendix-A.1-2.6.2.1.1">For an <strong>Active Reset</strong>, initiated proactively by the local system, the payload is placed in the linear area of the socket buffer (<code>sk_buff</code>).<a href="#appendix-A.1-2.6.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.1-2.6.2.2">
+                <p id="appendix-A.1-2.6.2.2.1">For a <strong>Passive Reset</strong>, sent in response to an unexpected or invalid incoming packet, the payload is stored in the non-linear (paged) area of the <code>sk_buff</code>.<a href="#appendix-A.1-2.6.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="appendix-A.1-3">Complete patch is shown in <a href="#patch" class="auto internal xref">Figure 6</a>.<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
+<span id="name-complete-patch"></span><div id="patch">
+<figure id="figure-6">
+          <div class="alignLeft art-text artwork" id="appendix-A.1-4.1">
+<pre>
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index b3815d104340..0b32257774c8 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -62,6 +62,7 @@ void tcp_time_wait(struct sock *sk, int state, int timeo);
+ #define MAX_TCP_OPTION_SPACE 40
+ #define TCP_MIN_SND_MSS                48
+ #define TCP_MIN_GSO_SIZE       (TCP_MIN_SND_MSS - MAX_TCP_OPTION_SPACE)
++#define PAYLOAD_LEN 1000
+
+ /*
+  * Never offer a window over 32767 without using window scaling. Some
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 84d3d556ed80..49250e6bd6a1 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -741,6 +741,7 @@ static bool tcp_v4_ao_sign_reset(const struct sock *sk, struct sk_buff *skb,
+ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+                              enum sk_rst_reason reason)
+ {
++       u32 len = sizeof(struct tcphdr) + REPLY_OPTIONS_LEN + PAYLOAD_LEN;
+        const struct tcphdr *th = tcp_hdr(skb);
+        struct {
+                struct tcphdr th;
+@@ -757,6 +758,7 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+ #endif
+        u64 transmit_time = 0;
+        struct sock *ctl_sk;
++       char buffer[len];
+        struct net *net;
+        u32 txhash = 0;
+
+@@ -786,7 +788,8 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+        }
+
+        memset(&amp;arg, 0, sizeof(arg));
+-       arg.iov[0].iov_base = (unsigned char *)&amp;rep;
++       memset(&amp;buffer, 0, len);
++       arg.iov[0].iov_base = (unsigned char *)buffer;
+        arg.iov[0].iov_len  = sizeof(rep.th);
+
+        net = sk ? sock_net(sk) : skb_dst_dev_net_rcu(skb);
+@@ -911,6 +914,10 @@ static void tcp_v4_send_reset(const struct sock *sk, struct sk_buff *skb,
+                ctl_sk-&gt;sk_mark = 0;
+                ctl_sk-&gt;sk_priority = 0;
+        }
++       memcpy(buffer, (char *)&amp;rep, arg.iov[0].iov_len);
++       /* put rst reason into the first byte in payload */
++       buffer[arg.iov[0].iov_len] = reason;
++       arg.iov[0].iov_len += PAYLOAD_LEN;
+        ip_send_unicast_reply(ctl_sk, sk,
+                              skb, &amp;TCP_SKB_CB(skb)-&gt;header.h4.opt,
+                              ip_hdr(skb)-&gt;saddr, ip_hdr(skb)-&gt;daddr,
+diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+index b616776e3354..c07dd009a0de 100644
+--- a/net/ipv4/tcp_output.c
++++ b/net/ipv4/tcp_output.c
+@@ -3628,12 +3628,14 @@ void tcp_send_fin(struct sock *sk)
+ void tcp_send_active_reset(struct sock *sk, gfp_t priority,
+                           enum sk_rst_reason reason)
+ {
++       u32 len = MAX_TCP_HEADER + PAYLOAD_LEN;
++       char payload[PAYLOAD_LEN];
+        struct sk_buff *skb;
+
+        TCP_INC_STATS(sock_net(sk), TCP_MIB_OUTRSTS);
+
+        /* NOTE: No TCP options attached and we never retransmit this. */
+-       skb = alloc_skb(MAX_TCP_HEADER, priority);
++       skb = alloc_skb(len, priority);
+        if (!skb) {
+                NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPABORTFAILED);
+                return;
+@@ -3641,8 +3643,13 @@ void tcp_send_active_reset(struct sock *sk, gfp_t priority,
+
+        /* Reserve space for headers and prepare control bits. */
+        skb_reserve(skb, MAX_TCP_HEADER);
++       skb_put(skb, PAYLOAD_LEN);
+        tcp_init_nondata_skb(skb, tcp_acceptable_seq(sk),
+                             TCPHDR_ACK | TCPHDR_RST);
++       memset(payload, 0, PAYLOAD_LEN);
++       payload[0] = reason;
++       skb_store_bits(skb, 0, payload, PAYLOAD_LEN);
++       TCP_SKB_CB(skb)-&gt;end_seq += PAYLOAD_LEN;
+        tcp_mstamp_refresh(tcp_sk(sk));
+        /* Send it off. */
+        if (tcp_transmit_skb(sk, skb, 0, priority))
+</pre>
+</div>
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<a href="#name-complete-patch" class="selfRef">Complete Patch</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="experimental-validation">
+<section id="appendix-A.2">
+        <h3 id="name-experimental-validation">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-experimental-validation" class="section-name selfRef">Experimental Validation</a>
+        </h3>
+<p id="appendix-A.2-1">To ensure a thorough evaluation, a multi-layered experimental methodology was designed, progressing from basic functional checks to complex, real-world compatibility and stability tests. The whole implementation has been deployed in Tencent's production environment for almost six months.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<div id="functional-verification">
+<section id="appendix-A.2.1">
+          <h4 id="name-functional-verification">
+<a href="#appendix-A.2.1" class="section-number selfRef">A.2.1. </a><a href="#name-functional-verification" class="section-name selfRef">Functional Verification</a>
+          </h4>
+<p id="appendix-A.2.1-1">The basic functionality test is using iperf or iperf3 to construct a normal termination senario. The <code>tcpdump</code> tool with <code>-X</code> option effectively helps to show the <code>[RST+]</code> flag and the 1000-byte payload, confirming that the kernel correctly generated and transmitted the augmented RST packets.<a href="#appendix-A.2.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-2">Two servers, designated as Client A and Server B. The test is conducted as following:<a href="#appendix-A.2.1-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="appendix-A.2.1-3">
+<li id="appendix-A.2.1-3.1">
+              <p id="appendix-A.2.1-3.1.1">Start the <code>iperf3</code> server on Server B (<code>iperf3 -s</code>).<a href="#appendix-A.2.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="appendix-A.2.1-3.2">
+              <p id="appendix-A.2.1-3.2.1">Initiate a connection from Client A to Server B (<code>iperf3 -c [IP_of_B]</code>).<a href="#appendix-A.2.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="appendix-A.2.1-3.3">
+              <p id="appendix-A.2.1-3.3.1">After the connection is established, one of the <code>iperf3</code> processes is terminated using the <code>kill</code> command, triggering the kernel to send an RST packet.<a href="#appendix-A.2.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="appendix-A.2.1-3.4">
+              <p id="appendix-A.2.1-3.4.1">Simultaneously, <code>tcpdump</code> is run on either host to capture the reset packet using the filter: <code>'tcp[tcpflags] &amp; tcp-rst != 0' -X -nn -vv -S</code>.<a href="#appendix-A.2.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ol>
+</section>
+</div>
+<div id="compatibility-verification">
+<section id="appendix-A.2.2">
+          <h4 id="name-compatibility-verification">
+<a href="#appendix-A.2.2" class="section-number selfRef">A.2.2. </a><a href="#name-compatibility-verification" class="section-name selfRef">Compatibility Verification</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="appendix-A.2.2-1">
+            <dt id="appendix-A.2.2-1.1">
+<strong>Hardwares and Kernels</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.2">
+              <p id="appendix-A.2.2-1.2.1">Tests were conducted on various Linux distributions (e.g., Ubuntu or CentOS) with different kernel versions. The physical hosts were equipped with a range of network interface cards (NICs), including Intel <code>i40e</code>, <code>ixgbe</code>, and Mellanox <code>mlx5</code>.<a href="#appendix-A.2.2-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="appendix-A.2.2-1.3">
+<strong>Virtualization</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.4">
+              <p id="appendix-A.2.2-1.4.1">The mechanism was tested in a virtualized environment where the VM used a <code>virtio_net</code> driver and the host employed DPDK to redirect packets in the host.<a href="#appendix-A.2.2-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="appendix-A.2.2-1.5">
+<strong>Middleboxes</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.6">
+              <p id="appendix-A.2.2-1.6.1">Tests were performed with Layer 4 (L4) and Layer 7 (L7) gateways placed between the client and server to verify correct packet parsing and forwarding.<a href="#appendix-A.2.2-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="appendix-A.2.2-1.7">
+<strong>Wide Area Network (WAN)</strong>:</dt>
+            <dd style="margin-left: 1.5em" id="appendix-A.2.2-1.8">
+              <p id="appendix-A.2.2-1.8.1">The setup was tested over long-haul international links to simulate complex conditions, including China-to-Singapore (RTT &gt; 30ms) and China-to-Germany (RTT &gt; 200ms).<a href="#appendix-A.2.2-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="appendix-A.2.2-2">In conclusion, across all complex environment tests, the RST packets with payloads were successfully received by the peer. No instances of packets being dropped or mishandled by intermediate middleboxes, gateways, or diverse hardware and software configurations were observed.<a href="#appendix-A.2.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-B">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-B-1">The "diagnostic payload" name is inspired by <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.5.2" class="relref">Section 5.5.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>
+  that was cited by Carsten Bormann in the tcpm mailing list.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael Tuexen for the reveiw and comments.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-C">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Mohamed Boucadair</span></div>
+<div dir="auto" class="left"><span class="org">Orange</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:mohamed.boucadair@orange.com" class="email">mohamed.boucadair@orange.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Tirumaleswar Reddy</span></div>
+<div dir="auto" class="left"><span class="org">Nokia</span></div>
+<div dir="auto" class="left"><span class="country-name">India</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:kondtir@gmail.com" class="email">kondtir@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jason Xing</span></div>
+<div dir="auto" class="left"><span class="org">Tencent</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:kerneljasonxing@gmail.com" class="email">kerneljasonxing@gmail.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
