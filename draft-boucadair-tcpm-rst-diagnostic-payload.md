@@ -48,7 +48,7 @@ informative:
 
   Private-Enterprise-Numbers:
     title: Private Enterprise Numbers
-    date: 4 May 2020
+    date: false
     target: https://www.iana.org/assignments/enterprise-numbers
 
 --- abstract
@@ -83,16 +83,9 @@ informative:
    the remote side of the connection that receives the RST segment may
    not be trivial.
 
-   This document fills this void by specifying two formats of the
-   diagnostic payload returned in an RST segment.  Returning
-   such data is consistent with the provision in {{Section 3.5.3 of  !RFC9293}} for RST segments, especially:
-
-   {: quote}
-   >"TCP implementations SHOULD allow a received RST segment to
-   >  include data (SHLD-2)."
-
-   This document does not change the conditions under which an RST
-   segment is generated ({{Section 3.5.2 of !RFC9293}}).
+   This document fills this void by specifying formats of the
+   diagnostic payload returned in an RST segment. This design is
+   backward compatible with TCP as further clarified in {{bc}}.
 
    The generic procedure for processing an RST segment is specified in
    {{Section 3.5.3 of !RFC9293}}. Only the deviations from that procedure
@@ -108,7 +101,7 @@ informative:
    {{examples}} provides a set of examples to illustrate the use of TCP RST
    diagnostic payloads.
 
-   Implementation and experimental validation in Linux are detailed in {{sec-validation}}.
+   Implementation and experimental validation are detailed in {{sec-validation}}.
 
 # Conventions and Definitions
 
@@ -313,6 +306,18 @@ This section defines two message formats to convey diagnostic payload:
 
 #  Operational Considerations {#ops-cons}
 
+## Backward Compatibility {#bc}
+
+   Returning diagnostic data in an RST segment is consistent with
+   the provision in {{Section 3.5.3 of !RFC9293}} for RST segments, especially:
+
+   {: quote}
+   >"TCP implementations SHOULD allow a received RST segment to
+   >  include data (SHLD-2)."
+
+   Also, this document does not change the conditions under which an RST
+   segment is generated ({{Section 3.5.2 of !RFC9293}}).
+
 ## Multiple RSTs
 
    Per {{Section 3.6 of !RFC9293}}, one or more RST segments can be sent
@@ -330,11 +335,11 @@ This section defines two message formats to convey diagnostic payload:
 
   TCP server implementations should support the following parameters:
 
-  * A parameter to control the activation of the RST diagnostic.
-  * A parameter to accept/discard RSTs with diagnostic payload other than reason cause (i.e., accept or deny RSTs with reason-description).
-  * A parameter to set a maximum length of acceptable reason-description, when enabled.
-  * A parameter to control whether "empty" RSTs are also sent together with RST with diagnostic payload.
-  * A rate-limit of RST with diagnostic payload.
+  * A parameter to control the activation of RSTs with diagnostic payload.
+  * A parameter to accept/deny RSTs with the format defined in {{free}}).
+  * A parameter to set a maximum length of acceptable reason description ({{free}}), when enabled.
+  * A parameter to control whether "empty" RSTs are also sent together with an RST with diagnostic payload.
+  * A rate-limit of RSTs with diagnostic payload.
   * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{<compact}} and {{<free}}.
   * Counters to track received invalid RSTs with diagnostic payload.
 
@@ -457,7 +462,7 @@ For accepted sockets, this socket option is inherited from the listening socket.
 
    The following subsection discuss considerations specific to each encoding format.
 
-## Comapct Format
+## Compact Format
 
    The presence of vendor-specific reason codes may be used
    to fingerprint hosts.  Such a concern does not apply if the reason
