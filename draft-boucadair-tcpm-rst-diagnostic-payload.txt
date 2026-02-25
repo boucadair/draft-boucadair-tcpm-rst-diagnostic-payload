@@ -77,24 +77,24 @@ Table of Contents
      3.2.  Free-description Format
      3.3.  Behavior
    4.  Some Examples
-   5.  IANA Considerations
-     5.1.  New Registry for TCP Failure Causes
-     5.2.  Guidelines for the Designated Experts
-   6.  Operational Considerations
-     6.1.  Backward Compatibility
-     6.2.  Multiple RSTs
-     6.3.  Manageability
-   7.  Socket API Considerations (Informative)
-     7.1.  Socket Options
-       7.1.1.  Enable the Sending of the Diagnostic Payload
+   5.  Operational Considerations
+     5.1.  Backward Compatibility
+     5.2.  Multiple RSTs
+     5.3.  Manageability
+   6.  Socket API Considerations (Informative)
+     6.1.  Socket Options
+       6.1.1.  Enable the Sending of the Diagnostic Payload
                (TCP_RST_REASON_ENABLE)
-       7.1.2.  Get or Set the Diagnostic Payload as Code
+       6.1.2.  Get or Set the Diagnostic Payload as Code
                (TCP_RST_REASON_CODE)
-       7.1.3.  Get or Set the Diagnostic Payload as Description
+       6.1.3.  Get or Set the Diagnostic Payload as Description
                (TCP_RST_REASON_DESC)
-   8.  Security Considerations
-     8.1.  Compact Format
-     8.2.  Free-description Format
+   7.  Security Considerations
+     7.1.  Compact Format
+     7.2.  Free-description Format
+   8.  IANA Considerations
+     8.1.  New Registry for TCP Failure Causes
+     8.2.  Guidelines for the Designated Experts
    9.  References
      9.1.  Normative References
      9.2.  Informative References
@@ -129,7 +129,7 @@ Table of Contents
 
    This document fills this void by specifying formats of the diagnostic
    payload returned in an RST segment.  This design is backward
-   compatible with TCP as further clarified in Section 6.1.
+   compatible with TCP as further clarified in Section 5.1.
 
    The generic procedure for processing an RST segment is specified in
    Section 3.5.3 of [RFC9293].  Only the deviations from that procedure
@@ -138,15 +138,16 @@ Table of Contents
    This document specifies the formats and the overall approach to ease
    maintaining the list of codes while allowing for adding new codes as
    needed in the future and accommodating any existing vendor-specific
-   codes.  An initial version of error codes is available in Table 1.
+   codes.  An initial version of error codes is available in Table 2.
    However, the authoritative source to retrieve the full list of error
-   codes is the IANA-maintained registry (Section 5.1).
+   codes is the IANA-maintained registry (Section 8.1).
 
    Section 4 provides a set of examples to illustrate the use of TCP RST
    diagnostic payloads.
 
-   Implementation and experimental validation are detailed in
-   Appendix A.
+   Section 6 provides an informative discussion of socket API
+   considerations.  Implementation and experimental validation are
+   detailed in Appendix A.
 
 2.  Conventions and Definitions
 
@@ -171,7 +172,7 @@ Table of Contents
 
 3.  RST Diagnostic Payload
 
-   This section defines two message formats to convey diagnostic
+   This section defines two message formats to convey RST diagnostic
    payload:
 
    *  Compact format (Section 3.1): This format is designed to minimize
@@ -180,7 +181,7 @@ Table of Contents
    *  Free-description format (Section 3.2): This format is designed to
       accommodate, in particular, applications that don't maintain a
       reset cause registry but need sharing reason codes not covered in
-      IANA-maintained registry (Section 5.1).
+      IANA-maintained registry (Section 8.1).
 
 3.1.  Compact Format
 
@@ -210,7 +211,7 @@ Table of Contents
       Value 0 is reserved and MUST NOT be used.
 
       The reason code is taken from the "TCP Failure Causes" registry
-      (Section 5.1) if "pen" is set to 0.
+      (Section 8.1) if "pen" is set to 0.
 
       If the "pen" is not set to 0, then the reason code refers to the
       registry of the entity specified by the "pen" parameter.
@@ -219,7 +220,7 @@ Table of Contents
       [Private-Enterprise-Numbers].
 
       The reserved PEN value "0" is used to indicate that the reason
-      code refers to the IANA-maintained registry (Section 5.1).
+      code refers to the IANA-maintained registry (Section 8.1).
 
    SEG.LEN MUST be 8 for an RST with compact diagnostic payload.
 
@@ -322,107 +323,9 @@ Table of Contents
    Figure 5 uses the Enterprise Number 32473 defined for documentation
    use [RFC5612].
 
-5.  IANA Considerations
+5.  Operational Considerations
 
-5.1.  New Registry for TCP Failure Causes
-
-   This document requests IANA to create a new registry entitled "TCP
-   Failure Causes" under the "Transmission Control Protocol (TCP)
-   Parameters" registry group [IANA-TCP].
-
-   Values are taken from the 1-65535 range.
-
-   The assignment policy for this registry is "Expert Review"
-   (Section 4.5 of [RFC8126]).  See more guidance at Section 5.2.
-
-   The registry is initially populated with the values listed in
-   Table 1.
-
-    +=======+=================================+=======================+
-    | Value | Description                     | Specification (if     |
-    |       |                                 | available)            |
-    +=======+=================================+=======================+
-    |   0   | Reserved                        | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   1   | Illegal Option                  | Section 3.1 of        |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   2   | Desynchronized state            | Section 3.5.1 of      |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   3   | New data is received after      | Sections 3.6.1 and    |
-    |       | CLOSE is called                 | 3.10.7.1 of [RFC9293] |
-    +-------+---------------------------------+-----------------------+
-    |   4   | ABORT Process                   | Section 3.10.5 of     |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   5   | Unexpected ACK received by non- | Section 3.10.7 of     |
-    |       | synchronized state connection   | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   6   | Unexpected SYN in the window    | Section 3.10.7 of     |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   7   | Unexpected security compartment | Appendix A.1 of       |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   8   | Malformed Message               | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   9   | Not Authorized                  | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   10  | Resource Exceeded               | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   11  | Network Failure                 | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   12  | Reset received from the peer    | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   13  | Destination Unreachable         | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   14  | Connection Timeout              | [ThisDocument]        |
-    +-------+---------------------------------+-----------------------+
-    |   15  | Too much outstanding data       | Section 3.6 of        |
-    |       |                                 | [RFC8684]             |
-    +-------+---------------------------------+-----------------------+
-    |   16  | Unacceptable performance        | Section 3.6 of        |
-    |       |                                 | [RFC8684]             |
-    +-------+---------------------------------+-----------------------+
-    |   17  | Middlebox interference          | Section 3.6 of        |
-    |       |                                 | [RFC8684]             |
-    +-------+---------------------------------+-----------------------+
-
-                    Table 1: Initial TCP Failure Causes
-
-   Note that codes in the 8-14 range can be used by service functions
-   (Carrier Grade NAT (CGN), firewall, proxy, etc.).
-
-5.2.  Guidelines for the Designated Experts
-
-   It is suggested that multiple designated experts be appointed for
-   registry change requests.
-
-   Criteria that should be applied by the designated experts include
-   determining whether the proposed registration duplicates existing
-   entries and whether the registration description is clear and fits
-   the purpose of this registry.
-
-   The designated experts may approve registration once they checked
-   that the new requested code is not covered by an existing code and if
-   the provided reasoning to register the new code is acceptable.  A
-   registration request may supply a pointer to a specification where
-   that code is defined.  However, a registration may be accepted even
-   if no permanent and readily available public specification is
-   available.
-
-   Registration requests are to be sent to rst-diag-review@ietf.org
-   (mailto:rst-diag-review@ietf.org) and are evaluated within a three-
-   week review period on the advice of one or more designated experts.
-   Within the review period, the designated experts will either approve
-   or deny the registration request, communicating this decision to the
-   review list and IANA.  Denials should include an explanation and, if
-   applicable, suggestions as to how to make the request successful.
-
-6.  Operational Considerations
-
-6.1.  Backward Compatibility
+5.1.  Backward Compatibility
 
    Returning diagnostic data in an RST segment is consistent with the
    provision in Section 3.5.3 of [RFC9293] for RST segments, especially:
@@ -433,7 +336,7 @@ Table of Contents
    Also, this document does not change the conditions under which an RST
    segment is generated (Section 3.5.2 of [RFC9293]).
 
-6.2.  Multiple RSTs
+5.2.  Multiple RSTs
 
    Per Section 3.6 of [RFC9293], one or more RST segments can be sent to
    reset a connection.
@@ -446,7 +349,7 @@ Table of Contents
    subset of them that include the diagnostic payload is implementation-
    specific.
 
-6.3.  Manageability
+5.3.  Manageability
 
    TCP server implementations should support the following parameters:
 
@@ -470,7 +373,7 @@ Table of Contents
 
    *  Counters to track received invalid RSTs with diagnostic payload.
 
-7.  Socket API Considerations (Informative)
+6.  Socket API Considerations (Informative)
 
    This section describes how the socket API can be extended to provide
    a way for an application to use the functionality described in this
@@ -482,9 +385,9 @@ Table of Contents
    compatible way during the evolution of this document due to changed
    functionality or gained experience during the implementation.
 
-7.1.  Socket Options
+6.1.  Socket Options
 
-   Table 2 provides an overview of the IPPROTO_TCP-level socket options
+   Table 1 provides an overview of the IPPROTO_TCP-level socket options
    defined in this section.
 
        +=======================+=======================+=====+=====+
@@ -497,9 +400,9 @@ Table of Contents
        | TCP_RST_REASON_DESC   | char[]                | X   | X   |
        +-----------------------+-----------------------+-----+-----+
 
-                          Table 2: Socket Options
+                          Table 1: Socket Options
 
-7.1.1.  Enable the Sending of the Diagnostic Payload
+6.1.1.  Enable the Sending of the Diagnostic Payload
         (TCP_RST_REASON_ENABLE)
 
    Using setsockopt() with the IPPROTO_TCP-level socket option with the
@@ -507,13 +410,13 @@ Table of Contents
    diagnostic payload using a reason-code and pen.  The option_value of
    type uint32_t specifies the pen in host byte order to use.  When 0 is
    used (Section 3 of [RFC9371]), the reason-codes from the registry
-   specified in Section 5.1 are used.  When 0xffffffff is used
+   specified in Section 8.1 are used.  When 0xffffffff is used
    (Section 3 of [RFC9371]), the sending is disabled.  The default is
    that the sending of a diagnostic payload is disabled.  An
    implementation might not support the use of PENs different from zero
    and 0xffffffff.
 
-7.1.2.  Get or Set the Diagnostic Payload as Code (TCP_RST_REASON_CODE)
+6.1.2.  Get or Set the Diagnostic Payload as Code (TCP_RST_REASON_CODE)
 
    Using getsockopt() with the IPPROTO_TCP-level socket option with the
    name TCP_RST_REASON_CODE allows the caller to retrieve the reason-
@@ -554,7 +457,7 @@ Table of Contents
    trr_code:  The reason-code in host byte order to be interpreted in
       combination with the PEN provided in trr_pen.  In case of trr_pen
       being zero, trr_code refers to a value in the registry defined in
-      Section 5.1.
+      Section 8.1.
 
    trr_pen:  The PEN in host byte order to is used in combination with
       the reason-code specified in trr_code.  When this socket option is
@@ -568,7 +471,7 @@ Table of Contents
    the special handling of RST segments sent during the ungraceful
    termination of the TCP connection is disabled.
 
-7.1.3.  Get or Set the Diagnostic Payload as Description
+6.1.3.  Get or Set the Diagnostic Payload as Description
         (TCP_RST_REASON_DESC)
 
    Some implementations might not support the sending and receiving of
@@ -588,16 +491,16 @@ Table of Contents
    sending of a reason-description in this case.  For accepted sockets,
    this socket option is inherited from the listening socket.
 
-8.  Security Considerations
+7.  Security Considerations
 
    [RFC9293] discusses TCP-related security considerations.  In
    particular, RST-specific attacks and their mitigations are discussed
    in Section 3.10.7.3 of [RFC9293].
 
-   The following subsection discuss considerations specific to each
+   The following subsections discuss considerations specific to each
    encoding format.
 
-8.1.  Compact Format
+7.1.  Compact Format
 
    The presence of vendor-specific reason codes may be used to
    fingerprint hosts.  Such a concern does not apply if the reason codes
@@ -605,7 +508,7 @@ Table of Contents
    encouraged to register new codes within IANA instead of maintaining
    specific registries.
 
-8.2.  Free-description Format
+7.2.  Free-description Format
 
    It is RECOMMENDED to control the size of acceptable diagnostic
    payload and keep it as brief as possible.  The RECOMMENDED acceptable
@@ -621,6 +524,104 @@ Table of Contents
    The reason description, when present, MUST NOT be displayed to end
    users but is intended to be consumed by applications.  Such a
    description may carry a malicious message to mislead the end-user.
+
+8.  IANA Considerations
+
+8.1.  New Registry for TCP Failure Causes
+
+   This document requests IANA to create a new registry entitled "TCP
+   Failure Causes" under the "Transmission Control Protocol (TCP)
+   Parameters" registry group [IANA-TCP].
+
+   Values are taken from the 1-65535 range.
+
+   The assignment policy for this registry is "Expert Review"
+   (Section 4.5 of [RFC8126]).  See more guidance at Section 8.2.
+
+   The registry is initially populated with the values listed in
+   Table 2.
+
+    +=======+=================================+=======================+
+    | Value | Description                     | Specification (if     |
+    |       |                                 | available)            |
+    +=======+=================================+=======================+
+    |   0   | Reserved                        | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   1   | Illegal Option                  | Section 3.1 of        |
+    |       |                                 | [RFC9293]             |
+    +-------+---------------------------------+-----------------------+
+    |   2   | Desynchronized state            | Section 3.5.1 of      |
+    |       |                                 | [RFC9293]             |
+    +-------+---------------------------------+-----------------------+
+    |   3   | New data is received after      | Sections 3.6.1 and    |
+    |       | CLOSE is called                 | 3.10.7.1 of [RFC9293] |
+    +-------+---------------------------------+-----------------------+
+    |   4   | ABORT Process                   | Section 3.10.5 of     |
+    |       |                                 | [RFC9293]             |
+    +-------+---------------------------------+-----------------------+
+    |   5   | Unexpected ACK received by non- | Section 3.10.7 of     |
+    |       | synchronized state connection   | [RFC9293]             |
+    +-------+---------------------------------+-----------------------+
+    |   6   | Unexpected SYN in the window    | Section 3.10.7 of     |
+    |       |                                 | [RFC9293]             |
+    +-------+---------------------------------+-----------------------+
+    |   7   | Unexpected security compartment | Appendix A.1 of       |
+    |       |                                 | [RFC9293]             |
+    +-------+---------------------------------+-----------------------+
+    |   8   | Malformed Message               | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   9   | Not Authorized                  | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   10  | Resource Exceeded               | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   11  | Network Failure                 | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   12  | Reset received from the peer    | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   13  | Destination Unreachable         | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   14  | Connection Timeout              | ThisDocument          |
+    +-------+---------------------------------+-----------------------+
+    |   15  | Too much outstanding data       | Section 3.6 of        |
+    |       |                                 | [RFC8684]             |
+    +-------+---------------------------------+-----------------------+
+    |   16  | Unacceptable performance        | Section 3.6 of        |
+    |       |                                 | [RFC8684]             |
+    +-------+---------------------------------+-----------------------+
+    |   17  | Middlebox interference          | Section 3.6 of        |
+    |       |                                 | [RFC8684]             |
+    +-------+---------------------------------+-----------------------+
+
+                    Table 2: Initial TCP Failure Causes
+
+   Note that codes in the 8-14 range can be used by service functions
+   (CGN, firewall, proxy, etc.).
+
+      Note to the RFC Editor: Please replace ThisDocument with the RFC
+      number assigned to this document.
+
+8.2.  Guidelines for the Designated Experts
+
+   Criteria that should be applied by the designated experts include
+   determining whether the proposed registration duplicates existing
+   entries and whether the registration description is clear and fits
+   the purpose of this registry.
+
+   The designated experts may approve registration once they checked
+   that the new requested code is not covered by an existing code and if
+   the provided reasoning to register the new code is acceptable.  A
+   registration request may supply a pointer to a specification where
+   that code is defined.  However, a registration may be accepted even
+   if no permanent and readily available public specification is
+   available.
+
+   Registration requests are to be sent to rst-diag-review@ietf.org
+   (mailto:rst-diag-review@ietf.org) and are evaluated within a three-
+   week review period on the advice of one or more designated experts.
+   Within the review period, the designated experts will either approve
+   or deny the registration request, communicating this decision to the
+   review list and IANA.  Denials should include an explanation and, if
+   applicable, suggestions as to how to make the request successful.
 
 9.  References
 
