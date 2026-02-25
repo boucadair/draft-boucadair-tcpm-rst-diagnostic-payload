@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                T. Reddy
-Expires: 20 August 2026                                            Nokia
+Expires: 29 August 2026                                            Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                        16 February 2026
+                                                        25 February 2026
 
 
                        TCP RST Diagnostic Payload
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 August 2026.
+   This Internet-Draft will expire on 29 August 2026.
 
 Copyright Notice
 
@@ -83,18 +83,27 @@ Table of Contents
    6.  Operational Considerations
      6.1.  Multiple RSTs
      6.2.  Manageability
-   7.  Security Considerations
-     7.1.  Comapct Format
-     7.2.  Free-description Format
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   7.  Socket API Considerations (Informative)
+     7.1.  Socket Options
+       7.1.1.  Enable the Sending of the Diagnostic Payload
+               (TCP_RST_REASON_ENABLE)
+       7.1.2.  Get or Set the Diagnostic Payload as Code
+               (TCP_RST_REASON_CODE)
+       7.1.3.  Get or Set the Diagnostic Payload as Description
+               (TCP_RST_REASON_DESC)
+   8.  Security Considerations
+     8.1.  Comapct Format
+     8.2.  Free-description Format
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Appendix A.  Implementation and Experimental Validation in Linux
      A.1.  Implementation
      A.2.  Experimental Validation
        A.2.1.  Functional Verification
        A.2.2.  Compatibility Verification
    Acknowledgments
+   Contributors
    Authors' Addresses
 
 1.  Introduction
@@ -440,7 +449,125 @@ Table of Contents
 
    *  Counters to track received invalid RSTs with diagnostic payload.
 
-7.  Security Considerations
+7.  Socket API Considerations (Informative)
+
+   This section describes how the socket API can be extended to provide
+   a way for an application to use the functionality described in this
+   document.
+
+   This section is informational only.
+
+   The API described in this section can change in a non-backwards
+   compatible way during the evolution of this document due to changed
+   functionality or gained experience during the implementation.
+
+7.1.  Socket Options
+
+   Table 2 provides an overview of the IPPROTO_TCP-level socket options
+   defined in this section.
+
+       +=======================+=======================+=====+=====+
+       | Option Name           | Data Type             | Set | Get |
+       +=======================+=======================+=====+=====+
+       | TCP_RST_REASON_ENABLE | uint32_t              | X   |     |
+       +-----------------------+-----------------------+-----+-----+
+       | TCP_RST_REASON_CODE   | struct tcp_rst_reason | X   | X   |
+       +-----------------------+-----------------------+-----+-----+
+       | TCP_RST_REASON_DESC   | char[]                | X   | X   |
+       +-----------------------+-----------------------+-----+-----+
+
+                          Table 2: Socket Options
+
+7.1.1.  Enable the Sending of the Diagnostic Payload
+        (TCP_RST_REASON_ENABLE)
+
+   Using setsockopt() with the IPPROTO_TCP-level socket option with the
+   name TCP_RST_REASON_ENABLE enables or disabled the sending of the
+   diagnostic payload using a reason-code and pen.  The option_value of
+   type uint32_t specifies the pen in host byte order to use.  When 0 is
+   used (Section 3 of [RFC9371]), the reason-codes from the registry
+   specified in Section 5.1 are used.  When 0xffffffff is used
+   (Section 3 of [RFC9371]), the sending is disabled.  The default is
+   that the sending of a diagnostic payload is disabled.  An
+   implementation might not support the use of PENs different from zero
+   and 0xffffffff.
+
+7.1.2.  Get or Set the Diagnostic Payload as Code (TCP_RST_REASON_CODE)
+
+   Using getsockopt() with the IPPROTO_TCP-level socket option with the
+   name TCP_RST_REASON_CODE allows the caller to retrieve the reason-
+   code and the pen of the diagnostic payload in the received RST
+   segment, which terminated the corresponding TCP connection.
+
+   Using setsockopt() with this socket option allows the caller to
+   provide reason-code and pen to be sent as part of the diagnostic
+   payload when the application triggers the sending of a RST segment by
+   using close().  In addition to using close() in combination with the
+   SOL_SOCKET-level socket option with name SO_LINGER, the application
+   can just provide the TCP_RR_RST_ON_CLOSE flag in trr_flags.  This way
+   the application can trigger the sending of a RST segment by calling
+   setsockopt() once followed by close().
+
+   For accepted sockets, this socket option is inherited from the
+   listening socket.
+
+   The following structure is used as the option_value:
+
+   struct tcp_rst_reason {
+           uint16_t trr_flags;
+           uint16_t trr_code;
+           uint32_t trr_pen;
+   };
+
+   trr_flags:  This field is reported as 0 for getsockopt() calls.
+      For setsockopt()
+
+               calls, the following flag can be used:
+
+               TCP_RR_RST_ON_CLOSE:  When this flag is set, calling
+         close() triggers the sending of a RST segment similar to case,
+         where the SOL_SOCKET-level socket option with name SO_LINGER is
+         used to enable lingering with the linger time of 0.  When this
+         flag is cleared, the corresponding functionality is disabled.
+
+   trr_code:  The reason-code in host byte order to be interpreted in
+      combination with the PEN provided in trr_pen.  In case of trr_pen
+      being zero, trr_code refers to a value in the registry defined in
+      Section 5.1.
+
+   trr_pen:  The PEN in host byte order to is used in combination with
+      the reason-code specified in trr_code.  When this socket option is
+      used with setsockopt(), it is an error to use zero as a value for
+      trr_pen as long as trr_code is not zero.
+
+   When getsockopt() with this socket option is performed on a socket,
+   which has not received a RST with a diagnostic payload containing a
+   reason-code and pen, zero is provided as the trr_code and trr_pen.
+   When setsockopt() with a trr_code and trr_pen of zero is performed,
+   the special handling of RST segments sent during the ungraceful
+   termination of the TCP connection is disabled.
+
+7.1.3.  Get or Set the Diagnostic Payload as Description
+        (TCP_RST_REASON_DESC)
+
+   Some implementations might not support the sending and receiving of
+   the reason in description form.  In this case this socket option is
+   not implemented.
+
+   Using getsockopt() with the IPPROTO_TCP-level socket option with the
+   name TCP_RST_REASON_DESC allows the caller to retrieve the reason-
+   description of the diagnostic payload in the RST segment, which
+   terminated the corresponding TCP connection.
+
+   Using setsockopt() with this socket option allows the caller to
+   provide a reason-description to be sent as part of the diagnostic
+   payload when the application triggers the sending of a RST segment by
+   using close() in combination with the SOL_SOCKET-level socket option
+   with name SO_LINGER.  Providing an empty character array disables the
+   sending of a reason-description in this case.  For accepted sockets,
+   this socket option is inherited from the listening socket.
+
+8.  Security Considerations
 
    [RFC9293] discusses TCP-related security considerations.  In
    particular, RST-specific attacks and their mitigations are discussed
@@ -449,7 +576,7 @@ Table of Contents
    The following subsection discuss considerations specific to each
    encoding format.
 
-7.1.  Comapct Format
+8.1.  Comapct Format
 
    The presence of vendor-specific reason codes may be used to
    fingerprint hosts.  Such a concern does not apply if the reason codes
@@ -457,7 +584,7 @@ Table of Contents
    encouraged to register new codes within IANA instead of maintaining
    specific registries.
 
-7.2.  Free-description Format
+8.2.  Free-description Format
 
    It is RECOMMENDED to control the size of acceptable diagnostic
    payload and keep it as brief as possible.  The RECOMMENDED acceptable
@@ -474,9 +601,9 @@ Table of Contents
    users but is intended to be consumed by applications.  Such a
    description may carry a malicious message to mislead the end-user.
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -505,7 +632,7 @@ Table of Contents
               STD 7, RFC 9293, DOI 10.17487/RFC9293, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9293>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [IANA-TCP] "Transmission Control Protocol (TCP) Parameters",
               <https://www.iana.org/assignments/tcp-parameters/tcp-
@@ -539,6 +666,11 @@ Table of Contents
               (NAT) Behavioral Requirements", BCP 127, RFC 7857,
               DOI 10.17487/RFC7857, April 2016,
               <https://www.rfc-editor.org/rfc/rfc7857>.
+
+   [RFC9371]  Baber, A. and P. Hoffman, "Registration Procedures for
+              Private Enterprise Numbers (PENs)", RFC 9371,
+              DOI 10.17487/RFC9371, March 2023,
+              <https://www.rfc-editor.org/rfc/rfc9371>.
 
 Appendix A.  Implementation and Experimental Validation in Linux
 
@@ -741,6 +873,12 @@ Acknowledgments
    Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick
    Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael
    Tuexen for the reveiw and comments.
+
+Contributors
+
+   Michael Tüxen
+   Email: tuexen@fh-muenster.de
+
 
 Authors' Addresses
 
