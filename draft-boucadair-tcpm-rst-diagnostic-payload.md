@@ -101,6 +101,7 @@ informative:
    {{examples}} provides a set of examples to illustrate the use of TCP RST
    diagnostic payloads.
 
+   {{socket-api}} provides an informative discussion of socket API considerations.
    Implementation and experimental validation are detailed in {{sec-validation}}.
 
 # Conventions and Definitions
@@ -121,7 +122,7 @@ informative:
 
 #  RST Diagnostic Payload {#payload}
 
-This section defines two message formats to convey diagnostic payload:
+This section defines two message formats to convey RST diagnostic payload:
 
 * Compact format ({{compact}}): This format is designed to minimize the length of the payload.
 * Free-description format ({{free}}): This format is designed to accommodate, in particular, applications that don't maintain a reset cause registry but need sharing reason codes not covered in IANA-maintained registry ({{causes}}).
@@ -253,72 +254,6 @@ This section defines two message formats to convey diagnostic payload:
 
    {{fig-3}} uses the Enterprise Number 32473 defined for documentation
    use {{?RFC5612}}.
-
-# IANA Considerations
-
-##  New Registry for TCP Failure Causes {#causes}
-
-   This document requests IANA to create a new registry entitled "TCP
-   Failure Causes" under the "Transmission Control Protocol (TCP)
-   Parameters" registry group {{IANA-TCP}}.
-
-   Values are taken from the 1-65535 range.
-
-   The assignment policy for this registry is "Expert Review"
-   ({{Section 4.5 of !RFC8126}}). See more guidance at {{de}}.
-
-   The registry is initially populated with the values listed in
-   {{initial}}.
-
- | Value | Description                                                    | Specification (if available)               |
- |:-----:|:---------------------------------------------------------------|:-------------------------------------------|
- | 0     | Reserved                                                       | [ThisDocument]                             |
- | 1     | Illegal Option                                                 | {{Section 3.1 of !RFC9293}}                |
- | 2     | Desynchronized state                                           | {{Section 3.5.1 of !RFC9293}}              |
- | 3     | New data is received after CLOSE is called                     | Sections 3.6.1 and  3.10.7.1 of {{!RFC9293}}  |
- | 4     | ABORT Process                                                  | {{Section 3.10.5 of !RFC9293}}             |
- | 5     | Unexpected ACK received by non-synchronized state connection   | {{Section 3.10.7 of !RFC9293}}             |
- | 6     | Unexpected SYN in the window                                   | {{Section 3.10.7 of !RFC9293}}             |
- | 7     | Unexpected security compartment                                | {{Section A.1 of !RFC9293}}                |
- | 8     | Malformed Message                                              | [ThisDocument]                             |
- | 9     | Not Authorized                                                 | [ThisDocument]                             |
- | 10    | Resource Exceeded                                              | [ThisDocument]                             |
- | 11    | Network Failure                                                | [ThisDocument]                             |
- | 12    | Reset received from the peer                                    | [ThisDocument]                             |
- | 13    | Destination Unreachable                                        | [ThisDocument]                             |
- | 14    | Connection Timeout                                             | [ThisDocument]                             |
- | 15    | Too much outstanding data                                      | {{Section 3.6 of !RFC8684}}                |
- | 16    | Unacceptable performance                                       | {{Section 3.6 of !RFC8684}}                |
- | 17    | Middlebox interference                                         | {{Section 3.6 of !RFC8684}}                |
- {: #initial title='Initial TCP Failure Causes'}
-
-   Note that codes in the 8-14 range can be used by service functions (Carrier Grade NAT (CGN), firewall, proxy, etc.).
-
-## Guidelines for the Designated Experts {#de}
-
-   It is suggested that multiple designated experts be appointed for
-   registry change requests.
-
-   Criteria that should be applied by the designated experts include
-   determining whether the proposed registration duplicates existing
-   entries and whether the registration description is clear and fits
-   the purpose of this registry.
-
-   The designated experts may approve registration once they checked
-   that the new requested code is not covered by an existing code and if
-   the provided reasoning to register the new code is acceptable.  A
-   registration request may supply a pointer to a specification where
-   that code is defined.  However, a registration may be accepted even
-   if no permanent and readily available public specification is
-   available.
-
-   Registration requests are to be sent to <rst-diag-review@ietf.org>
-   and are evaluated within a three-week review period on the advice of
-   one or more designated experts.  Within the review period, the
-   designated experts will either approve or deny the registration
-   request, communicating this decision to the review list and IANA.
-   Denials should include an explanation and, if applicable, suggestions
-   as to how to make the request successful.
 
 #  Operational Considerations {#ops-cons}
 
@@ -476,7 +411,7 @@ For accepted sockets, this socket option is inherited from the listening socket.
    particular, RST-specific attacks and their mitigations are discussed
    in {{Section 3.10.7.3 of !RFC9293}}.
 
-   The following subsection discuss considerations specific to each encoding format.
+   The following subsections discuss considerations specific to each encoding format.
 
 ## Compact Format
 
@@ -503,6 +438,71 @@ For accepted sockets, this socket option is inherited from the listening socket.
    The reason description, when present, MUST NOT be displayed
    to end users but is intended to be consumed by applications. Such a description
    may carry a malicious message to mislead the end-user.
+
+# IANA Considerations
+
+##  New Registry for TCP Failure Causes {#causes}
+
+   This document requests IANA to create a new registry entitled "TCP
+   Failure Causes" under the "Transmission Control Protocol (TCP)
+   Parameters" registry group {{IANA-TCP}}.
+
+   Values are taken from the 1-65535 range.
+
+   The assignment policy for this registry is "Expert Review"
+   ({{Section 4.5 of !RFC8126}}). See more guidance at {{de}}.
+
+   The registry is initially populated with the values listed in
+   {{initial}}.
+
+ | Value | Description                                                    | Specification (if available)               |
+ |:-----:|:---------------------------------------------------------------|:-------------------------------------------|
+ | 0     | Reserved                                                       | ThisDocument                               |
+ | 1     | Illegal Option                                                 | {{Section 3.1 of !RFC9293}}                |
+ | 2     | Desynchronized state                                           | {{Section 3.5.1 of !RFC9293}}              |
+ | 3     | New data is received after CLOSE is called                     | Sections 3.6.1 and  3.10.7.1 of {{!RFC9293}}  |
+ | 4     | ABORT Process                                                  | {{Section 3.10.5 of !RFC9293}}             |
+ | 5     | Unexpected ACK received by non-synchronized state connection   | {{Section 3.10.7 of !RFC9293}}             |
+ | 6     | Unexpected SYN in the window                                   | {{Section 3.10.7 of !RFC9293}}             |
+ | 7     | Unexpected security compartment                                | {{Section A.1 of !RFC9293}}                |
+ | 8     | Malformed Message                                              | ThisDocument                               |
+ | 9     | Not Authorized                                                 | ThisDocument                               |
+ | 10    | Resource Exceeded                                              | ThisDocument                               |
+ | 11    | Network Failure                                                | ThisDocument                               |
+ | 12    | Reset received from the peer                                   | ThisDocument                               |
+ | 13    | Destination Unreachable                                        | ThisDocument                               |
+ | 14    | Connection Timeout                                             | ThisDocument                               |
+ | 15    | Too much outstanding data                                      | {{Section 3.6 of !RFC8684}}                |
+ | 16    | Unacceptable performance                                       | {{Section 3.6 of !RFC8684}}                |
+ | 17    | Middlebox interference                                         | {{Section 3.6 of !RFC8684}}                |
+ {: #initial title='Initial TCP Failure Causes'}
+
+   Note that codes in the 8-14 range can be used by service functions (CGN, firewall, proxy, etc.).
+
+   > Note to the RFC Editor: Please replace ThisDocument with the RFC number assigned to this document.
+
+## Guidelines for the Designated Experts {#de}
+
+   Criteria that should be applied by the designated experts include
+   determining whether the proposed registration duplicates existing
+   entries and whether the registration description is clear and fits
+   the purpose of this registry.
+
+   The designated experts may approve registration once they checked
+   that the new requested code is not covered by an existing code and if
+   the provided reasoning to register the new code is acceptable.  A
+   registration request may supply a pointer to a specification where
+   that code is defined.  However, a registration may be accepted even
+   if no permanent and readily available public specification is
+   available.
+
+   Registration requests are to be sent to <rst-diag-review@ietf.org>
+   and are evaluated within a three-week review period on the advice of
+   one or more designated experts.  Within the review period, the
+   designated experts will either approve or deny the registration
+   request, communicating this decision to the review list and IANA.
+   Denials should include an explanation and, if applicable, suggestions
+   as to how to make the request successful.
 
 --- back
 
