@@ -34,6 +34,9 @@ author:
 
 
 contributor:
+ -
+    fullname: Michael Tüxen
+    email: tuexen@fh-muenster.de
 
 normative:
 
@@ -334,6 +337,117 @@ This section defines two message formats to convey diagnostic payload:
   * A rate-limit of RST with diagnostic payload.
   * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{<compact}} and {{<free}}.
   * Counters to track received invalid RSTs with diagnostic payload.
+
+# Socket API Considerations (Informative) {#socket-api}
+
+This section describes how the socket API  can  be extended to provide a way
+for an application to use the functionality described in this document.
+
+This section is informational only.
+
+The API described in this section can change in a non-backwards compatible way
+during the evolution of this document due to changed functionality or gained
+experience during the implementation.
+
+## Socket Options
+
+{{socket-options-table}} provides an overview of the ``IPPROTO_TCP``-level socket
+options defined in this section.
+
+| Option Name               | Data Type                 | Set | Get |
+| ``TCP_RST_REASON_ENABLE`` | ``uint32_t``              | X   |     |
+| ``TCP_RST_REASON_CODE``   | ``struct tcp_rst_reason`` | X   | X   |
+| ``TCP_RST_REASON_DESC``   | ``char[]``                | X   | X   |
+{: #socket-options-table title="Socket Options" cols="l l l l"}
+
+### Enable the Sending of the Diagnostic Payload (``TCP_RST_REASON_ENABLE``)
+
+Using ``setsockopt()`` with the ``IPPROTO_TCP``-level socket option with the
+name ``TCP_RST_REASON_ENABLE`` enables or disabled the sending of the
+diagnostic payload using a reason-code and pen.
+The ``option_value`` of type ``uint32_t`` specifies the pen in host byte order
+to use.
+When 0 is used ({{Section 3 of ?RFC9371}}), the reason-codes from the registry
+specified in {{causes}} are used.
+When 0xffffffff is used ({{Section 3 of ?RFC9371}}), the sending is disabled.
+The default is that the sending of a diagnostic payload is disabled.
+An implementation might not support the use of PENs different from zero and
+0xffffffff.
+
+### Get or Set the Diagnostic Payload as Code (``TCP_RST_REASON_CODE``)
+
+Using ``getsockopt()`` with the ``IPPROTO_TCP``-level socket option with the
+name ``TCP_RST_REASON_CODE`` allows the caller to retrieve the reason-code and
+the pen of the diagnostic payload in the received RST segment, which terminated
+the corresponding TCP connection.
+
+Using ``setsockopt()`` with this socket option allows the caller to provide
+reason-code and pen to be sent as part of the diagnostic payload when the
+application triggers the sending of a RST segment by using ``close()``.
+In addition to using ``close()`` in combination with the ``SOL_SOCKET``-level
+socket option with name ``SO_LINGER``, the application can just provide the
+``TCP_RR_RST_ON_CLOSE`` flag in ``trr_flags``. This way the application can
+trigger the sending of a RST segment by calling ``setsockopt()`` once followed
+by ``close()``.
+
+For accepted sockets, this socket option is inherited from the listening socket.
+
+The following structure is used as the ``option_value``:
+
+~~~ c
+struct tcp_rst_reason {
+        uint16_t trr_flags;
+        uint16_t trr_code;
+        uint32_t trr_pen;
+};
+~~~
+
+``trr_flags``:
+: This field is reported as 0 for ``getsockopt()`` calls. For ``setsockopt()``
+  calls, the following flag can be used:
+  ``TCP_RR_RST_ON_CLOSE``:
+  : When this flag is set, calling ``close()`` triggers the sending of a RST segment
+    similar to case, where the ``SOL_SOCKET``-level socket option with name
+    ``SO_LINGER`` is used to enable lingering with the linger time of 0.
+    When this flag is cleared, the corresponding functionality is disabled.
+
+``trr_code``:
+: The reason-code in host byte order to be interpreted in combination with
+  the PEN provided in ``trr_pen``. In case of ``trr_pen`` being
+  zero, ``trr_code`` refers to a value in the registry defined in
+  {{causes}}.
+
+``trr_pen``:
+: The PEN in host byte order to is used in combination with the reason-code
+  specified in ``trr_code``.
+  When this socket option is used with ``setsockopt()``, it is an error to use
+  zero as a value for ``trr_pen`` as long as ``trr_code`` is not
+  zero.
+
+When `getsockopt()` with this socket option is performed on a socket, which
+has not received a RST with a diagnostic payload containing a reason-code and
+pen, zero is provided as the ``trr_code`` and ``trr_pen``.
+When `setsockopt()` with a ``trr_code`` and ``trr_pen`` of zero
+is performed, the special handling of RST segments sent during the ungraceful
+termination of the TCP connection is disabled.
+
+### Get or Set the Diagnostic Payload as Description (``TCP_RST_REASON_DESC``)
+
+Some implementations might not support the sending and receiving of the
+reason in description form. In this case this socket option is not implemented.
+
+Using ``getsockopt()`` with the ``IPPROTO_TCP``-level socket option with the
+name ``TCP_RST_REASON_DESC`` allows the caller to retrieve the reason-description
+of the diagnostic payload in the RST segment, which terminated the corresponding
+TCP connection.
+
+Using ``setsockopt()`` with this socket option allows the caller to provide a
+reason-description to be sent as part of the diagnostic payload when the
+application triggers the sending of a RST segment by using ``close()`` in
+combination with the ``SOL_SOCKET``-level socket option with name ``SO_LINGER``.
+Providing an empty character array disables the sending of a reason-description
+in this case.
+For accepted sockets, this socket option is inherited from the listening socket.
 
 #  Security Considerations
 
