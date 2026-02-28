@@ -1,7 +1,7 @@
 ---
 title: "TCP RST Diagnostic Payload"
 abbrev: "RST Diagnostic Payload"
-category: std
+category: exp
 
 docname: draft-boucadair-tcpm-rst-diagnostic-payload-latest
 submissiontype: IETF
@@ -52,8 +52,8 @@ informative:
     target: https://www.iana.org/assignments/enterprise-numbers
 
 --- abstract
-   This document specifies two diagnostic payload formats returned in TCP
-   RST segments.  Such payloads are used to share with an endpoint the
+   This document specifies two experimental diagnostic payload formats returned in TCP
+   RST segments. Such payloads are used to share with an endpoint the
    reasons for which a TCP connection has been reset.  Sharing this
    information is meant to ease diagnostic and troubleshooting.
 
@@ -83,7 +83,7 @@ informative:
    the remote side of the connection that receives the RST segment may
    not be trivial.
 
-   This document fills this void by specifying formats of the
+   This document fills this void by specifying experimental formats of the
    diagnostic payload returned in an RST segment. This design is
    backward compatible with TCP as further clarified in {{bc}}.
 
@@ -104,6 +104,8 @@ informative:
    {{socket-api}} provides an informative discussion of socket API considerations.
    Implementation and experimental validation are detailed in {{sec-validation}}.
 
+   Experiment goals are listed in {{sec-goals}}.
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
@@ -119,6 +121,22 @@ informative:
 
    RST with diagnostic payload:
    : An RST segment that includes diagnostic payload.
+
+# Experiment Goals and Objectives {#sec-goals}
+
+  The main objective of this experiment is to have a common format
+  of RST diagnostic payload that would be used as basis for consistent
+  testing and evaluation in a variety of deployment contexts
+  (Internet, data centers, application clients/servers provided and managed by the same entity,
+  clients and servers software owned by distinct entities, etc.).
+
+  Experiments reports are encouraged to share the main lessons
+  learned in these experimentation, specifically:
+
+  * Share issues or lack thereof related to the delivery of RST with diagnostic payload.
+  * Assess CPU/Load impact of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.
+  * Assess the need of free-description format.
+  * Assess whether the list of code reason reflects most of reset cases.
 
 #  RST Diagnostic Payload {#payload}
 
