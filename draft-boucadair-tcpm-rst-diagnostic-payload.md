@@ -131,12 +131,12 @@ informative:
   clients and servers software owned by distinct entities, etc.).
 
   Experiments reports are encouraged to share the main lessons
-  learned in these experimentation, specifically:
+  learned in these experimentations, specifically:
 
   * Share issues or lack thereof related to the delivery of RST with diagnostic payload.
   * Assess CPU/Load impact of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.
-  * Assess the need of free-description format.
-  * Assess whether the list of code reason reflects most of reset cases.
+  * Assess the need/use of free-description format.
+  * Assess whether the list of code reasons reflects most of reset cases.
 
 #  RST Diagnostic Payload {#payload}
 
