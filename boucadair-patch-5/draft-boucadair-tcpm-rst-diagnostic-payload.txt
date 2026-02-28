@@ -184,7 +184,7 @@ Table of Contents
    etc.).
 
    Experiments reports are encouraged to share the main lessons learned
-   in these experimentation, specifically:
+   in these experimentations, specifically:
 
    *  Share issues or lack thereof related to the delivery of RST with
       diagnostic payload.
@@ -192,9 +192,9 @@ Table of Contents
    *  Assess CPU/Load impact of handling RSTs, including when a mix of
       RSTs with and without diagnostic payload are sent.
 
-   *  Assess the need of free-description format.
+   *  Assess the need/use of free-description format.
 
-   *  Assess whether the list of code reason reflects most of reset
+   *  Assess whether the list of code reasons reflects most of reset
       cases.
 
 4.  RST Diagnostic Payload
