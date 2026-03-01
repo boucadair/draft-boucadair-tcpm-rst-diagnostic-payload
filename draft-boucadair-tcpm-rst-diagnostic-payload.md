@@ -122,7 +122,7 @@ informative:
    RST with diagnostic payload:
    : An RST segment that includes diagnostic payload.
 
-# Experiment Goals and Objectives {#sec-goals}
+# Experiment Description & Goals {#sec-goals}
 
   The main objective of this experiment is to have a common format
   of RST diagnostic payload that would be used as basis for consistent
@@ -131,12 +131,25 @@ informative:
   clients and servers software owned by distinct entities, etc.).
 
   Experiments reports are encouraged to share the main lessons
-  learned in these experimentations, specifically:
+  learned in these experimentations. Specifically, the following items are of interest:
 
-  * Share issues or lack thereof related to the delivery of RST with diagnostic payload.
-  * Assess CPU/Load impact of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.
-  * Assess the need/use of free-description format.
-  * Assess whether the list of code reasons reflects most of reset cases.
+Delivery & on-path device interference:
+: Identify and share issues or lack thereof related to the delivery of RST with diagnostic payload.
+
+CPU/load impact:
+: Assess CPU/load impact (or lack thereof) of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.
+
+Standard reset reasons:
+: Assess whether the list of code reasons ({{causes}}) reflects most of reset cases.
+
+Free-description need:
+: Assess the need/use of free-description format ({{free}}).
+
+Integration of socket API extensions:
+: Excercise the socket API extensions and identify any required adjustement ({{socket-api}}).
+
+Operational guidance:
+: Strengthen the operationnal guidance for deploying RSTs with diagnostic payload.
 
 #  RST Diagnostic Payload {#payload}
 
