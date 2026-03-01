@@ -1168,7 +1168,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-experiment-goals-and-object" class="internal xref">Experiment Goals and Objectives</a></p>
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-experiment-description-goal" class="internal xref">Experiment Description &amp; Goals</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-rst-diagnostic-payload" class="internal xref">RST Diagnostic Payload</a></p>
@@ -1354,8 +1354,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 <div id="sec-goals">
 <section id="section-3">
-      <h2 id="name-experiment-goals-and-object">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-experiment-goals-and-object" class="section-name selfRef">Experiment Goals and Objectives</a>
+      <h2 id="name-experiment-description-goal">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-experiment-description-goal" class="section-name selfRef">Experiment Description &amp; Goals</a>
       </h2>
 <p id="section-3-1">The main objective of this experiment is to have a common format
   of RST diagnostic payload that would be used as basis for consistent
@@ -1363,21 +1363,39 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
   (Internet, data centers, application clients/servers provided and managed by the same entity,
   clients and servers software owned by distinct entities, etc.).<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Experiments reports are encouraged to share the main lessons
-  learned in these experimentations, specifically:<a href="#section-3-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3-3.1">
-          <p id="section-3-3.1.1">Share issues or lack thereof related to the delivery of RST with diagnostic payload.<a href="#section-3-3.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-3-3.2">
-          <p id="section-3-3.2.1">Assess CPU/Load impact of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.<a href="#section-3-3.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-3-3.3">
-          <p id="section-3-3.3.1">Assess the need/use of free-description format.<a href="#section-3-3.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-3-3.4">
-          <p id="section-3-3.4.1">Assess whether the list of code reasons reflects most of reset cases.<a href="#section-3-3.4.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
+  learned in these experimentations. Specifically, the following items are of interest:<a href="#section-3-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3-3">
+        <dt id="section-3-3.1">Delivery &amp; on-path device interference:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-3.2">
+          <p id="section-3-3.2.1">Identify and share issues or lack thereof related to the delivery of RST with diagnostic payload.<a href="#section-3-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-3.3">CPU/load impact:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-3.4">
+          <p id="section-3-3.4.1">Assess CPU/load impact (or lack thereof) of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.<a href="#section-3-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-3.5">Standard reset reasons:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-3.6">
+          <p id="section-3-3.6.1">Assess whether the list of code reasons (<a href="#causes" class="auto internal xref">Section 9.1</a>) reflects most of reset cases.<a href="#section-3-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-3.7">Free-description need:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-3.8">
+          <p id="section-3-3.8.1">Assess the need/use of free-description format (<a href="#free" class="auto internal xref">Section 4.2</a>).<a href="#section-3-3.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-3.9">Integration of socket API extensions:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-3.10">
+          <p id="section-3-3.10.1">Excercise the socket API extensions and identify any required adjustement (<a href="#socket-api" class="auto internal xref">Section 7</a>).<a href="#section-3-3.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-3.11">Operational guidance:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-3.12">
+          <p id="section-3-3.12.1">Strengthen the operationnal guidance for deploying RSTs with diagnostic payload.<a href="#section-3-3.12.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
 </section>
 </div>
 <div id="payload">
