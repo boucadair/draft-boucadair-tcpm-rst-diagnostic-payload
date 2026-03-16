@@ -52,7 +52,7 @@ informative:
     target: https://www.iana.org/assignments/enterprise-numbers
 
 --- abstract
-   This document specifies two experimental diagnostic payload formats returned in TCP
+   This document specifies an experimental diagnostic payload format returned in TCP
    RST segments. Such payloads are used to share with an endpoint the
    reasons for which a TCP connection has been reset.  Sharing this
    information is meant to ease diagnostic and troubleshooting.
@@ -83,7 +83,7 @@ informative:
    the remote side of the connection that receives the RST segment may
    not be trivial.
 
-   This document fills this void by specifying experimental formats of the
+   This document fills this void by specifying an experimental format of the
    diagnostic payload returned in an RST segment. This design is
    backward compatible with TCP as further clarified in {{bc}}.
 
@@ -91,7 +91,7 @@ informative:
    {{Section 3.5.3 of !RFC9293}}. Only the deviations from that procedure
    to insert and validate a diagnostic payload is provided in {{payload}}.
 
-   This document specifies the formats and the overall approach to ease
+   This document specifies the format and the overall approach to ease
    maintaining the list of codes while allowing for adding new codes as
    needed in the future and accommodating any existing vendor-specific
    codes.  An initial version of error codes is available in {{initial}}.
@@ -150,13 +150,11 @@ Operational guidance:
 
 #  RST Diagnostic Payload {#payload}
 
-This section defines two message formats to convey RST diagnostic payload:
+## Payload Format {#compact}
 
-* Compact format ({{compact}}): This format is designed to minimize the length of the payload.
+   This section defines the message format to convey RST diagnostic payload. This format is designed to minimize the length of the payload.
 
-## Compact Format {#compact}
-
-   The format of the compact RST diagnostic payload is shown in {{format-1}}.
+   The format of the RST diagnostic payload is shown in {{format-1}}.
 
 ~~~~
     0                   1                   2                   3
@@ -167,11 +165,11 @@ This section defines two message formats to convey RST diagnostic payload:
    |                              pen                              |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
-{: #format-1 title='Structure of the Compact RST Diagnostic Payload'}
+{: #format-1 title='Structure of the RST Diagnostic Payload'}
 
    The RST diagnostic payload comprises a magic number that is used to
    unambiguously identify an RST payload that follows this
-   specification.  It MUST be set to 0x33AA for the compact encoding shown in {{format-1}}.
+   specification.  It MUST be set to 0x33AA.
 
    The descriptions of other fields shown in {{format-1}} are as follows:
 
@@ -185,11 +183,9 @@ This section defines two message formats to convey RST diagnostic payload:
    : Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
    : The reserved PEN value "0" is used to indicate that the reason code refers to the IANA-maintained registry ({{causes}}).
 
-   SEG.LEN MUST be 8 for an RST with compact diagnostic payload.
+   SEG.LEN MUST be 8 for an RST with diagnostic payload.
 
 ## Behavior
-
-   Senders are RECOMMENDED to use the compact format. It is RECOMMENDED that both formats are supported at the receiver side.
 
    Malformed RST diagnostic payloads that include the magic
    numbers 0x33AA MUST be silently ignored by the receiver.
@@ -288,7 +284,7 @@ This section defines two message formats to convey RST diagnostic payload:
   * A parameter to control the activation of RSTs with diagnostic payload.
   * A parameter to control whether "empty" RSTs are also sent together with an RST with diagnostic payload.
   * A rate-limit of RSTs with diagnostic payload.
-  * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{<compact}}.
+  * Counters to track sent/received RSTs with diagnostic payload.
   * Counters to track received invalid RSTs with diagnostic payload.
 
 # Socket API Considerations (Informative) {#socket-api}
@@ -388,10 +384,6 @@ termination of the TCP connection is disabled.
    {{!RFC9293}} discusses TCP-related security considerations. In
    particular, RST-specific attacks and their mitigations are discussed
    in {{Section 3.10.7.3 of !RFC9293}}.
-
-   The following subsections discuss considerations specific to each encoding format.
-
-## Compact Format
 
    The presence of vendor-specific reason codes may be used
    to fingerprint hosts.  Such a concern does not apply if the reason
