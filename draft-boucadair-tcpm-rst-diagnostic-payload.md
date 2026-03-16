@@ -142,9 +142,6 @@ CPU/load impact:
 Standard reset reasons:
 : Assess whether the list of code reasons ({{causes}}) reflects most of reset cases.
 
-Free-description need:
-: Assess the need/use of free-description format ({{free}}).
-
 Integration of socket API extensions:
 : Excercise the socket API extensions and identify any required adjustement ({{socket-api}}).
 
@@ -156,7 +153,6 @@ Operational guidance:
 This section defines two message formats to convey RST diagnostic payload:
 
 * Compact format ({{compact}}): This format is designed to minimize the length of the payload.
-* Free-description format ({{free}}): This format is designed to accommodate, in particular, applications that don't maintain a reset cause registry but need sharing reason codes not covered in IANA-maintained registry ({{causes}}).
 
 ## Compact Format {#compact}
 
@@ -191,40 +187,12 @@ This section defines two message formats to convey RST diagnostic payload:
 
    SEG.LEN MUST be 8 for an RST with compact diagnostic payload.
 
-## Free-description Format {#free}
-
-   The format of the RST diagnostic payload with a reason description is shown in {{format-2}}. This format is useful
-   to convey reset reasons that are not yet registered or for application-specific reset reasons.
-
-~~~~
-    0                   1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0xF317            |                               |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               :
-   :                     reason-description                        :
-   |                                                               |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-~~~~
-{: #format-2 title='Structure of the RST Diagnostic Payload with Reason Description'}
-
-   The RST diagnostic payload comprises a magic number that is used to
-   unambiguously identify an RST payload that follows this
-   specification. It MUST be set to 0xF317 when the free-description format is used.
-
-   The description of the other field shown in {{format-2}} is as follows:
-
-   reason-description:
-   :  Includes a brief description of the reset reason encoded as UTF-8 {{!RFC3629}}.
-
-   The length of the reason-description is "SEG.LEN - 2".
-
 ## Behavior
 
    Senders are RECOMMENDED to use the compact format. It is RECOMMENDED that both formats are supported at the receiver side.
 
    Malformed RST diagnostic payloads that include the magic
-   numbers (0x33AA or 0xF317) MUST be silently ignored by the receiver.
+   numbers 0x33AA MUST be silently ignored by the receiver.
    RSTs that carry such malformed diagnostic payloads are handled like an RST without payload.
 
    A peer that receives a valid diagnostic payload may pass the reset
@@ -318,11 +286,9 @@ This section defines two message formats to convey RST diagnostic payload:
   TCP server implementations should support the following parameters:
 
   * A parameter to control the activation of RSTs with diagnostic payload.
-  * A parameter to accept/deny RSTs with the format defined in {{free}}).
-  * A parameter to set a maximum length of acceptable reason description ({{free}}), when enabled.
   * A parameter to control whether "empty" RSTs are also sent together with an RST with diagnostic payload.
   * A rate-limit of RSTs with diagnostic payload.
-  * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{<compact}} and {{<free}}.
+  * Counters to track sent/received RSTs with diagnostic payload. These counters should be structured per encoding format described in Sections {{<compact}}.
   * Counters to track received invalid RSTs with diagnostic payload.
 
 # Socket API Considerations (Informative) {#socket-api}
@@ -344,7 +310,6 @@ options defined in this section.
 | Option Name               | Data Type                 | Set | Get |
 | ``TCP_RST_REASON_ENABLE`` | ``uint32_t``              | X   |     |
 | ``TCP_RST_REASON_CODE``   | ``struct tcp_rst_reason`` | X   | X   |
-| ``TCP_RST_REASON_DESC``   | ``char[]``                | X   | X   |
 {: #socket-options-table title="Socket Options" cols="l l l l"}
 
 ### Enable the Sending of the Diagnostic Payload (``TCP_RST_REASON_ENABLE``)
@@ -418,24 +383,6 @@ When `setsockopt()` with a ``trr_code`` and ``trr_pen`` of zero
 is performed, the special handling of RST segments sent during the ungraceful
 termination of the TCP connection is disabled.
 
-### Get or Set the Diagnostic Payload as Description (``TCP_RST_REASON_DESC``)
-
-Some implementations might not support the sending and receiving of the
-reason in description form. In this case this socket option is not implemented.
-
-Using ``getsockopt()`` with the ``IPPROTO_TCP``-level socket option with the
-name ``TCP_RST_REASON_DESC`` allows the caller to retrieve the reason-description
-of the diagnostic payload in the RST segment, which terminated the corresponding
-TCP connection.
-
-Using ``setsockopt()`` with this socket option allows the caller to provide a
-reason-description to be sent as part of the diagnostic payload when the
-application triggers the sending of a RST segment by using ``close()`` in
-combination with the ``SOL_SOCKET``-level socket option with name ``SO_LINGER``.
-Providing an empty character array disables the sending of a reason-description
-in this case.
-For accepted sockets, this socket option is inherited from the listening socket.
-
 #  Security Considerations
 
    {{!RFC9293}} discusses TCP-related security considerations. In
@@ -451,24 +398,6 @@ For accepted sockets, this socket option is inherited from the listening socket.
    codes are taken from the IANA-maintained registry.  Implementers are,
    thus, encouraged to register new codes within IANA instead of
    maintaining specific registries.
-
-## Free-description Format
-
-   It is RECOMMENDED to control the
-   size of acceptable diagnostic payload and keep it as brief as
-   possible. The RECOMMENDED acceptable maximum size of the RST
-   diagnostic payload is 255 octets.
-
-   Also, it is RECOMMENDED to avoid leaking privacy-related information
-   as part of the diagnostic payload (e.g., including a description such
-   as "user X resets explicitly the connection" is not recommended).
-   The "reason-description" string, when present, MUST NOT include any
-   private information that an observer would not otherwise have access
-   to.
-
-   The reason description, when present, MUST NOT be displayed
-   to end users but is intended to be consumed by applications. Such a description
-   may carry a malicious message to mislead the end-user.
 
 # IANA Considerations
 
