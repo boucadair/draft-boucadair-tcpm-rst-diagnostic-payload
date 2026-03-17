@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Experimental                                   T. Reddy
-Expires: 17 September 2026                                         Nokia
+Expires: 18 September 2026                                         Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                           16 March 2026
+                                                           17 March 2026
 
 
                        TCP RST Diagnostic Payload
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 September 2026.
+   This Internet-Draft will expire on 18 September 2026.
 
 Copyright Notice
 
@@ -193,10 +193,10 @@ Table of Contents
    Standard reset reasons:  Assess whether the list of code reasons
       (Section 9.1) reflects most of reset cases.
 
-   Integration of socket API extensions:  Excercise the socket API
+   Integration of socket API extensions:  Exercise the socket API
       extensions and identify any required adjustement (Section 7).
 
-   Operational guidance:  Strengthen the operationnal guidance for
+   Operational guidance:  Strengthen the operational guidance for
       deploying RSTs with diagnostic payload.
 
 4.  RST Diagnostic Payload
@@ -824,7 +824,7 @@ Acknowledgments
 
    Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick
    Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael
-   Tuexen for the reveiw and comments.
+   Tuexen for the review and comments.
 
 Contributors
 
