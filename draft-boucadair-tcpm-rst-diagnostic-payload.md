@@ -143,10 +143,10 @@ Standard reset reasons:
 : Assess whether the list of code reasons ({{causes}}) reflects most of reset cases.
 
 Integration of socket API extensions:
-: Excercise the socket API extensions and identify any required adjustement ({{socket-api}}).
+: Exercise the socket API extensions and identify any required adjustement ({{socket-api}}).
 
 Operational guidance:
-: Strengthen the operationnal guidance for deploying RSTs with diagnostic payload.
+: Strengthen the operational guidance for deploying RSTs with diagnostic payload.
 
 #  RST Diagnostic Payload {#payload}
 
@@ -524,4 +524,4 @@ In conclusion, across all complex environment tests, the RST packets with payloa
    The "diagnostic payload" name is inspired by {{Section 5.5.2 of  ?RFC7252}}
   that was cited by Carsten Bormann in the tcpm mailing list.
 
-   Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael Tuexen for the reveiw and comments.
+   Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael Tuexen for the review and comments.
