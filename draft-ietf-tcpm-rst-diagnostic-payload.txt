@@ -5,14 +5,14 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Experimental                                   T. Reddy
-Expires: 18 September 2026                                         Nokia
+Expires: 24 October 2026                                           Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                           17 March 2026
+                                                           22 April 2026
 
 
                        TCP RST Diagnostic Payload
-           draft-boucadair-tcpm-rst-diagnostic-payload-latest
+             draft-ietf-tcpm-rst-diagnostic-payload-latest
 
 Abstract
 
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 September 2026.
+   This Internet-Draft will expire on 24 October 2026.
 
 Copyright Notice
 
@@ -382,7 +382,7 @@ Table of Contents
         (TCP_RST_REASON_ENABLE)
 
    Using setsockopt() with the IPPROTO_TCP-level socket option with the
-   name TCP_RST_REASON_ENABLE enables or disabled the sending of the
+   name TCP_RST_REASON_ENABLE enables or disables the sending of the
    diagnostic payload using a reason-code and pen.  The option_value of
    type uint32_t specifies the pen in host byte order to use.  When 0 is
    used (Section 3 of [RFC9371]), the reason-codes from the registry
