@@ -233,16 +233,16 @@ Operational guidance:
 {: #fig-2 title='Example of an RST Diagnostic Payload to Report Connection Timeout'}
 
    {{fig-3}} illustrates an RST diagnostic payload that is returned by a
-   peer that resets a TCP connection for a reason code 1234 defined by a
-   vendor with the private enterprise number 32473 (0x7D9).
+   peer that resets a TCP connection for a reason code 1234 (0x4D2) defined by a
+   vendor with the private enterprise number 32473 (0x7ED9).
 
 ~~~~
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x4DE            |
+   |             0x33AA            |              0x4D2            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                             0x7D9                             |
+   |                            0x7ED9                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #fig-3 title='Example of an RST Diagnostic Payload to Report Vendor-Specific Reason Code'}
