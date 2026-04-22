@@ -233,16 +233,16 @@ Operational guidance:
 {: #fig-2 title='Example of an RST Diagnostic Payload to Report Connection Timeout'}
 
    {{fig-3}} illustrates an RST diagnostic payload that is returned by a
-   peer that resets a TCP connection for a reason code 1234 defined by a
-   vendor with the private enterprise number 32473 (0x7D9).
+   peer that resets a TCP connection for a reason code 1234 (0x4D2) defined by a
+   vendor with the private enterprise number 32473 (0x7ED9).
 
 ~~~~
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x4DE            |
+   |             0x33AA            |              0x4D2            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                             0x7D9                             |
+   |                            0x7ED9                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #fig-3 title='Example of an RST Diagnostic Payload to Report Vendor-Specific Reason Code'}
@@ -410,7 +410,7 @@ termination of the TCP connection is disabled.
  | Value | Description                                                    | Specification (if available)               |
  |:-----:|:---------------------------------------------------------------|:-------------------------------------------|
  | 0     | Reserved                                                       | ThisDocument                               |
- | 1     | Illegal Option                                                 | {{Section 3.1 of !RFC9293}}                |
+ | 1     | Illegal option length                                          | {{Section 3.1 of !RFC9293}}                |
  | 2     | Desynchronized state                                           | {{Section 3.5.1 of !RFC9293}}              |
  | 3     | New data is received after CLOSE is called                     | Sections 3.6.1 and  3.10.7.1 of {{!RFC9293}}  |
  | 4     | ABORT Process                                                  | {{Section 3.10.5 of !RFC9293}}             |
@@ -418,12 +418,12 @@ termination of the TCP connection is disabled.
  | 6     | Unexpected SYN in the window                                   | {{Section 3.10.7 of !RFC9293}}             |
  | 7     | Unexpected security compartment                                | {{Section A.1 of !RFC9293}}                |
  | 8     | Malformed Message                                              | ThisDocument                               |
- | 9     | Not Authorized                                                 | ThisDocument                               |
- | 10    | Resource Exceeded                                              | ThisDocument                               |
- | 11    | Network Failure                                                | ThisDocument                               |
+ | 9     | Not authorized                                                 | ThisDocument                               |
+ | 10    | Resource exceeded                                              | ThisDocument                               |
+ | 11    | Network failure                                                | ThisDocument                               |
  | 12    | Reset received from the peer                                   | ThisDocument                               |
- | 13    | Destination Unreachable                                        | ThisDocument                               |
- | 14    | Connection Timeout                                             | ThisDocument                               |
+ | 13    | Destination unreachable                                        | ThisDocument                               |
+ | 14    | Connection timeout                                             | ThisDocument                               |
  | 15    | Too much outstanding data                                      | {{Section 3.6 of !RFC8684}}                |
  | 16    | Unacceptable performance                                       | {{Section 3.6 of !RFC8684}}                |
  | 17    | Middlebox interference                                         | {{Section 3.6 of !RFC8684}}                |
