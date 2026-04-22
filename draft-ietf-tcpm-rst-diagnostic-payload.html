@@ -1513,8 +1513,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         </figcaption></figure>
 </div>
 <p id="section-5-5"><a href="#fig-3" class="auto internal xref">Figure 4</a> illustrates an RST diagnostic payload that is returned by a
-   peer that resets a TCP connection for a reason code 1234 defined by a
-   vendor with the private enterprise number 32473 (0x7D9).<a href="#section-5-5" class="pilcrow">¶</a></p>
+   peer that resets a TCP connection for a reason code 1234 (0x4D2) defined by a
+   vendor with the private enterprise number 32473 (0x7ED9).<a href="#section-5-5" class="pilcrow">¶</a></p>
 <span id="name-example-of-an-rst-diagnostic-"></span><div id="fig-3">
 <figure id="figure-4">
         <div class="alignLeft art-text artwork" id="section-5-6.1">
@@ -1522,9 +1522,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x4DE            |
+   |             0x33AA            |              0x4D2            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                             0x7D9                             |
+   |                            0x7ED9                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </pre>
 </div>
@@ -1814,7 +1814,7 @@ termination of the TCP connection is disabled.<a href="#section-7.1.2-7" class="
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">Illegal Option</td>
+              <td class="text-left" rowspan="1" colspan="1">Illegal option length</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <span><a href="https://rfc-editor.org/rfc/rfc9293#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9293" class="cite xref">RFC9293</a>]</span>
 </td>
@@ -1867,17 +1867,17 @@ termination of the TCP connection is disabled.<a href="#section-7.1.2-7" class="
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">9</td>
-              <td class="text-left" rowspan="1" colspan="1">Not Authorized</td>
+              <td class="text-left" rowspan="1" colspan="1">Not authorized</td>
               <td class="text-left" rowspan="1" colspan="1">ThisDocument</td>
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">10</td>
-              <td class="text-left" rowspan="1" colspan="1">Resource Exceeded</td>
+              <td class="text-left" rowspan="1" colspan="1">Resource exceeded</td>
               <td class="text-left" rowspan="1" colspan="1">ThisDocument</td>
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">11</td>
-              <td class="text-left" rowspan="1" colspan="1">Network Failure</td>
+              <td class="text-left" rowspan="1" colspan="1">Network failure</td>
               <td class="text-left" rowspan="1" colspan="1">ThisDocument</td>
             </tr>
             <tr>
@@ -1887,12 +1887,12 @@ termination of the TCP connection is disabled.<a href="#section-7.1.2-7" class="
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">13</td>
-              <td class="text-left" rowspan="1" colspan="1">Destination Unreachable</td>
+              <td class="text-left" rowspan="1" colspan="1">Destination unreachable</td>
               <td class="text-left" rowspan="1" colspan="1">ThisDocument</td>
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">14</td>
-              <td class="text-left" rowspan="1" colspan="1">Connection Timeout</td>
+              <td class="text-left" rowspan="1" colspan="1">Connection timeout</td>
               <td class="text-left" rowspan="1" colspan="1">ThisDocument</td>
             </tr>
             <tr>

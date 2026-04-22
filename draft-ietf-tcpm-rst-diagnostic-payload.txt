@@ -292,15 +292,16 @@ Table of Contents
                              Connection Timeout
 
    Figure 4 illustrates an RST diagnostic payload that is returned by a
-   peer that resets a TCP connection for a reason code 1234 defined by a
-   vendor with the private enterprise number 32473 (0x7D9).
+   peer that resets a TCP connection for a reason code 1234 (0x4D2)
+   defined by a vendor with the private enterprise number 32473
+   (0x7ED9).
 
        0                   1                   2                   3
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |             0x33AA            |              0x4DE            |
+      |             0x33AA            |              0x4D2            |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                             0x7D9                             |
+      |                            0x7ED9                             |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
       Figure 4: Example of an RST Diagnostic Payload to Report Vendor-
@@ -481,7 +482,7 @@ Table of Contents
     +=======+=================================+=======================+
     |   0   | Reserved                        | ThisDocument          |
     +-------+---------------------------------+-----------------------+
-    |   1   | Illegal Option                  | Section 3.1 of        |
+    |   1   | Illegal option length           | Section 3.1 of        |
     |       |                                 | [RFC9293]             |
     +-------+---------------------------------+-----------------------+
     |   2   | Desynchronized state            | Section 3.5.1 of      |
@@ -504,17 +505,17 @@ Table of Contents
     +-------+---------------------------------+-----------------------+
     |   8   | Malformed Message               | ThisDocument          |
     +-------+---------------------------------+-----------------------+
-    |   9   | Not Authorized                  | ThisDocument          |
+    |   9   | Not authorized                  | ThisDocument          |
     +-------+---------------------------------+-----------------------+
-    |   10  | Resource Exceeded               | ThisDocument          |
+    |   10  | Resource exceeded               | ThisDocument          |
     +-------+---------------------------------+-----------------------+
-    |   11  | Network Failure                 | ThisDocument          |
+    |   11  | Network failure                 | ThisDocument          |
     +-------+---------------------------------+-----------------------+
     |   12  | Reset received from the peer    | ThisDocument          |
     +-------+---------------------------------+-----------------------+
-    |   13  | Destination Unreachable         | ThisDocument          |
+    |   13  | Destination unreachable         | ThisDocument          |
     +-------+---------------------------------+-----------------------+
-    |   14  | Connection Timeout              | ThisDocument          |
+    |   14  | Connection timeout              | ThisDocument          |
     +-------+---------------------------------+-----------------------+
     |   15  | Too much outstanding data       | Section 3.6 of        |
     |       |                                 | [RFC8684]             |
