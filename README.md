@@ -1,11 +1,11 @@
 # TCP RST Diagnostic Payload
 
-This is the working area for the individual Internet-Draft, "TCP RST Diagnostic Payload".
+This is the working area for the IETF TCPM WG Internet-Draft, "TCP RST Diagnostic Payload".
 
-* [Editor's Copy](https://boucadair.github.io/draft-boucadair-tcpm-rst-diagnostic-payload/#go.draft-boucadair-tcpm-rst-diagnostic-payload.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-boucadair-tcpm-rst-diagnostic-payload)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-boucadair-tcpm-rst-diagnostic-payload)
-* [Compare Editor's Copy to Individual Draft](https://boucadair.github.io/draft-boucadair-tcpm-rst-diagnostic-payload/#go.draft-boucadair-tcpm-rst-diagnostic-payload.diff)
+* [Editor's Copy](https://boucadair.github.io/draft-boucadair-tcpm-rst-diagnostic-payload/#go.draft-ietf-tcpm-rst-diagnostic-payload.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-tcpm-rst-diagnostic-payload)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-tcpm-rst-diagnostic-payload)
+* [Compare Editor's Copy to Individual Draft](https://boucadair.github.io/draft-boucadair-tcpm-rst-diagnostic-payload/#go.draft-ietf-tcpm-rst-diagnostic-payload.diff)
 
 
 ## Contributing
