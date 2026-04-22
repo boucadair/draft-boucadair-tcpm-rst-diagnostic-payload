@@ -824,8 +824,8 @@ Acknowledgments
    [RFC7252] that was cited by Carsten Bormann in the tcpm mailing list.
 
    Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick
-   Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael
-   Tuexen for the review and comments.
+   Jones, Yoshifumi Nishida, Li Jinghui, and Gleb Smirnoff for the
+   review and comments.
 
 Contributors
 
