@@ -410,7 +410,7 @@ termination of the TCP connection is disabled.
  | Value | Description                                                    | Specification (if available)               |
  |:-----:|:---------------------------------------------------------------|:-------------------------------------------|
  | 0     | Reserved                                                       | ThisDocument                               |
- | 1     | Illegal option                                                 | {{Section 3.1 of !RFC9293}}                |
+ | 1     | Illegal option length                                          | {{Section 3.1 of !RFC9293}}                |
  | 2     | Desynchronized state                                           | {{Section 3.5.1 of !RFC9293}}              |
  | 3     | New data is received after CLOSE is called                     | Sections 3.6.1 and  3.10.7.1 of {{!RFC9293}}  |
  | 4     | ABORT Process                                                  | {{Section 3.10.5 of !RFC9293}}             |
