@@ -524,4 +524,4 @@ In conclusion, across all complex environment tests, the RST packets with payloa
    The "diagnostic payload" name is inspired by {{Section 5.5.2 of  ?RFC7252}}
   that was cited by Carsten Bormann in the tcpm mailing list.
 
-   Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick Jones, Yoshifumi Nishida, Li Jinghui, Gleb Smirnoff, and Michael Tuexen for the review and comments.
+   Thanks to Jon Shallow, Neal Cardwell, Lars Eggert, Eric Dumazet, Rick Jones, Yoshifumi Nishida, Li Jinghui, and Gleb Smirnoff for the review and comments.
