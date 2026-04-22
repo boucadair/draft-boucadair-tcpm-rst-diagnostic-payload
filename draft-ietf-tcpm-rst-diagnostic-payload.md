@@ -413,11 +413,11 @@ termination of the TCP connection is disabled.
  | 1     | Illegal option length                                          | {{Section 3.1 of !RFC9293}}                |
  | 2     | Desynchronized state                                           | {{Section 3.5.1 of !RFC9293}}              |
  | 3     | New data is received after CLOSE is called                     | Sections 3.6.1 and  3.10.7.1 of {{!RFC9293}}  |
- | 4     | ABORT Process                                                  | {{Section 3.10.5 of !RFC9293}}             |
+ | 4     | ABORT process                                                  | {{Section 3.10.5 of !RFC9293}}             |
  | 5     | Unexpected ACK received by non-synchronized state connection   | {{Section 3.10.7 of !RFC9293}}             |
  | 6     | Unexpected SYN in the window                                   | {{Section 3.10.7 of !RFC9293}}             |
  | 7     | Unexpected security compartment                                | {{Section A.1 of !RFC9293}}                |
- | 8     | Malformed Message                                              | ThisDocument                               |
+ | 8     | Malformed message                                              | ThisDocument                               |
  | 9     | Not authorized                                                 | ThisDocument                               |
  | 10    | Resource exceeded                                              | ThisDocument                               |
  | 11    | Network failure                                                | ThisDocument                               |
