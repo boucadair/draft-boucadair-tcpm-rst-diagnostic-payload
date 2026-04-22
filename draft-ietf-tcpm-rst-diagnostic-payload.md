@@ -3,7 +3,7 @@ title: "TCP RST Diagnostic Payload"
 abbrev: "RST Diagnostic Payload"
 category: exp
 
-docname: draft-boucadair-tcpm-rst-diagnostic-payload-latest
+docname: draft-ietf-tcpm-rst-diagnostic-payload-latest
 submissiontype: IETF
 number:
 date:
@@ -311,7 +311,7 @@ options defined in this section.
 ### Enable the Sending of the Diagnostic Payload (``TCP_RST_REASON_ENABLE``)
 
 Using ``setsockopt()`` with the ``IPPROTO_TCP``-level socket option with the
-name ``TCP_RST_REASON_ENABLE`` enables or disabled the sending of the
+name ``TCP_RST_REASON_ENABLE`` enables or disables the sending of the
 diagnostic payload using a reason-code and pen.
 The ``option_value`` of type ``uint32_t`` specifies the pen in host byte order
 to use.
