@@ -146,7 +146,7 @@ CPU/load impact:
 : Assess CPU/load impact (or lack thereof) of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent by an endpoint.
 
 Standard reset reasons:
-: Assess whether the list of code reasons ({{causes}}) reflects most of reset cases.
+: Assess whether the list of code reasons ({{causes}}) reflects observed reset cases.
 
 Integration of socket API extensions:
 : Exercise the socket API extensions and identify any required adjustement ({{socket-api}}).
@@ -204,6 +204,10 @@ Operational guidance:
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the information is passed to an application
    and how it is stored locally is implementation-specific.
+
+   Because new codes may be supported by a sender, receivers SHOULD NOT
+   discard received RST diagnostic payloads with an unknown reason code unless
+   configured otherwise.
 
 #  Some Examples {#examples}
 
