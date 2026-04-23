@@ -17,7 +17,13 @@
    As such, this document does not require any change to RFC 9293. 
     ' name="description">
 <meta content="xml2rfc 3.33.0" name="generator">
-<meta content="Service diagnostic" name="keyword">
+<meta content="service diagnostic" name="keyword">
+<meta content="service function" name="keyword">
+<meta content="troubelshooting" name="keyword">
+<meta content="diagnostic" name="keyword">
+<meta content="serviceability" name="keyword">
+<meta content="root cause" name="keyword">
+<meta content="anomaly" name="keyword">
 <meta content="draft-ietf-tcpm-rst-diagnostic-payload-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.33.0
@@ -1056,7 +1062,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Boucadair, et al.</td>
-<td class="center">Expires 24 October 2026</td>
+<td class="center">Expires 25 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1075,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-tcpm-rst-diagnostic-payload-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-22" class="published">22 April 2026</time>
+<time datetime="2026-04-23" class="published">23 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Experimental</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-24">24 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-25">25 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1132,7 +1138,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1195,6 +1201,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
                 <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-manageability" class="internal xref">Manageability</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-maintenance" class="internal xref">Maintenance</a></p>
 </li>
             </ul>
 </li>
@@ -1353,12 +1362,12 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <span class="break"></span><dl class="dlParallel" id="section-3-3">
         <dt id="section-3-3.1">Delivery &amp; on-path device interference:</dt>
         <dd style="margin-left: 1.5em" id="section-3-3.2">
-          <p id="section-3-3.2.1">Identify and share issues or lack thereof related to the delivery of RST with diagnostic payload.<a href="#section-3-3.2.1" class="pilcrow">¶</a></p>
+          <p id="section-3-3.2.1">Identify and share issues (or lack thereof) related to the delivery of RST with diagnostic payload.<a href="#section-3-3.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-3.3">CPU/load impact:</dt>
         <dd style="margin-left: 1.5em" id="section-3-3.4">
-          <p id="section-3-3.4.1">Assess CPU/load impact (or lack thereof) of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.<a href="#section-3-3.4.1" class="pilcrow">¶</a></p>
+          <p id="section-3-3.4.1">Assess CPU/load impact (or lack thereof) of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent by an endpoint.<a href="#section-3-3.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-3.5">Standard reset reasons:</dt>
@@ -1571,7 +1580,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
    payload is implementation-specific.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="manageability">
+<div id="sec-man">
 <section id="section-6.3">
         <h3 id="name-manageability">
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-manageability" class="section-name selfRef">Manageability</a>
@@ -1582,18 +1591,31 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-6.3-2.1.1">A parameter to control the activation of RSTs with diagnostic payload.<a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-2.2">
-            <p id="section-6.3-2.2.1">A parameter to control whether "empty" RSTs are also sent together with an RST with diagnostic payload.<a href="#section-6.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-2.2.1">A parameter to expose the set of reason codes that are supported by an implementation.<a href="#section-6.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-2.3">
-            <p id="section-6.3-2.3.1">A rate-limit of RSTs with diagnostic payload.<a href="#section-6.3-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-2.3.1">A parameter to control whether "empty" RSTs are also sent together with an RST with diagnostic payload.<a href="#section-6.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-2.4">
-            <p id="section-6.3-2.4.1">Counters to track sent/received RSTs with diagnostic payload.<a href="#section-6.3-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-2.4.1">A rate-limit of RSTs with diagnostic payload.<a href="#section-6.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-2.5">
-            <p id="section-6.3-2.5.1">Counters to track received invalid RSTs with diagnostic payload.<a href="#section-6.3-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-2.5.1">Counters to track sent/received RSTs with diagnostic payload.<a href="#section-6.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.3-2.6">
+            <p id="section-6.3-2.6.1">Counters to track received invalid RSTs with diagnostic payload.<a href="#section-6.3-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+</section>
+</div>
+<div id="maintenance">
+<section id="section-6.4">
+        <h3 id="name-maintenance">
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-maintenance" class="section-name selfRef">Maintenance</a>
+        </h3>
+<p id="section-6.4-1">As new reason codes may be added to the IANA registry, there is a risk that the codes
+  that are supported by an implementation do not match the latest version in the registry. Deviations can be detected using the exposure parameter in <a href="#sec-man" class="auto internal xref">Section 6.3</a>.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">It is <span class="bcp14">RECOMMENDED</span> to proceed with regular software updates to align with the latest version in the registry.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
