@@ -120,7 +120,7 @@ informative:
    This document makes use of the terms defined in {{Section 4 of !RFC9293}}.
 
    SEG.LEN is defined in {{Section 3.3.1 of !RFC9293}}. SHLD-2 is defined in {{Section 3.5.3 of !RFC9293}} while MUST-12 is defined in {{Section 3.6 of !RFC9293}}.
-   
+
    This document uses the following terms:
 
    RST diagnostic payload:
@@ -143,7 +143,7 @@ informative:
   Experiments reports are encouraged to share the main lessons
   learned in these experimentations. Specifically, the following items are of interest:
 
-Delivery & on-path device interference:
+Delivery and on-path device interference:
 : Identify and share issues (or lack thereof) related to the delivery of RST with diagnostic payload.
 
 CPU/load impact:
@@ -179,7 +179,7 @@ Operational guidance:
 
    The RST diagnostic payload comprises a magic number that is used to
    unambiguously identify an RST payload that follows this
-   specification.  It MUST be set to 0x33AA.
+   specification.  The magic number MUST be set to 0x33AA.
 
    The descriptions of other fields shown in {{format-1}} are as follows:
 
