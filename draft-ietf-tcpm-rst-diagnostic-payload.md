@@ -45,8 +45,6 @@ contributor:
     email: tuexen@fh-muenster.de
 
 normative:
-
-informative:
   IANA-TCP:
     title: Transmission Control Protocol (TCP) Parameters
     date: false
@@ -56,6 +54,9 @@ informative:
     title: Private Enterprise Numbers
     date: false
     target: https://www.iana.org/assignments/enterprise-numbers
+
+informative:
+
 
 --- abstract
    This document specifies an experimental diagnostic payload format returned in TCP
