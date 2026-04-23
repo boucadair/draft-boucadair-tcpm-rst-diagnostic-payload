@@ -234,6 +234,9 @@ Table of Contents
       The reason code is taken from the "TCP Failure Causes" registry
       (Section 9.1) if "pen" is set to 0.
 
+      It is RECOMMENDED that implementations support all codes defined
+      in Table 2.
+
       If the "pen" is not set to 0, then the reason code refers to the
       registry of the entity specified by the "pen" parameter.
 
