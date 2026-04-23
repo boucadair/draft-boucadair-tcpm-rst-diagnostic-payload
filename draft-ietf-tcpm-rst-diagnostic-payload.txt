@@ -192,7 +192,7 @@ Table of Contents
       diagnostic payload are sent by an endpoint.
 
    Standard reset reasons:  Assess whether the list of code reasons
-      (Section 9.1) reflects most of reset cases.
+      (Section 9.1) reflects observed reset cases.
 
    Integration of socket API extensions:  Exercise the socket API
       extensions and identify any required adjustement (Section 7).
@@ -261,6 +261,10 @@ Table of Contents
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the information is passed to an application
    and how it is stored locally is implementation-specific.
+
+   Because new codes may be supported by a sender, receivers SHOULD NOT
+   discard received RST diagnostic payloads with an unknown reason code
+   unless configured otherwise.
 
 5.  Some Examples
 

@@ -1372,7 +1372,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <dd class="break"></dd>
 <dt id="section-3-3.5">Standard reset reasons:</dt>
         <dd style="margin-left: 1.5em" id="section-3-3.6">
-          <p id="section-3-3.6.1">Assess whether the list of code reasons (<a href="#causes" class="auto internal xref">Section 9.1</a>) reflects most of reset cases.<a href="#section-3-3.6.1" class="pilcrow">¶</a></p>
+          <p id="section-3-3.6.1">Assess whether the list of code reasons (<a href="#causes" class="auto internal xref">Section 9.1</a>) reflects observed reset cases.<a href="#section-3-3.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-3.7">Integration of socket API extensions:</dt>
@@ -1475,6 +1475,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the information is passed to an application
    and how it is stored locally is implementation-specific.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">Because new codes may be supported by a sender, receivers <span class="bcp14">SHOULD NOT</span>
+   discard received RST diagnostic payloads with an unknown reason code unless
+   configured otherwise.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
