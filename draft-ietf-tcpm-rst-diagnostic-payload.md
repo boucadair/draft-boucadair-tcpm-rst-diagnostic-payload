@@ -202,7 +202,7 @@ Operational guidance:
    information (MUST-12) described in {{Section 3.6 of !RFC9293}}.  That
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the information is passed to an application
-   and how it is stored locally is implementation-specific.   
+   and how it is stored locally is implementation-specific.
 
 #  Some Examples {#examples}
 
@@ -292,13 +292,13 @@ Operational guidance:
   * A parameter to control whether "empty" RSTs are also sent together with an RST with diagnostic payload.
   * A rate-limit of RSTs with diagnostic payload.
   * Counters to track sent/received RSTs with diagnostic payload.
-  * Counters to track received invalid RSTs with diagnostic payload.  
+  * Counters to track received invalid RSTs with diagnostic payload.
 
 ## Maintenance
 
   As new reason codes may be added to the IANA registry, there is a risk that the codes
   that are supported by an implementation do not match the latest version in the registry. Deviations can be detected using the exposure parameter in {{sec-man}}.
-  
+
   It is RECOMMENDED to proceed with regular software updates to align with the latest version in the registry.
 
 # Socket API Considerations (Informative) {#socket-api}
