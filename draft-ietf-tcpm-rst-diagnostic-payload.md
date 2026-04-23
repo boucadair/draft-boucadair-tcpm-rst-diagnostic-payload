@@ -183,6 +183,7 @@ Operational guidance:
    : This field takes a value from an available registry (IANA or vendor-specific).
    : Value 0 is reserved and MUST NOT be used.
    : The reason code is taken from the "TCP Failure Causes" registry ({{causes}}) if "pen" is set to 0.
+   : It is RECOMMENDED that implementations support all codes defined in {{initial}}.
    : If the "pen" is not set to 0, then the reason code refers to the registry of the entity specified by the "pen" parameter.
 
    pen:
