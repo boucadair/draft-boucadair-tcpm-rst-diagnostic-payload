@@ -119,8 +119,8 @@ informative:
 
    This document makes use of the terms defined in {{Section 4 of !RFC9293}}.
 
-   SEG.LEN is defined in {{Section 3.3.1 of !RFC9293}}.
-
+   SEG.LEN is defined in {{Section 3.3.1 of !RFC9293}}. SHLD-2 is defined in {{Section 3.5.3 of !RFC9293}} while MUST-12 is defined in {{Section 3.6 of !RFC9293}}.
+   
    This document uses the following terms:
 
    RST diagnostic payload:
@@ -130,7 +130,7 @@ informative:
    : An RST segment that includes diagnostic payload.
 
    Reset reason information:
-   : Refers to a reset reason code and a Private Enterprise Number (PEN). When omitted, this means that the PEN is set to 0.
+   : Refers to a reset reason code and a Private Enterprise Number (PEN). The PEN can be omitted if it is set to 0.
 
 # Experiment Description & Goals {#sec-goals}
 
@@ -188,7 +188,7 @@ Operational guidance:
    : Value 0 is reserved and MUST NOT be used.
    : The reason code is taken from the "TCP Failure Causes" registry  {{IANA-TCP}} if "pen" is set to 0.
    : It is RECOMMENDED that implementations support all codes defined in {{initial}} provided in {{causes}}.
-   : If the "pen" is not set to 0, then the reason code refers to a registry of the entity specified by the "pen" parameter.
+   : If the "pen" is not set to 0, then the reason code refers to a registry of the entity identified by the "pen" parameter.
 
    pen:
    : Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
@@ -204,7 +204,7 @@ Operational guidance:
 
    A peer that receives a valid diagnostic payload may pass the reset
    reason information to the local application in addition to the
-   information (MUST-12) described in {{Section 3.6 of !RFC9293}}.  That
+   information (MUST-12) described in {{Section 3.6 of !RFC9293}}. The reset reason
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the reset reason information is passed to an application
    and how it is stored locally is implementation-specific.
@@ -276,8 +276,8 @@ Operational guidance:
    the provision in {{Section 3.5.3 of !RFC9293}} for RST segments, especially:
 
    {: quote}
-   >"TCP implementations SHOULD allow a received RST segment to
-   >  include data (SHLD-2)."
+   > TCP implementations SHOULD allow a received RST segment to
+   > include data (SHLD-2).
 
    Also, this document does not change the conditions under which an RST
    segment is generated ({{Section 3.5.2 of !RFC9293}}).
