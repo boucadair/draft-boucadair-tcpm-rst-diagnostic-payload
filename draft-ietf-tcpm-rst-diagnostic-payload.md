@@ -12,7 +12,13 @@ v: 3
 area: ""
 workgroup: "TCP Maintenance and Minor Extensions"
 keyword:
- - Service diagnostic
+ - service diagnostic
+ - service function
+ - troubelshooting
+ - diagnostic
+ - serviceability
+ - root cause
+ - anomaly
 
 
 author:
@@ -134,10 +140,10 @@ informative:
   learned in these experimentations. Specifically, the following items are of interest:
 
 Delivery & on-path device interference:
-: Identify and share issues or lack thereof related to the delivery of RST with diagnostic payload.
+: Identify and share issues (or lack thereof) related to the delivery of RST with diagnostic payload.
 
 CPU/load impact:
-: Assess CPU/load impact (or lack thereof) of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent.
+: Assess CPU/load impact (or lack thereof) of handling RSTs, including when a mix of RSTs with and without diagnostic payload are sent by an endpoint.
 
 Standard reset reasons:
 : Assess whether the list of code reasons ({{causes}}) reflects most of reset cases.
@@ -196,7 +202,7 @@ Operational guidance:
    information (MUST-12) described in {{Section 3.6 of !RFC9293}}.  That
    information may also be logged locally, unless a local policy
    specifies otherwise.  How the information is passed to an application
-   and how it is stored locally is implementation-specific.
+   and how it is stored locally is implementation-specific.   
 
 #  Some Examples {#examples}
 
@@ -277,15 +283,23 @@ Operational guidance:
    than one RST with only a subset of them that include the diagnostic
    payload is implementation-specific.
 
-## Manageability
+## Manageability {#sec-man}
 
   TCP server implementations should support the following parameters:
 
   * A parameter to control the activation of RSTs with diagnostic payload.
+  * A parameter to expose the set of reason codes that are supported by an implementation.
   * A parameter to control whether "empty" RSTs are also sent together with an RST with diagnostic payload.
   * A rate-limit of RSTs with diagnostic payload.
   * Counters to track sent/received RSTs with diagnostic payload.
-  * Counters to track received invalid RSTs with diagnostic payload.
+  * Counters to track received invalid RSTs with diagnostic payload.  
+
+## Maintenance
+
+  As new reason codes may be added to the IANA registry, there is a risk that the codes
+  that are supported by an implementation do not match the latest version in the registry. Deviations can be detected using the exposure parameter in {{sec-man}}.
+  
+  It is RECOMMENDED to proceed with regular software updates to align with the latest version in the registry.
 
 # Socket API Considerations (Informative) {#socket-api}
 
