@@ -583,6 +583,14 @@ Table of Contents
 
 10.1.  Normative References
 
+   [IANA-TCP] "Transmission Control Protocol (TCP) Parameters",
+              <https://www.iana.org/assignments/tcp-parameters/tcp-
+              parameters.xhtml#>.
+
+   [Private-Enterprise-Numbers]
+              "Private Enterprise Numbers",
+              <https://www.iana.org/assignments/enterprise-numbers>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -607,14 +615,6 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc9293>.
 
 10.2.  Informative References
-
-   [IANA-TCP] "Transmission Control Protocol (TCP) Parameters",
-              <https://www.iana.org/assignments/tcp-parameters/tcp-
-              parameters.xhtml#>.
-
-   [Private-Enterprise-Numbers]
-              "Private Enterprise Numbers",
-              <https://www.iana.org/assignments/enterprise-numbers>.
 
    [RFC5612]  Eronen, P. and D. Harrington, "Enterprise Number for
               Documentation Use", RFC 5612, DOI 10.17487/RFC5612, August
