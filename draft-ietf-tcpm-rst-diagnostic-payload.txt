@@ -160,7 +160,9 @@ Table of Contents
    This document makes use of the terms defined in Section 4 of
    [RFC9293].
 
-   SEG.LEN is defined in Section 3.3.1 of [RFC9293].
+   SEG.LEN is defined in Section 3.3.1 of [RFC9293].  SHLD-2 is defined
+   in Section 3.5.3 of [RFC9293] while MUST-12 is defined in Section 3.6
+   of [RFC9293].
 
    This document uses the following terms:
 
@@ -171,8 +173,8 @@ Table of Contents
       payload.
 
    Reset reason information:  Refers to a reset reason code and a
-      Private Enterprise Number (PEN).  When omitted, this means that
-      the PEN is set to 0.
+      Private Enterprise Number (PEN).  The PEN can be omitted if it is
+      set to 0.
 
 3.  Experiment Description & Goals
 
@@ -187,7 +189,7 @@ Table of Contents
    in these experimentations.  Specifically, the following items are of
    interest:
 
-   Delivery & on-path device interference:  Identify and share issues
+   Delivery and on-path device interference:  Identify and share issues
       (or lack thereof) related to the delivery of RST with diagnostic
       payload.
 
@@ -226,7 +228,7 @@ Table of Contents
 
    The RST diagnostic payload comprises a magic number that is used to
    unambiguously identify an RST payload that follows this
-   specification.  It MUST be set to 0x33AA.
+   specification.  The magic number MUST be set to 0x33AA.
 
    The descriptions of other fields shown in Figure 1 are as follows:
 
@@ -242,7 +244,7 @@ Table of Contents
       in Table 2 provided in Section 9.1.
 
       If the "pen" is not set to 0, then the reason code refers to a
-      registry of the entity specified by the "pen" parameter.
+      registry of the entity identified by the "pen" parameter.
 
    pen:  Includes a Private Enterprise Number (PEN)
       [Private-Enterprise-Numbers].
@@ -261,11 +263,11 @@ Table of Contents
 
    A peer that receives a valid diagnostic payload may pass the reset
    reason information to the local application in addition to the
-   information (MUST-12) described in Section 3.6 of [RFC9293].  That
-   information may also be logged locally, unless a local policy
-   specifies otherwise.  How the reset reason information is passed to
-   an application and how it is stored locally is implementation-
-   specific.
+   information (MUST-12) described in Section 3.6 of [RFC9293].  The
+   reset reason information may also be logged locally, unless a local
+   policy specifies otherwise.  How the reset reason information is
+   passed to an application and how it is stored locally is
+   implementation-specific.
 
    Because new codes may be supported by a sender, receivers SHOULD NOT
    discard received RST diagnostic payloads with an unknown reason code
@@ -334,8 +336,8 @@ Table of Contents
    Returning diagnostic data in an RST segment is consistent with the
    provision in Section 3.5.3 of [RFC9293] for RST segments, especially:
 
-   |  "TCP implementations SHOULD allow a received RST segment to
-   |  include data (SHLD-2)."
+   |  TCP implementations SHOULD allow a received RST segment to include
+   |  data (SHLD-2).
 
    Also, this document does not change the conditions under which an RST
    segment is generated (Section 3.5.2 of [RFC9293]).
