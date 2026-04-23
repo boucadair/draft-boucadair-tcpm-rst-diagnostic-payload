@@ -170,6 +170,10 @@ Table of Contents
    RST with diagnostic payload:  An RST segment that includes diagnostic
       payload.
 
+   Reset reason information:  Refers to a reset reason code and a
+      Private Enterprise Number (PEN).  When omitted, this means that
+      the PEN is set to 0.
+
 3.  Experiment Description & Goals
 
    The main objective of this experiment is to have a common format of
@@ -232,19 +236,19 @@ Table of Contents
       Value 0 is reserved and MUST NOT be used.
 
       The reason code is taken from the "TCP Failure Causes" registry
-      (Section 9.1) if "pen" is set to 0.
+      [IANA-TCP] if "pen" is set to 0.
 
       It is RECOMMENDED that implementations support all codes defined
-      in Table 2.
+      in Table 2 provided in Section 9.1.
 
-      If the "pen" is not set to 0, then the reason code refers to the
+      If the "pen" is not set to 0, then the reason code refers to a
       registry of the entity specified by the "pen" parameter.
 
    pen:  Includes a Private Enterprise Number (PEN)
       [Private-Enterprise-Numbers].
 
       The reserved PEN value "0" is used to indicate that the reason
-      code refers to the IANA-maintained registry (Section 9.1).
+      code refers to the IANA-maintained registry Section 9.1.
 
    SEG.LEN MUST be 8 for an RST with diagnostic payload.
 
@@ -259,12 +263,17 @@ Table of Contents
    reason information to the local application in addition to the
    information (MUST-12) described in Section 3.6 of [RFC9293].  That
    information may also be logged locally, unless a local policy
-   specifies otherwise.  How the information is passed to an application
-   and how it is stored locally is implementation-specific.
+   specifies otherwise.  How the reset reason information is passed to
+   an application and how it is stored locally is implementation-
+   specific.
 
    Because new codes may be supported by a sender, receivers SHOULD NOT
    discard received RST diagnostic payloads with an unknown reason code
    unless configured otherwise.
+
+   Vendor-specific registries may be maintained by applications.  It is
+   out of scope to describe how an implementation associates a PEN with
+   a vendor-specific registry.
 
 5.  Some Examples
 
@@ -341,8 +350,8 @@ Table of Contents
    RSTs with payload data.
 
    Whether a TCP endpoint elects to send more than one RST with only a
-   subset of them that include the diagnostic payload is implementation-
-   specific.
+   subset of them that include the diagnostic payload is policy-based.
+   See Section 6.3 for more details.
 
 6.3.  Manageability
 
