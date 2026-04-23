@@ -129,6 +129,9 @@ informative:
    RST with diagnostic payload:
    : An RST segment that includes diagnostic payload.
 
+   Reset reason information:
+   : Refers to a reset reason code and a Private Enterprise Number (PEN). When omitted, this means that the PEN is set to 0.
+
 # Experiment Description & Goals {#sec-goals}
 
   The main objective of this experiment is to have a common format
@@ -183,13 +186,13 @@ Operational guidance:
    reason-code:
    : This field takes a value from an available registry (IANA or vendor-specific).
    : Value 0 is reserved and MUST NOT be used.
-   : The reason code is taken from the "TCP Failure Causes" registry ({{causes}}) if "pen" is set to 0.
-   : It is RECOMMENDED that implementations support all codes defined in {{initial}}.
-   : If the "pen" is not set to 0, then the reason code refers to the registry of the entity specified by the "pen" parameter.
+   : The reason code is taken from the "TCP Failure Causes" registry  {{IANA-TCP}} if "pen" is set to 0.
+   : It is RECOMMENDED that implementations support all codes defined in {{initial}} provided in {{causes}}.
+   : If the "pen" is not set to 0, then the reason code refers to a registry of the entity specified by the "pen" parameter.
 
    pen:
    : Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
-   : The reserved PEN value "0" is used to indicate that the reason code refers to the IANA-maintained registry ({{causes}}).
+   : The reserved PEN value "0" is used to indicate that the reason code refers to the IANA-maintained registry {{causes}}.
 
    SEG.LEN MUST be 8 for an RST with diagnostic payload.
 
@@ -203,12 +206,15 @@ Operational guidance:
    reason information to the local application in addition to the
    information (MUST-12) described in {{Section 3.6 of !RFC9293}}.  That
    information may also be logged locally, unless a local policy
-   specifies otherwise.  How the information is passed to an application
+   specifies otherwise.  How the reset reason information is passed to an application
    and how it is stored locally is implementation-specific.
 
    Because new codes may be supported by a sender, receivers SHOULD NOT
    discard received RST diagnostic payloads with an unknown reason code unless
    configured otherwise.
+
+   Vendor-specific registries may be maintained by applications. It is out of scope to describe
+   how an implementation associates a PEN with a vendor-specific registry.
 
 #  Some Examples {#examples}
 
@@ -287,7 +293,7 @@ Operational guidance:
 
    Whether a TCP endpoint elects to send more
    than one RST with only a subset of them that include the diagnostic
-   payload is implementation-specific.
+   payload is policy-based. See {{sec-man}} for more details.
 
 ## Manageability {#sec-man}
 
