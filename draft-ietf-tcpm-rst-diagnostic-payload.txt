@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Experimental                                   T. Reddy
-Expires: 25 October 2026                                           Nokia
+Expires: 26 October 2026                                           Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                           23 April 2026
+                                                           24 April 2026
 
 
                        TCP RST Diagnostic Payload
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 October 2026.
+   This Internet-Draft will expire on 26 October 2026.
 
 Copyright Notice
 
@@ -250,7 +250,7 @@ Table of Contents
       [Private-Enterprise-Numbers].
 
       The reserved PEN value "0" is used to indicate that the reason
-      code refers to the IANA-maintained registry Section 9.1.
+      code refers to the IANA-maintained registry (Section 9.1).
 
    SEG.LEN MUST be 8 for an RST with diagnostic payload.
 
@@ -352,8 +352,8 @@ Table of Contents
    RSTs with payload data.
 
    Whether a TCP endpoint elects to send more than one RST with only a
-   subset of them that include the diagnostic payload is policy-based.
-   See Section 6.3 for more details.
+   subset of them that include the diagnostic payload is implementation-
+   specific for clients and policy-based for servers (see Section 6.3).
 
 6.3.  Manageability
 
