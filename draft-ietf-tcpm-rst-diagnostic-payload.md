@@ -192,7 +192,7 @@ Operational guidance:
 
    pen:
    : Includes a Private Enterprise Number (PEN) [Private-Enterprise-Numbers].
-   : The reserved PEN value "0" is used to indicate that the reason code refers to the IANA-maintained registry {{causes}}.
+   : The reserved PEN value "0" is used to indicate that the reason code refers to the IANA-maintained registry ({{causes}}).
 
    SEG.LEN MUST be 8 for an RST with diagnostic payload.
 
@@ -293,7 +293,7 @@ Operational guidance:
 
    Whether a TCP endpoint elects to send more
    than one RST with only a subset of them that include the diagnostic
-   payload is policy-based. See {{sec-man}} for more details.
+   payload is implementation-specific for clients and policy-based for servers (see {{sec-man}}).
 
 ## Manageability {#sec-man}
 
