@@ -345,8 +345,10 @@ When 0 is used ({{Section 3 of ?RFC9371}}), the reason-codes from the registry
 specified in {{causes}} are used.
 When 0xffffffff is used ({{Section 3 of ?RFC9371}}), the sending is disabled.
 The default is that the sending of a diagnostic payload is disabled.
-An implementation might not support the use of PENs different from zero and
-0xffffffff.
+An implementation might not support the use of an ``option_value`` different
+from zero and 0xffffffff.
+
+For accepted sockets, this socket option is inherited from the listening socket.
 
 ### Get or Set the Diagnostic Payload as Code (``TCP_RST_REASON_CODE``)
 
