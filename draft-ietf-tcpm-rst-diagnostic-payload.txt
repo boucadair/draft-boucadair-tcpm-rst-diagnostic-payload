@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Experimental                                   T. Reddy
-Expires: 26 October 2026                                           Nokia
+Expires: 10 December 2026                                          Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                           24 April 2026
+                                                             8 June 2026
 
 
                        TCP RST Diagnostic Payload
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 October 2026.
+   This Internet-Draft will expire on 10 December 2026.
 
 Copyright Notice
 
@@ -422,8 +422,11 @@ Table of Contents
    specified in Section 9.1 are used.  When 0xffffffff is used
    (Section 3 of [RFC9371]), the sending is disabled.  The default is
    that the sending of a diagnostic payload is disabled.  An
-   implementation might not support the use of PENs different from zero
-   and 0xffffffff.
+   implementation might not support the use of an option_value different
+   from zero and 0xffffffff.
+
+   For accepted sockets, this socket option is inherited from the
+   listening socket.
 
 7.1.2.  Get or Set the Diagnostic Payload as Code (TCP_RST_REASON_CODE)
 
