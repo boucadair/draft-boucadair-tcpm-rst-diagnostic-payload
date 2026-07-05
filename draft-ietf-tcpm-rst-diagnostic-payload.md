@@ -441,8 +441,8 @@ termination of the TCP connection is disabled.
  | 1     | Illegal option length                                                             | {{Section 3.1 of !RFC9293}}      |
  | 2     | Desynchronized state                                                              | {{Section 3.5.1 of !RFC9293}}    |
  | 3     | Data available or received when application cannot read data anymore              | {{Section 3.6.1 of !RFC9293}}    |
- | 4     | Segment received in CLOSED state                                                  | {{Section 3.10.7.1 of !RFC9293}} |
- | 5     | ABORT process                                                                     | {{Section 3.10.5 of !RFC9293}}   |
+ | 4     | ABORT process                                                                     | {{Section 3.10.5 of !RFC9293}}   |
+ | 5     | Segment received in CLOSED state                                                  | {{Section 3.10.7.1 of !RFC9293}} |
  | 6     | ACK segment received in LISTEN state                                              | {{Section 3.10.7.2 of !RFC9293}} |
  | 7     | ACK segment received in SYN-SENT state and `SEG.ACK` is not acceptable            | {{Section 3.10.7.3 of !RFC9293}} |
  | 8     | ACK segment received in SYN-RECEIVED state and `SEG.ACK` is not acceptable        | {{Section 3.10.7.4 of !RFC9293}} |
