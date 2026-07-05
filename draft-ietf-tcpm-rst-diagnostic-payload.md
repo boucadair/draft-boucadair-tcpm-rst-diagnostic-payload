@@ -435,27 +435,27 @@ termination of the TCP connection is disabled.
    The registry is initially populated with the values listed in
    {{initial}}.
 
- | Value | Description                                                          | Specification (if available)     |
- |:-----:|:---------------------------------------------------------------------|:---------------------------------|
- | 0     | Reserved                                                             | ThisDocument                     |
- | 1     | Illegal option length                                                | {{Section 3.1 of !RFC9293}}      |
- | 2     | Desynchronized state                                                 | {{Section 3.5.1 of !RFC9293}}    |
- | 3     | Data available or received when application cannot read data anymore | {{Section 3.6.1 of !RFC9293}}    |
- | 4     | Segment received in CLOSED state                                     | {{Section 3.10.7.1 of !RFC9293}} |
- | 5     | ABORT process                                                        | {{Section 3.10.5 of !RFC9293}}   |
- | 6     | Unexpected ACK received by non-synchronized state connection         | {{Section 3.10.7 of !RFC9293}}   |
- | 7     | Unexpected SYN in the window                                         | {{Section 3.10.7 of !RFC9293}}   |
- | 8     | Unexpected security compartment                                      | {{Section A.1 of !RFC9293}}      |
- | 9     | Malformed message                                                    | ThisDocument                     |
- | 10    | Not authorized                                                       | ThisDocument                     |
- | 11    | Resource exceeded                                                    | ThisDocument                     |
- | 12    | Network failure                                                      | ThisDocument                     |
- | 13    | Reset received from the peer                                         | ThisDocument                     |
- | 14    | Destination unreachable                                              | ThisDocument                     |
- | 15    | Connection timeout                                                   | ThisDocument                     |
- | 16    | Too much outstanding data                                            | {{Section 3.6 of !RFC8684}}      |
- | 17    | Unacceptable performance                                             | {{Section 3.6 of !RFC8684}}      |
- | 18    | Middlebox interference                                               | {{Section 3.6 of !RFC8684}}      |
+ | Value | Description                                                                       | Specification (if available)     |
+ |:-----:|:----------------------------------------------------------------------------------|:---------------------------------|
+ | 0     | Reserved                                                                          | ThisDocument                     |
+ | 1     | Illegal option length                                                             | {{Section 3.1 of !RFC9293}}      |
+ | 2     | Desynchronized state                                                              | {{Section 3.5.1 of !RFC9293}}    |
+ | 3     | Data available or received when application cannot read data anymore              | {{Section 3.6.1 of !RFC9293}}    |
+ | 4     | Segment received in CLOSED state                                                  | {{Section 3.10.7.1 of !RFC9293}} |
+ | 5     | ABORT process                                                                     | {{Section 3.10.5 of !RFC9293}}   |
+ | 6     | Unexpected ACK received by non-synchronized state connection                      | {{Section 3.10.7 of !RFC9293}}   |
+ | 7     | In window SYN segment received in synchronized state without {{!RFC5961}} support | {{Section 3.10.7.4 of !RFC9293}} |
+ | 8     | Unexpected security compartment                                                   | {{Section A.1 of !RFC9293}}      |
+ | 9     | Malformed message                                                                 | ThisDocument                     |
+ | 10    | Not authorized                                                                    | ThisDocument                     |
+ | 11    | Resource exceeded                                                                 | ThisDocument                     |
+ | 12    | Network failure                                                                   | ThisDocument                     |
+ | 13    | Reset received from the peer                                                      | ThisDocument                     |
+ | 14    | Destination unreachable                                                           | ThisDocument                     |
+ | 15    | Connection timeout                                                                | ThisDocument                     |
+ | 16    | Too much outstanding data                                                         | {{Section 3.6 of !RFC8684}}      |
+ | 17    | Unacceptable performance                                                          | {{Section 3.6 of !RFC8684}}      |
+ | 18    | Middlebox interference                                                            | {{Section 3.6 of !RFC8684}}      |
  {: #initial title='Initial TCP Failure Causes'}
 
    Note that codes in the 9-15 range can be used by service functions (CGN, firewall, proxy, etc.).
