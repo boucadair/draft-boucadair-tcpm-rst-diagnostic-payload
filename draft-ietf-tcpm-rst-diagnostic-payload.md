@@ -227,7 +227,7 @@ Operational guidance:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |               0x06            |
+   |             0x33AA            |               0x05            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                              0x00                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -243,7 +243,7 @@ Operational guidance:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x11             |
+   |             0x33AA            |              0x10             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                              0x00                             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -439,28 +439,27 @@ termination of the TCP connection is disabled.
  |:-----:|:----------------------------------------------------------------------------------|:---------------------------------|
  | 0     | Reserved                                                                          | ThisDocument                     |
  | 1     | Illegal option length                                                             | {{Section 3.1 of !RFC9293}}      |
- | 2     | Desynchronized state                                                              | {{Section 3.5.1 of !RFC9293}}    |
- | 3     | Data available or received when application cannot read data anymore              | {{Section 3.6.1 of !RFC9293}}    |
- | 4     | ABORT process                                                                     | {{Section 3.10.5 of !RFC9293}}   |
- | 5     | Segment received in CLOSED state                                                  | {{Section 3.10.7.1 of !RFC9293}} |
- | 6     | ACK segment received in LISTEN state                                              | {{Section 3.10.7.2 of !RFC9293}} |
- | 7     | ACK segment received in SYN-SENT state and `SEG.ACK` is not acceptable            | {{Section 3.10.7.3 of !RFC9293}} |
- | 8     | ACK segment received in SYN-RECEIVED state and `SEG.ACK` is not acceptable        | {{Section 3.10.7.4 of !RFC9293}} |
- | 9     | In window SYN segment received in synchronized state without {{!RFC5961}} support | {{Section 3.10.7.4 of !RFC9293}} |
- | 10    | Unexpected security compartment                                                   | {{Section A.1 of !RFC9293}}      |
- | 11    | Malformed message                                                                 | ThisDocument                     |
- | 12    | Not authorized                                                                    | ThisDocument                     |
- | 13    | Resource exceeded                                                                 | ThisDocument                     |
- | 14    | Network failure                                                                   | ThisDocument                     |
- | 15    | Reset received from the peer                                                      | ThisDocument                     |
- | 16    | Destination unreachable                                                           | ThisDocument                     |
- | 17    | Connection timeout                                                                | ThisDocument                     |
- | 18    | Too much outstanding data                                                         | {{Section 3.6 of !RFC8684}}      |
- | 19    | Unacceptable performance                                                          | {{Section 3.6 of !RFC8684}}      |
- | 20    | Middlebox interference                                                            | {{Section 3.6 of !RFC8684}}      |
+ | 2     | Data available or received when application cannot read data anymore              | {{Section 3.6.1 of !RFC9293}}    |
+ | 3     | ABORT process                                                                     | {{Section 3.10.5 of !RFC9293}}   |
+ | 4     | Segment received in CLOSED state                                                  | {{Section 3.10.7.1 of !RFC9293}} |
+ | 5     | ACK segment received in LISTEN state                                              | {{Section 3.10.7.2 of !RFC9293}} |
+ | 6     | ACK segment received in SYN-SENT state and `SEG.ACK` is not acceptable            | {{Section 3.10.7.3 of !RFC9293}} |
+ | 7     | ACK segment received in SYN-RECEIVED state and `SEG.ACK` is not acceptable        | {{Section 3.10.7.4 of !RFC9293}} |
+ | 8     | In window SYN segment received in synchronized state without {{!RFC5961}} support | {{Section 3.10.7.4 of !RFC9293}} |
+ | 9     | Unexpected security compartment                                                   | {{Section A.1 of !RFC9293}}      |
+ | 10    | Malformed message                                                                 | ThisDocument                     |
+ | 11    | Not authorized                                                                    | ThisDocument                     |
+ | 12    | Resource exceeded                                                                 | ThisDocument                     |
+ | 13    | Network failure                                                                   | ThisDocument                     |
+ | 14    | Reset received from the peer                                                      | ThisDocument                     |
+ | 15    | Destination unreachable                                                           | ThisDocument                     |
+ | 16    | Connection timeout                                                                | ThisDocument                     |
+ | 17    | Too much outstanding data                                                         | {{Section 3.6 of !RFC8684}}      |
+ | 18    | Unacceptable performance                                                          | {{Section 3.6 of !RFC8684}}      |
+ | 19    | Middlebox interference                                                            | {{Section 3.6 of !RFC8684}}      |
  {: #initial title='Initial TCP Failure Causes'}
 
-   Note that codes in the 11-17 range can be used by service functions (CGN, firewall, proxy, etc.).
+   Note that codes in the 10-16 range can be used by service functions (CGN, firewall, proxy, etc.).
 
    > Note to the RFC Editor: Please replace ThisDocument with the RFC number assigned to this document.
 
