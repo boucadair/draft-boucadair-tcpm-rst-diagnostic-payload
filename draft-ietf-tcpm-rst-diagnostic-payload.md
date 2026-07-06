@@ -227,9 +227,9 @@ Operational guidance:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |               0x02            |
+   |             0x33AA            |             0x0005            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                              0x00                             |
+   |                           0x00000000                          |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #fig-1 title='Example of an RST Diagnostic Payload with Reason Code'}
@@ -243,9 +243,9 @@ Operational guidance:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x0E             |
+   |             0x33AA            |             0x0010            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                              0x00                             |
+   |                           0x00000000                          |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #fig-2 title='Example of an RST Diagnostic Payload to Report Connection Timeout'}
@@ -258,9 +258,9 @@ Operational guidance:
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |             0x33AA            |              0x4D2            |
+   |             0x33AA            |             0x04D2            |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                            0x7ED9                             |
+   |                           0x00007ED9                          |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~
 {: #fig-3 title='Example of an RST Diagnostic Payload to Report Vendor-Specific Reason Code'}
@@ -435,29 +435,31 @@ termination of the TCP connection is disabled.
    The registry is initially populated with the values listed in
    {{initial}}.
 
- | Value | Description                                                    | Specification (if available)               |
- |:-----:|:---------------------------------------------------------------|:-------------------------------------------|
- | 0     | Reserved                                                       | ThisDocument                               |
- | 1     | Illegal option length                                          | {{Section 3.1 of !RFC9293}}                |
- | 2     | Desynchronized state                                           | {{Section 3.5.1 of !RFC9293}}              |
- | 3     | New data is received after CLOSE is called                     | Sections 3.6.1 and  3.10.7.1 of {{!RFC9293}}  |
- | 4     | ABORT process                                                  | {{Section 3.10.5 of !RFC9293}}             |
- | 5     | Unexpected ACK received by non-synchronized state connection   | {{Section 3.10.7 of !RFC9293}}             |
- | 6     | Unexpected SYN in the window                                   | {{Section 3.10.7 of !RFC9293}}             |
- | 7     | Unexpected security compartment                                | {{Section A.1 of !RFC9293}}                |
- | 8     | Malformed message                                              | ThisDocument                               |
- | 9     | Not authorized                                                 | ThisDocument                               |
- | 10    | Resource exceeded                                              | ThisDocument                               |
- | 11    | Network failure                                                | ThisDocument                               |
- | 12    | Reset received from the peer                                   | ThisDocument                               |
- | 13    | Destination unreachable                                        | ThisDocument                               |
- | 14    | Connection timeout                                             | ThisDocument                               |
- | 15    | Too much outstanding data                                      | {{Section 3.6 of !RFC8684}}                |
- | 16    | Unacceptable performance                                       | {{Section 3.6 of !RFC8684}}                |
- | 17    | Middlebox interference                                         | {{Section 3.6 of !RFC8684}}                |
+ | Value | Description                                                                       | Specification (if available)     |
+ |:-----:|:----------------------------------------------------------------------------------|:---------------------------------|
+ | 0     | Reserved                                                                          | ThisDocument                     |
+ | 1     | Illegal option length                                                             | {{Section 3.1 of !RFC9293}}      |
+ | 2     | Data available or received when application cannot read data anymore              | {{Section 3.6.1 of !RFC9293}}    |
+ | 3     | ABORT process                                                                     | {{Section 3.10.5 of !RFC9293}}   |
+ | 4     | Segment received in CLOSED state                                                  | {{Section 3.10.7.1 of !RFC9293}} |
+ | 5     | ACK segment received in LISTEN state                                              | {{Section 3.10.7.2 of !RFC9293}} |
+ | 6     | ACK segment received in SYN-SENT state and `SEG.ACK` is not acceptable            | {{Section 3.10.7.3 of !RFC9293}} |
+ | 7     | ACK segment received in SYN-RECEIVED state and `SEG.ACK` is not acceptable        | {{Section 3.10.7.4 of !RFC9293}} |
+ | 8     | In window SYN segment received in synchronized state without {{!RFC5961}} support | {{Section 3.10.7.4 of !RFC9293}} |
+ | 9     | Unexpected security compartment                                                   | {{Section A.1 of !RFC9293}}      |
+ | 10    | Malformed message                                                                 | ThisDocument                     |
+ | 11    | Not authorized                                                                    | ThisDocument                     |
+ | 12    | Resource exceeded                                                                 | ThisDocument                     |
+ | 13    | Network failure                                                                   | ThisDocument                     |
+ | 14    | Reset received from the peer                                                      | ThisDocument                     |
+ | 15    | Destination unreachable                                                           | ThisDocument                     |
+ | 16    | Connection timeout                                                                | ThisDocument                     |
+ | 17    | Too much outstanding data                                                         | {{Section 3.6 of !RFC8684}}      |
+ | 18    | Unacceptable performance                                                          | {{Section 3.6 of !RFC8684}}      |
+ | 19    | Middlebox interference                                                            | {{Section 3.6 of !RFC8684}}      |
  {: #initial title='Initial TCP Failure Causes'}
 
-   Note that codes in the 8-14 range can be used by service functions (CGN, firewall, proxy, etc.).
+   Note that codes in the 10-16 range can be used by service functions (CGN, firewall, proxy, etc.).
 
    > Note to the RFC Editor: Please replace ThisDocument with the RFC number assigned to this document.
 
