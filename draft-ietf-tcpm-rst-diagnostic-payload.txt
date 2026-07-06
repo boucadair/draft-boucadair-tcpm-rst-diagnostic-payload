@@ -5,10 +5,10 @@
 TCP Maintenance and Minor Extensions                        M. Boucadair
 Internet-Draft                                                    Orange
 Intended status: Experimental                                   T. Reddy
-Expires: 10 December 2026                                          Nokia
+Expires: 7 January 2027                                            Nokia
                                                                  J. Xing
                                                                  Tencent
-                                                             8 June 2026
+                                                             6 July 2026
 
 
                        TCP RST Diagnostic Payload
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 December 2026.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -287,9 +287,9 @@ Table of Contents
        0                   1                   2                   3
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |             0x33AA            |               0x02            |
+      |             0x33AA            |             0x0005            |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                              0x00                             |
+      |                           0x00000000                          |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
       Figure 2: Example of an RST Diagnostic Payload with Reason Code
@@ -302,9 +302,9 @@ Table of Contents
        0                   1                   2                   3
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |             0x33AA            |              0x0E             |
+      |             0x33AA            |             0x0010            |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                              0x00                             |
+      |                           0x00000000                          |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
           Figure 3: Example of an RST Diagnostic Payload to Report
@@ -318,9 +318,9 @@ Table of Contents
        0                   1                   2                   3
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |             0x33AA            |              0x4D2            |
+      |             0x33AA            |             0x04D2            |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                            0x7ED9                             |
+      |                           0x00007ED9                          |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
       Figure 4: Example of an RST Diagnostic Payload to Report Vendor-
@@ -511,60 +511,67 @@ Table of Contents
    The registry is initially populated with the values listed in
    Table 2.
 
-    +=======+=================================+=======================+
-    | Value | Description                     | Specification (if     |
-    |       |                                 | available)            |
-    +=======+=================================+=======================+
-    |   0   | Reserved                        | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   1   | Illegal option length           | Section 3.1 of        |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   2   | Desynchronized state            | Section 3.5.1 of      |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   3   | New data is received after      | Sections 3.6.1 and    |
-    |       | CLOSE is called                 | 3.10.7.1 of [RFC9293] |
-    +-------+---------------------------------+-----------------------+
-    |   4   | ABORT process                   | Section 3.10.5 of     |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   5   | Unexpected ACK received by non- | Section 3.10.7 of     |
-    |       | synchronized state connection   | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   6   | Unexpected SYN in the window    | Section 3.10.7 of     |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   7   | Unexpected security compartment | Appendix A.1 of       |
-    |       |                                 | [RFC9293]             |
-    +-------+---------------------------------+-----------------------+
-    |   8   | Malformed message               | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   9   | Not authorized                  | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   10  | Resource exceeded               | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   11  | Network failure                 | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   12  | Reset received from the peer    | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   13  | Destination unreachable         | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   14  | Connection timeout              | ThisDocument          |
-    +-------+---------------------------------+-----------------------+
-    |   15  | Too much outstanding data       | Section 3.6 of        |
-    |       |                                 | [RFC8684]             |
-    +-------+---------------------------------+-----------------------+
-    |   16  | Unacceptable performance        | Section 3.6 of        |
-    |       |                                 | [RFC8684]             |
-    +-------+---------------------------------+-----------------------+
-    |   17  | Middlebox interference          | Section 3.6 of        |
-    |       |                                 | [RFC8684]             |
-    +-------+---------------------------------+-----------------------+
+    +=======+======================================+==================+
+    | Value | Description                          | Specification    |
+    |       |                                      | (if available)   |
+    +=======+======================================+==================+
+    |   0   | Reserved                             | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   1   | Illegal option length                | Section 3.1 of   |
+    |       |                                      | [RFC9293]        |
+    +-------+--------------------------------------+------------------+
+    |   2   | Data available or received when      | Section 3.6.1 of |
+    |       | application cannot read data anymore | [RFC9293]        |
+    +-------+--------------------------------------+------------------+
+    |   3   | ABORT process                        | Section 3.10.5   |
+    |       |                                      | of [RFC9293]     |
+    +-------+--------------------------------------+------------------+
+    |   4   | Segment received in CLOSED state     | Section 3.10.7.1 |
+    |       |                                      | of [RFC9293]     |
+    +-------+--------------------------------------+------------------+
+    |   5   | ACK segment received in LISTEN state | Section 3.10.7.2 |
+    |       |                                      | of [RFC9293]     |
+    +-------+--------------------------------------+------------------+
+    |   6   | ACK segment received in SYN-SENT     | Section 3.10.7.3 |
+    |       | state and SEG.ACK is not acceptable  | of [RFC9293]     |
+    +-------+--------------------------------------+------------------+
+    |   7   | ACK segment received in SYN-RECEIVED | Section 3.10.7.4 |
+    |       | state and SEG.ACK is not acceptable  | of [RFC9293]     |
+    +-------+--------------------------------------+------------------+
+    |   8   | In window SYN segment received in    | Section 3.10.7.4 |
+    |       | synchronized state without [RFC5961] | of [RFC9293]     |
+    |       | support                              |                  |
+    +-------+--------------------------------------+------------------+
+    |   9   | Unexpected security compartment      | Appendix A.1 of  |
+    |       |                                      | [RFC9293]        |
+    +-------+--------------------------------------+------------------+
+    |   10  | Malformed message                    | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   11  | Not authorized                       | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   12  | Resource exceeded                    | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   13  | Network failure                      | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   14  | Reset received from the peer         | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   15  | Destination unreachable              | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   16  | Connection timeout                   | ThisDocument     |
+    +-------+--------------------------------------+------------------+
+    |   17  | Too much outstanding data            | Section 3.6 of   |
+    |       |                                      | [RFC8684]        |
+    +-------+--------------------------------------+------------------+
+    |   18  | Unacceptable performance             | Section 3.6 of   |
+    |       |                                      | [RFC8684]        |
+    +-------+--------------------------------------+------------------+
+    |   19  | Middlebox interference               | Section 3.6 of   |
+    |       |                                      | [RFC8684]        |
+    +-------+--------------------------------------+------------------+
 
                     Table 2: Initial TCP Failure Causes
 
-   Note that codes in the 8-14 range can be used by service functions
+   Note that codes in the 10-16 range can be used by service functions
    (CGN, firewall, proxy, etc.).
 
       Note to the RFC Editor: Please replace ThisDocument with the RFC
@@ -609,6 +616,11 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC5961]  Ramaiah, A., Stewart, R., and M. Dalal, "Improving TCP's
+              Robustness to Blind In-Window Attacks", RFC 5961,
+              DOI 10.17487/RFC5961, August 2010,
+              <https://www.rfc-editor.org/rfc/rfc5961>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
